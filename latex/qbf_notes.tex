@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+%\usepackage{graphicx}
+%\usepackage{subfig}
+%\usepackage{enumitem}
+
+\title{Quantum Bernoulli Factory}
+\author{Suzie Brown}
+\date{\today}
+
+%\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage[round, sort&compress]{natbib}
+\usepackage{har2nat} %%% Harvard reference style
+\bibliographystyle{agsm}
+
+%\newcommand{\E}{\mathbb{E}}
+%\newcommand{\PR}{\mathbb{P}}
+%\newcommand{\V}{\operatorname{Var}}
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\iidsim}{\overset{iid}{\sim}}
+
+%\newtheorem{thm}{Theorem}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+
+\begin{document}
+\maketitle
+\section*{Problem statement}
+Suppose we have access to a black box producing coin flips where the probability of observing heads is $p$. Roughly speaking, a Bernoulli factory is an algorithm that uses queries of this black box to produce a coin flip where the probability of observing heads is $f(p)$, for some specified function $f$.
+
+Let us now make this notion more precise.
+\begin{defn}\label{defn:bern_fact}
+Let $f: S\to[0,1]$ be a function with domain $S \subseteq [0,1]$, and suppose we have a sequence of Bernoulli random variables $X_1,X_2,\dots \iidsim \Bern(p)$ with unknown parameter $p \in [0,1]$. 
+Let $U \in \mathcal{U}$ denote a set of auxiliary random variables with known distributions, independent of $p$. Let $\tau(U)$ be a stopping time with respect to the natural filtration.
+A \emph{Bernoulli factory} is a function $\A : \mathcal{U} \times \{0,1\}^T \to\{0,1\}$ such that $\A(U,X_1,\dots,X_T) \sim \Bern(f(p))$ for all $p \in [0,1]$.
+% for all U?
+\end{defn}
+% define T
+% this is a special case of the `simulability' definition given in Keane1994.
+% obviously must restrict to p \in (0,1) for sensible cases.
+
+\begin{example}
+Hello world
+\end{example}
+
+
+%\citet{dale2015}
+
+
+\bibliography{qbf.bib}
+\end{document}
