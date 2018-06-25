@@ -1,8 +1,8 @@
 \begin{thebibliography}{xx}
 
-\harvarditem[Dale et~al.]{Dale, Jennings \harvardand\ Rudolph}{2015}{dale2015}
-Dale, H., Jennings, D. \harvardand\ Rudolph, T.  \harvardyearleft
-  2015\harvardyearright , `Provable quantum advantage in randomness
-  processing', {\em Nature communications} {\bf 6},~8203.
+\harvarditem{Von~Neumann}{1951}{vonneumann1951}
+Von~Neumann, J.  \harvardyearleft 1951\harvardyearright , `13. various
+  techniques used in connection with random digits', {\em Appl. Math Ser} {\bf
+  12}(36-38),~3.
 
 \end{thebibliography}

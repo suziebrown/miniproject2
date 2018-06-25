@@ -5,36 +5,36 @@ The style file: agsm.bst
 Database file #1: qbf.bib
 You've used 1 entry,
             2909 wiz_defined-function locations,
-            646 strings with 4904 characters,
-and the built_in function-call counts, 4453 in all, are:
-= -- 714
-> -- 70
+            645 strings with 4857 characters,
+and the built_in function-call counts, 2616 in all, are:
+= -- 411
+> -- 24
 < -- 0
-+ -- 345
-- -- 21
-* -- 389
-:= -- 905
++ -- 185
+- -- 7
+* -- 212
+:= -- 566
 add.period$ -- 1
 call.type$ -- 1
 change.case$ -- 14
 chr.to.int$ -- 1
 cite$ -- 1
 duplicate$ -- 16
-empty$ -- 33
-format.name$ -- 24
-if$ -- 795
+empty$ -- 31
+format.name$ -- 9
+if$ -- 457
 int.to.chr$ -- 5
 int.to.str$ -- 0
 missing$ -- 1
 newline$ -- 6
-num.names$ -- 11
-pop$ -- 2
+num.names$ -- 10
+pop$ -- 3
 preamble$ -- 1
 purify$ -- 15
 quote$ -- 0
-skip$ -- 15
+skip$ -- 14
 stack$ -- 0
-substring$ -- 1008
+substring$ -- 568
 swap$ -- 3
 text.length$ -- 14
 text.prefix$ -- 0
@@ -43,4 +43,4 @@ type$ -- 4
 warning$ -- 0
 while$ -- 22
 width$ -- 0
-write$ -- 16
+write$ -- 14
