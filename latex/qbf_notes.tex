@@ -47,6 +47,8 @@
 %% IBM's actual quantum computer you can experiment on:
 % https://quantumexperience.ng.bluemix.net/qx/experience
 
+% TO DO: redraw plots at same resolution & remove plot titles
+
 \begin{document}
 \maketitle
 \section*{Bernoulli factories}
@@ -120,7 +122,7 @@ As long as the procedures for $f$ and $g$ finish in finite time almost surely, t
 
 Similarly, we can obtain a Bernoulli factory for $(f \circ g) (p)$ by using outputs of the $g$ procedure as inputs to the $f$ procedure (provided the range of $g$ is a subset of the domain of $f$). Even if both procedures have unbounded running times, the running time of the composition is almost surely finite.
 
-\begin{thm}
+\begin{thm} % make this an extended example instead???
 Any constant function $f(p)\equiv c$ with $c \in [0,1]\cap\mathbb{Q}$, where $c$ has a finite binary expansion, is strongly simulable in at most $n$ queries to a (1/2)-coin, where $2^n$ is the denominator when $c$ is expressed as a simplified fraction.
 Any real number $c \in [0,1]$ can be approximated arbitrarily well (by a strongly simulable function), and the approximation error decreases exponentially with the number of queries used.
 \end{thm}
@@ -137,7 +139,7 @@ We will now describe a constructive approach to simulate $f(p)\equiv c$ where $c
 \end{itemize}
 Before showing that this procedure is correct, we illustrate it with an example.
 Suppose we have $c = 11/16$.
-Then the representation after each step is as follows:
+Then the decomposition after each step is as follows:
 \begin{align*}
 \frac{11}{16} &= 1- \frac{5}{16} 
 = 1 - \frac{1}{2} \times \frac{5}{8} \\
@@ -148,7 +150,7 @@ Then the representation after each step is as follows:
 &= 1 - \frac{1}{2} \left(1 - \frac{1}{2}\left(1-\frac{1}{4}\right)\right)
 = 1 - \frac{1}{2} \left(1 - \frac{1}{2}\left(1-\frac{1}{2} \times \frac{1}{2}\right)\right)
 \end{align*}
-Figure \ref{fig:const_circuit} depicts this final representation as a logic circuit, where $\times$ is equivalent to an {\footnotesize AND} gate and $1-$ is equivalent to a {\footnotesize NOT} gate.
+Figure \ref{fig:const_circuit} depicts the resulting algorithm as a logic circuit, obtained by going through the final decomposition from right to left, where $\times$ is equivalent to an {\footnotesize AND} gate and $1-$ is equivalent to a {\footnotesize NOT} gate.
 
 \begin{figure}
 \centering
@@ -182,11 +184,15 @@ Figure \ref{fig:const_circuit} depicts this final representation as a logic circ
 \end{tikzpicture}
 \caption{Logic circuit representation of an algorithm to produce one (11/16)-coin flip from four (1/2)-coin flips}\label{fig:const_circuit}
 \end{figure}
+% Note: the circuit will always have this type of tree structure (all junctions on one side of the root) - perhaps faster (in terms of operations, as they still require same number of 1/2-coin queries) algorithms with different structure could be found in some cases (e.g. if numerator is not prime?).
 
-Since $1-$ operations leave the denominator invariant, the number of (1/2)-coin queries required is the number of (1/2)s that must be multiplied together to get the denominator $2^n$, which is equal to $n$. 
+Since $1-$ operations leave the denominator invariant, the number of (1/2)-coin queries required is the number of (1/2)s that must be multiplied together to get the denominator $2^n$, which is equal to $n$.
+The number of multiplications used and the number of inversions used are both $\leq n-1$. The example in Figure \ref{fig:const_circuit} requires the maximal number of operations for a fraction with denominator 16.
 
 An obvious extension of this result is that any constant $c \in [0,1]$ can be simulated approximately. To simulate $c$ to the nearest $2^{-n}$, we round its binary expansion to $n$ places and simulate the resulting fraction as above. Clearly we can simulate $c$ with arbitrary small error. This procedure requires $n$ queries of a (1/2)-coin and produces error at most $2^{-n-1}$. Thus the error decays exponentially with the number of queries used.
 \end{proof}
+
+It seems intuitively that, particularly for extreme values of $p$, this algorithm may be rather inefficient (reall that the expected number of queries of a $p$-coin to produce a (1/2)-coin goes to infinity as $p$ approaches 0 or 1). Perhaps we can come up with an algorithm that is more robust, not relying on simulating (1/2)-coins?
 
 
 \bibliography{qbf.bib}
