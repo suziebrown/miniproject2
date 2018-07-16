@@ -24,9 +24,16 @@ legend("topleft", paste("k=",kvals), lwd = 2, lty = kvals)
 
 
 ## f(p)=1/3 -------------------------
-p <- seq(from = 0.05, to = 0.95, by = 0.01)
-f <- function(p) {1 / (1 - (1 - p ^ 2 * (1 - p)) * (1 - p * (1 - p) ^ 2))}
-plot(p, 3 * f(p), type = 'l', ylim=c(1,60), lwd = 2, ylab = "E(tau)", main = "Expected running time of 1/3 Bernoulli factory")
-lines(p, 3/(p^2*(1-p)), lwd=2, lty = 2)
-lines(p, 3/(p*(1-p)^2), lwd=2, lty = 3)
-legend("bottomright", c("001 / 010 / 100", "110 / 101 / 011", "either"), lty=3:1, lwd=2)
+p <- seq(from = 0.01, to = 0.99, by = 0.01)
+f <- function(p,k) {k / (1 - (1 - k * p ^ (k - 1) * (1 - p)) * (1 - k * p * (1 - p) ^ (k - 1)))}
+plot(p, f(p,3), type = 'l', ylim=c(1,60), lwd = 2, ylab = "E(tau)", main = "Expected running time of 1/3 Bernoulli factory")
+lines(p, 1/(p^2*(1-p)), lwd=2, lty = 2)
+lines(p, 1/(p*(1-p)^2), lwd=2, lty = 3)
+legend("top", c("001 / 010 / 100", "110 / 101 / 011", "either"), lty=3:1, lwd=2)
+
+
+## f(p)=1/8 directly versus logic circuit with 1/2-coins -----
+p <- seq(from = 0.001, to = 0.999, by = 0.001)
+plot(p, f(p,8), type = 'l', ylim=c(1,150), lwd = 2, ylab = "E(tau)", main = "Expected running time of 1/4 Bernoulli factory")
+lines(p, 4/(p*(1-p)), lwd=2, lty=2)
+legend("top", c("one 1/8-coin", "four 1/2-coins"), lty=1:2, lwd=2)
