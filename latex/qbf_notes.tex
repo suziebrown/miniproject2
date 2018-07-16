@@ -194,6 +194,41 @@ An obvious extension of this result is that any constant $c \in [0,1]$ can be si
 
 It seems intuitively that, particularly for extreme values of $p$, this algorithm may be rather inefficient (reall that the expected number of queries of a $p$-coin to produce a (1/2)-coin goes to infinity as $p$ approaches 0 or 1). Perhaps we can come up with an algorithm that is more robust, not relying on simulating (1/2)-coins?
 
+% f(p)=2p ...
+Consider the function $f:(0,1/2)\to (0,1)$ given by $f(p)=2p$.
+% plot of f
+\begin{thm}
+It is not possible to construct a Bernoulli factory for $f(p)=2p$ where $p\in(0,1/2)$.
+\end{thm}
+The following proof is an intuitive one, and comes from \citet{latuszynski2011}.
+The intuition behind the proof is that there is no sharp change between say a (1/4)-coin and a (1/2)-coin; but there is a qualitative difference between the resulting (1/2)-coin and 1-coin respectively. The latter is no longer random, but deterministically returns heads every time, regardless of the outcome on the (1/2)-coin that seeds it.
+\begin{proof}
+Let $\PR_{p}$ denote the probability measure when the seeding coin has probability $p$ of showing heads. We will compare the cases $p=1/4$ and $p=1/2 - \varepsilon$.
+First, 
+\begin{equation*}
+\lim_{t\to\infty} \PR_{1/4} [\A(X_1,\dots,X_T)=0, T<t] = \frac{1}{2}
+\end{equation*}
+Thus there exists a $t_0 \in \mathbb{N}$ such that 
+\begin{equation*}
+\PR_{1/4} [\A(X_1,\dots,X_T)=0, T\leq t_0] > \frac{1}{4}
+\end{equation*}
+%Now, fixing $\varepsilon>0$, consider the corresponding quantity $\PR_{1/2 - \varepsilon} [\A(X_1,\dots,X_T)=0, T\leq t_0]$; we have the following relation:
+We have for any $p \in [1/4, 1/2)$:
+\begin{equation*}
+\PR_{p} [\A(X_1,\dots,X_T)=0, T\leq t_0] \geq \left(\frac{1}{2}\right)^{t_0} \PR_{1/4} [\A(X_1,\dots,X_T)=0, T\leq t_0] \geq \left(\frac{1}{2}\right)^{t_0+2}
+\end{equation*}
+Since, restricted to $T\leq t_0$, $\PR_p$ has the same support for any $p \in (0,1)$, we can consider the ratio of probabilities of any sequence in $\{0,1\}^{t_0}$. In particular, we consider 
+\begin{equation*}
+\inf_{p\in[1/4,1/2)} \inf_{A\subseteq\{0,1\}^{t_0}} \frac{\PR_{p}(A)}{\PR_{1/4}(A)}
+\end{equation*}
+%where the factor of $\left(\frac{1}{2}\right)^{t_0}$ is the largest possible discrepancy between the probabilities of a sequence of $t_0$ flips from a (1/2)-coin or (1/4)-coin.
+Now
+\begin{equation*}
+\PR_{1/2 - \varepsilon} [output 1] = 1-\PR_{1/2 - \varepsilon} [\A(X_1,X_2,\dots)=0]  \leq 1- \PR_{1/2 - \varepsilon} [\A(X_1,\dots,X_T)=0, T\leq t_0] \leq 1- \left(\frac{1}{2}\right)^{t_0+2}
+\end{equation*}
+Taking the limit as $\varepsilon\to 0$, the LHS is $f(1/2 - \varepsilon) = 1-2\varepsilon \rightarrow 1$, while the RHS is independent of $\varepsilon$ and remains strictly less than 1. This provides the contradiction, and hence such an algorithm $\A$ cannot exist.
+
+\end{proof}
 
 \bibliography{qbf.bib}
 \end{document}

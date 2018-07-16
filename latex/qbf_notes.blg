@@ -3,44 +3,44 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: qbf_notes.aux
 The style file: agsm.bst
 Database file #1: qbf.bib
-You've used 1 entry,
+You've used 2 entries,
             2909 wiz_defined-function locations,
-            645 strings with 4857 characters,
-and the built_in function-call counts, 2616 in all, are:
-= -- 411
-> -- 24
+            653 strings with 5110 characters,
+and the built_in function-call counts, 11771 in all, are:
+= -- 1968
+> -- 115
 < -- 0
-+ -- 185
-- -- 7
-* -- 212
-:= -- 566
-add.period$ -- 1
-call.type$ -- 1
-change.case$ -- 14
-chr.to.int$ -- 1
-cite$ -- 1
-duplicate$ -- 16
-empty$ -- 31
-format.name$ -- 9
-if$ -- 457
++ -- 955
+- -- 35
+* -- 1040
+:= -- 2314
+add.period$ -- 2
+call.type$ -- 2
+change.case$ -- 28
+chr.to.int$ -- 2
+cite$ -- 2
+duplicate$ -- 32
+empty$ -- 67
+format.name$ -- 40
+if$ -- 2110
 int.to.chr$ -- 5
 int.to.str$ -- 0
-missing$ -- 1
-newline$ -- 6
-num.names$ -- 10
-pop$ -- 3
+missing$ -- 2
+newline$ -- 9
+num.names$ -- 21
+pop$ -- 5
 preamble$ -- 1
-purify$ -- 15
+purify$ -- 30
 quote$ -- 0
-skip$ -- 14
+skip$ -- 28
 stack$ -- 0
-substring$ -- 568
-swap$ -- 3
-text.length$ -- 14
+substring$ -- 2843
+swap$ -- 6
+text.length$ -- 28
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 4
+type$ -- 8
 warning$ -- 0
-while$ -- 22
+while$ -- 45
 width$ -- 0
-write$ -- 14
+write$ -- 28
