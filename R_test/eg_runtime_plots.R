@@ -1,10 +1,10 @@
 # Make plots of expected running time for example Bernoulli factories
 
-## Von Neumann f(p)=1/2
+## Von Neumann f(p)=1/2 -------------
 p <- seq(from = 0.05, to = 0.95, by = 0.01)
 plot(p, 1/(p*(1-p)), type='l', ylim=c(1,22), lwd=2, ylab='E(tau)', main="Expected running time of Von Neumann's Bernoulli factory")
 
-## f(p)=p^k -------------
+## f(p)=p^k -------------------------
 ## single plot
 p <- seq(from = 0, to = 1, by = 0.01)
 k <- 3
@@ -21,3 +21,12 @@ for (k in kvals) {
   lines(p, fp , lty = k, lwd = 2)
 }
 legend("topleft", paste("k=",kvals), lwd = 2, lty = kvals)
+
+
+## f(p)=1/3 -------------------------
+p <- seq(from = 0.05, to = 0.95, by = 0.01)
+f <- function(p) {1 / (1 - (1 - p ^ 2 * (1 - p)) * (1 - p * (1 - p) ^ 2))}
+plot(p, 3 * f(p), type = 'l', ylim=c(1,60), lwd = 2, ylab = "E(tau)", main = "Expected running time of 1/3 Bernoulli factory")
+lines(p, 3/(p^2*(1-p)), lwd=2, lty = 2)
+lines(p, 3/(p*(1-p)^2), lwd=2, lty = 3)
+legend("bottomright", c("001 / 010 / 100", "110 / 101 / 011", "either"), lty=3:1, lwd=2)
