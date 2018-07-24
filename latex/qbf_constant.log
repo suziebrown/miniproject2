@@ -1,10 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.6.6)  17 JUL 2018 16:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.4)  18 JUL 2018 09:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **qbf_constant.tex
 (./qbf_constant.tex
-LaTeX2e <2018-04-01> patch level 5
+LaTeX2e <2018-04-01> patch level 2
+Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
 (/usr/local/texlive/2018/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/local/texlive/2018/texmf-dist/tex/latex/base/size10.clo
@@ -28,7 +29,7 @@ Package: inputenc 2018/04/06 v1.3b Input encoding file
 \inpenc@posthook=\toks15
 )
 (/usr/local/texlive/2018/texmf-dist/tex/latex/geometry/geometry.sty
-Package: geometry 2018/04/16 v5.8 Page Geometry
+Package: geometry 2018/03/24 v5.7 Page Geometry
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
@@ -58,7 +59,7 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@dimlist=\toks17
 )
 (/usr/local/texlive/2018/texmf-dist/tex/latex/csquotes/csquotes.sty
-Package: csquotes 2018/04/13 v5.2d context-sensitive quotations (JAW)
+Package: csquotes 2018/02/11 v5.2c context-sensitive quotations (JAW)
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/etoolbox/etoolbox.sty
 Package: etoolbox 2018/02/11 v2.5e e-TeX tools for LaTeX (JAW)
@@ -73,7 +74,7 @@ Package: etoolbox 2018/02/11 v2.5e e-TeX tools for LaTeX (JAW)
 \csq@ltx@everypar=\toks18
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/csquotes/csquotes.def
-File: csquotes.def 2018/04/13 v5.2d csquotes generic definitions (JAW)
+File: csquotes.def 2018/02/11 v5.2c csquotes generic definitions (JAW)
 )
 Package csquotes Info: Trying to load configuration file 'csquotes.cfg'...
 Package csquotes Info: ... configuration file loaded successfully.
@@ -182,11 +183,11 @@ File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 \Gin@req@width=\dimen121
 )
 (/usr/local/texlive/2018/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2018/05/01 v3.3-147 Customizing captions (AR)
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
 
 (/usr/local/texlive/2018/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2018/05/27 v1.8a caption3 kernel (AR)
-Package caption3 Info: TeX engine: e-TeX on input line 64.
+Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
 \captionmargin=\dimen122
 \captionmargin@=\dimen123
 \captionwidth=\dimen124
@@ -720,10 +721,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 162--164
 
 (./qbf_constant.bbl) [5] (./qbf_constant.aux) ) 
 Here is how much of TeX's memory you used:
- 16321 strings out of 492646
- 324591 string characters out of 6129549
- 389697 words of memory out of 5000000
- 19882 multiletter control sequences out of 15000+600000
+ 16285 strings out of 492649
+ 323888 string characters out of 6129623
+ 388695 words of memory out of 5000000
+ 19843 multiletter control sequences out of 15000+600000
  8401 words of font info for 32 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,10n,98p,801b,775s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -743,7 +744,7 @@ ic/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public
 /amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmti9.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/am
 sfonts/symbols/msbm10.pfb>
-Output written on qbf_constant.pdf (5 pages, 194375 bytes).
+Output written on qbf_constant.pdf (5 pages, 194388 bytes).
 PDF statistics:
  111 PDF objects out of 1000 (max. 8388607)
  80 compressed objects within 1 object stream
