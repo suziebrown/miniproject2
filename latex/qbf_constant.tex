@@ -111,6 +111,15 @@ Figures \ref{fig:runtime_const4} and \ref{fig:runtime_const8} also show the expe
 \label{fig:runtime_const8}
 \end{figure}
 
+It is possible to improve the efficiency of this algorithm a bit further using early stopping. Since a usable output must contain either exactly one head or exactly one tail, we can stop early if we have seen two or more of both heads and tails.  This alteration will have a greater effect for larger values of $k$, since we could possibly stop after just four flips as opposed to $k$ in the original procedure. It also has a greater effect when $p$ is close to 1/2, since this is the region where it is most likely to observe the two-heads-two-tails event that allows us to stop early. Therefore this adjustment is potentially very helpful as it seems to target precisely the cases where the original procedure performs badly. Figure \ref{fig:runtime_const8_earlystop} shows the difference it makes in the case $k=8$, using a Monte Carlo approximation for the expected number of queries with early stopping. We see that, as expected, early stopping drastically increases the efficiency of the procedure when $p$ is close to 1/2, yielding a factor 2 of efficiency for $p=1/2$. However, it is also evident that the gain is not sufficient to overcome the problems with this procedure.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{const_runtime_earlystop.pdf}
+\caption{•}
+\label{fig:runtime_const8_earlystop}
+\end{figure}
+
 \subsection{Constants as functions of (1/2)-coins}
 We have mentioned how a ($1/2^{n}$)-coin can be constructed by combining the results of $n$ (1/2)-coins. We achieved this using an \AND operator, i.e.\ multiplying the outputs. It is easy to see that the set of functions constructible using only \AND operators on (1/2)-coins is indeed limited to $\{f(p)=2^{-n} \mid n\in\mathbb{N}\}$. But there are other logical operators at our disposal: it is well known in computer science that any logic circuit can be constructed using only {\footnotesize NAND} operators, so perhaps we could do much better if we made use of \NOT (inversion) operators too.
 
