@@ -37,3 +37,4 @@ p <- seq(from = 0.001, to = 0.999, by = 0.001)
 plot(p, f(p,8), type = 'l', ylim=c(1,150), lwd = 2, ylab = "E(tau)", main = "Expected running time of 1/8 Bernoulli factory")
 lines(p, 3/(p*(1-p)), lwd=2, lty=2)
 legend("top", c("one 1/8-coin", "three 1/2-coins"), lty=1:2, lwd=2)
+
