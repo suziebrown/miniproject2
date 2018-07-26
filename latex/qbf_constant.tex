@@ -45,7 +45,9 @@
 % project-specific commands
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\AND}{{\footnotesize AND }}
+\newcommand{\NAND}{{\footnotesize NAND }}
 \newcommand{\OR}{{\footnotesize OR }}
+\newcommand{\NOR}{{\footnotesize NOR }}
 \newcommand{\NOT}{{\footnotesize NOT }}
 
 \begin{document}
@@ -153,16 +155,50 @@ This can be represented as a logic circuit with four (1/2)-coins as inputs, as s
 \node[text width = 1.5cm] at (-1,-3/2) (label1) {input (1/2)-coins} ;
 \node[text width = 1.5cm] at (12,-17/8) (label2) {output (11/16)-coin} ;
 \end{tikzpicture}
-\caption{Logic circuit representation of an algorithm to produce one (11/16)-coin flip from four (1/2)-coin flips}\label{fig:const_circuit}
+\caption{Logic circuit representation of an algorithm to produce one (11/16)-coin flip from four (1/2)-coin flips using \AND and \NOT gates}\label{fig:const_circuit}
 \end{figure}
 
 Because we are only using (1/2)-coins as inputs, and \NOT operators leave the denominator invariant while \AND operators multiply the denominators, this procedure can only produce constants that can be written as $k/2^n$. By the same arguments it can also be deduced that the number of (1/2)-coins required as inputs is always equal to $n$.
 In fact, it is the case that any constant that can be written as $k/2^n$ (equivalently, having a terminating binary expansion) can be simulated by such a circuit, although this is not obvious.
 
 Nonetheless, accepting this proposition, it is easy to show that any constant can therefore be approximately simulated to arbitrary precision, and that the approximation error decreases exponentially in the number of (1/2)-coins used. Given $c \in (0,1)$ and tolerance $\varepsilon$, we truncate the binary expansion of $c$ after $-\lfloor\log_2(\varepsilon)\rfloor -1$ places, and write the resulting constant as a fraction. This fraction will necessarily be of the form $k/2^n$, with $n\leq -\lfloor\log_2(\varepsilon)\rfloor -1$, and the approximation error is bounded by $|c-(k/2^n)| \leq 2^{-n-1} \leq 2^{\lfloor\log_2(\varepsilon)\rfloor} \leq \varepsilon$.
-By our proposition, this fraction can be simulated using at most $-\lfloor\log_2(\varepsilon)\rfloor -1$ queries of a (1/2)-coin. Therefore truncating the binary expansion of $c$ to one more place decreases the approximation error by a factor of 2, and we conclude that the approximation error decreases exponentially in the number of (1/2)-coins used.\\
+By our proposition, this fraction can be simulated using at most $-\lfloor\log_2(\varepsilon)\rfloor -1$ queries of a (1/2)-coin. Therefore truncating the binary expansion of $c$ to one more place decreases the approximation error by a factor of 2, and we conclude that the approximation error decreases exponentially in the number of (1/2)-coins used.
 
-There is more to be said about this construction, but in particular one might wonder whether we could do something better by allowing also \OR (addition) operators.
+It is also possible to construct the same class of constants using a combination of \OR and \NOT operators. Figure \ref{fig:const_circuit2} shows the logic circuit representing a decomposition of the same constant 11/16 using \OR operators instead of \AND operators. Although the \OR gates are labelled $+$, this is a logical addition and doesn't correspond to a mathematical addition in the way \AND corresponds to $\times$.
+The number of inputs is the same as for the \AND circuit, for the same reasons, and so the same result holds regarding the scaling of the approximation error for constants that can't be simulated exactly.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}[circuit logic US]
+\node[circle, fill=black] at (0,0) (coin1) {} ;
+\node[circle, fill=black] at (0,-1) (coin2) {} ;
+\node[circle, fill=black] at (0,-2) (coin3) {} ;
+\node[circle, fill=black] at (0,-3) (coin4) {} ;
+\node[circle] at (9.5, -17/8) (output) {} ;
+
+\node[or gate, draw, inputs={nn}] at (2,-1/2) (or1) {$+$} ;
+\node[not gate, draw, right = 0.6cm of or1] (not1) {$1-$} ;
+\node[or gate, draw, inputs={nn}] at (5,-5/4) (or2) {$+$} ;
+\node[not gate, draw, right = 0.6cm of or2] (not2) {$1-$} ;
+\node[or gate, draw, inputs={nn}] at (8, -17/8) (or3) {$+$} ;
+
+\draw (or1.input 1) -- ++(left:5mm) |- node[above, pos=0.8]{\scriptsize 1/2} (coin1.east) ;
+\draw (or1.input 2) -- ++(left:5mm) |- node[above, pos=0.8]{\scriptsize 1/2} (coin2.east) ;
+\draw (or1.output) -- node[above]{\scriptsize 3/4} (not1.input) ;
+\draw (or2.input 1) -- ++(left:5mm) |- node[above]{\scriptsize 1/4} (not1.output) ;
+\draw (or2.input 2) -- ++(left:5mm) |- node[above, pos=0.8]{\scriptsize 1/2} (coin3.east) ;
+\draw (or2.output) -- node[above]{\scriptsize 5/8} (not2.input) ;
+\draw (or3.input 1) -- ++(left:5mm) |- node[above]{\scriptsize 3/8} (not2.output) ;
+\draw (or3.input 2) -- ++(left:5mm) |- node[above, pos=0.8]{\scriptsize 1/2} (coin4.east) ;
+\draw (or3.output) -- node[above]{\scriptsize 11/16} (output) ;
+
+\node[text width = 1.5cm] at (-1,-3/2) (label1) {input (1/2)-coins} ;
+\node[text width = 1.5cm] at (10.5,-17/8) (label2) {output (11/16)-coin} ;
+\end{tikzpicture}
+\caption{Logic circuit representation of an algorithm to produce one (11/16)-coin flip from four (1/2)-coin flips using \OR and \NOT gates}\label{fig:const_circuit2}
+\end{figure}
+
+The principle in computer science states that any logic circuit can be decomposed into only \NAND or only \NOR gates; however these  representations typically use many more logic gates than their unconstrained counterparts. With application to manufacturing computer processors, it turns out to be better to use more gates of the same type; but for this application we are quite happy to mix operators if it saves computing time --- although it is worth keeping in mind that our primary concern is the number of $p$-coin queries, not the amount of post-processing, which is typically much cheaper. Nonetheless a natural question is, (when) can we reduce the number of operations by mixing operators, and by how much?
 
 \bibliography{qbf.bib}
 \end{document}
