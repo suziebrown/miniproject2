@@ -1,0 +1,150 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2cm]{geometry}
+%\usepackage{enumitem}
+\usepackage{csquotes}
+
+% maths packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{braket}
+
+% remove space between ket and bra
+\renewcommand\bra[1]{{\langle{#1}|}}
+\makeatletter
+\renewcommand\ket[1]{
+  \@ifnextchar\bra{\k@t{#1}\!}{\k@t{#1}}
+}
+\renewcommand\ket[1]{
+  \@ifnextchar\braket{\k@t{#1}\!}{\k@t{#1}}
+}
+\newcommand\k@t[1]{{|{#1}\rangle}}
+\makeatother
+
+% graphics packages
+\usepackage{graphicx}
+%\usepackage{subfig}
+\usepackage[font={small,it}]{caption}
+\usepackage{tikz}
+\usetikzlibrary{positioning, circuits.logic.US}
+
+\title{QBF lit review?}
+\author{Suzie Brown}
+\date{\today}
+
+% bibliography
+\usepackage[round, sort&compress]{natbib}
+\usepackage{har2nat} %%% Harvard reference style
+\bibliographystyle{agsm}
+
+% theorems
+\newtheorem{thm}{Theorem}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{example}{Example}
+
+% probability symbols
+\newcommand{\PR}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\V}{\operatorname{Var}}
+\newcommand{\iidsim}{\overset{iid}{\sim}}
+\newcommand{\eqdist}{\overset{d}{=}}
+
+% distributions
+\newcommand{\Bern}{\operatorname{Bernoulli}}
+\newcommand{\Geom}{\operatorname{Geom}}
+
+% project-specific commands
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\AND}{{\footnotesize AND }}
+\newcommand{\NAND}{{\footnotesize NAND }}
+\newcommand{\OR}{{\footnotesize OR }}
+\newcommand{\NOR}{{\footnotesize NOR }}
+\newcommand{\NOT}{{\footnotesize NOT }}
+
+\begin{document}
+%\maketitle
+
+\section{Quantum information}
+From the course by Noah Linden (Bristol) and discussion with Thomas Hebdige and David Jennings (Imperial). For a comprehensive introduction see for example \citet{nielsen2002} or \citet{wilde2013}.\\
+
+Quantum mechanics is essentially just linear algebra in a Hilbert space, with a few additional properties. The following definitions are exactly what you would find in a linear algebra course, apart from the notation.
+
+\subsection{Dirac notation}
+Dirac notation is a convenient way of denoting vectors such that it is easy to visually identify inner and outer products, and thus quickly recognise scalars, vectors and matrices:
+
+\begin{itemize}
+\item $\ket{v}$ denotes a column vector
+\item $\braket{u|v}$ denotes an inner product (resulting in a scalar)
+\item $\ket{u}\bra{v}$ denotes an outer product (resulting in a matrix)
+\end{itemize}
+Additionally, $\overline{\alpha}$ denotes the complex conjugate of a scalar $\alpha$.
+
+\subsection{Hilbert space}
+A \emph{Hilbert space} is a vector space with an inner product $\braket{\cdot|\cdot}$ satisfying the following:
+\begin{itemize}
+\item $\bra{u} (\alpha\ket{v} + \beta\ket{w}) = \alpha\braket{u|v} + \beta\braket{u|w}$
+\item $\braket{u|v} = \overline{\braket{v|u}}$
+\item $\braket{v|v} \geq 0$ with equality iff $\ket{v}$ is the zero vector.
+\end{itemize}
+
+\subsection{Orthonormal bases}
+An \emph{orthonormal basis} of a Hilbert space $\mathcal{H}$ is a set of vectors $\{v_1,\dots,v_n\}$ in $\mathcal{H}$ such that:
+\begin{itemize}
+\item $\operatorname{span}(\{v_1,\dots,v_n\}) = \mathcal{H}$
+\item $\braket{v_i|v_j} = \delta_{ij}$
+\end{itemize}
+Restricting to the space $\mathbb{C}^2$, which is all that is needed to understand the quantum Bernoulli factory, we have the \emph{computational basis} $\{\ket{0}, \ket{1}\}$. This is the canonical basis and is henceforth used wherever not specified otherwise. Since it is an orthonormal basis, every vector $\ket{v}$ in $\mathbb{C}^2$ has a unique representation
+\begin{equation*}
+\ket{v} = \alpha \ket{0} + \beta \ket{1} \equiv (\alpha,\beta)^T
+\end{equation*}
+for some $\alpha, \beta \in \mathbb{C}$. For reasons which will probably not become apparent in this treatment, we will restrict to \emph{normalised} vectors, requiring also $|\alpha|^2 + |\beta|^2 = 1$.
+To ensure coherency with the properties of the inner product, we have that
+\begin{equation*}
+\bra{v} = \overline{\alpha} \bra{0} + \overline{\beta} \bra{1}.
+\end{equation*}
+The inner product of $\ket{u} = u_0\ket{0} + u_1\ket{1}$ with $\ket{v} = v_0\ket{0} + v_1\ket{1}$ is therefore computed as
+\begin{align*}
+\braket{u|v} &= (\overline{u_0}\bra{0} + \overline{u_1}\bra{1}) (v_0\ket{0} + v_1\ket{1})\\
+&= \overline{u_0}v_0\braket{0|0} + \overline{u_0}v_1\braket{0|1} + \overline{u_1}v_0\braket{1|0} + \overline{u_1}v_1\braket{1|1} \\
+&= \overline{u_0}v_0 + \overline{u_1}v_1.
+\end{align*}
+One alternative choice of orthonormal basis which is worth mentioning is given by $\{\ket{+},\ket{-}\}$, consisting of the states
+\begin{align*}
+&\ket{+} := \frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) \\
+&\ket{-} := \frac{1}{\sqrt{2}}(\ket{0} - \ket{1}).
+\end{align*}
+
+\subsection{Linear operators}
+A linear operator is an operator with the property
+\begin{equation*}
+A(\alpha\ket{u} + \beta\ket{v}) = \alpha A\ket{u} + \beta A\ket{v}.
+\end{equation*}
+It is therefore fully defined according to its action on an orthonormal basis. For instance, the quantum \NOT operator (denoted $X$) is defined by
+\begin{align*}
+& X\ket{0} = \ket{1} \\
+& X\ket{1} = \ket{0}
+\end{align*}
+Equivalently, $X$ can be expressed as a matrix with respect to the computational basis:
+\begin{equation*}
+X = \left(\begin{matrix}
+0 & 1 \\ 1 & 0
+\end{matrix}\right)
+\end{equation*}
+In Dirac notation, X can be written in terms of outer products of basis states:
+\begin{equation*}
+X = \ket{0}\bra{1} + \ket{1}\bra{0}
+\end{equation*}
+Then if X acts on the state $\ket{v} = \alpha \ket{0} + \beta \ket{1}$, we have
+\begin{align*}
+X\ket{v} &= (\ket{0}\bra{1} + \ket{1}\bra{0})(\alpha \ket{0} + \beta \ket{1})\\
+&= \alpha \ket{0}\braket{1|0} + \alpha \ket{1}\braket{0|0} + \beta \ket{0}\braket{1|1} +
+\beta \ket{1}\braket{0|1}\\
+&= \alpha \ket{1} + \beta \ket{0}
+\end{align*}
+as desired.
+
+
+\bibliography{qbf.bib}
+\end{document}
