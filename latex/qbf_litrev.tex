@@ -67,7 +67,7 @@
 %\maketitle
 
 \section{Quantum information}
-From the course by Noah Linden (Bristol) and discussion with Thomas Hebdige and David Jennings (Imperial). For a comprehensive introduction see for example \citet{nielsen2002} or \citet{wilde2013}.\\
+From the course by Noah Linden (University of Bristol) and discussion with Thomas Hebdige and David Jennings (Imperial College London). For a comprehensive introduction see for example \citet{nielsen2002} or \citet{wilde2013}.\\
 
 Quantum mechanics is essentially just linear algebra in a Hilbert space, with a few additional properties. The following definitions are exactly what you would find in a linear algebra course, apart from the notation.
 
@@ -79,7 +79,7 @@ Dirac notation is a convenient way of denoting vectors such that it is easy to v
 \item $\braket{u|v}$ denotes an inner product (resulting in a scalar)
 \item $\ket{u}\bra{v}$ denotes an outer product (resulting in a matrix)
 \end{itemize}
-Additionally, $\overline{\alpha}$ denotes the complex conjugate of a scalar $\alpha$.
+Additionally, $\overline{\alpha}$ denotes the complex conjugate of a scalar $\alpha$, and $U^\dag$ denotes the adjoint (conjugate transpose) of an operator $U$.
 
 \subsection{Hilbert space}
 A \emph{Hilbert space} is a vector space with an inner product $\braket{\cdot|\cdot}$ satisfying the following:
@@ -100,6 +100,8 @@ Restricting to the space $\mathbb{C}^2$, which is all that is needed to understa
 \ket{v} = \alpha \ket{0} + \beta \ket{1} \equiv (\alpha,\beta)^T
 \end{equation*}
 for some $\alpha, \beta \in \mathbb{C}$. For reasons which will probably not become apparent in this treatment, we will restrict to \emph{normalised} vectors, requiring also $|\alpha|^2 + |\beta|^2 = 1$.
+We will also consider two vectors equivalent if they differ only by an overall phase, i.e.\ $\ket{u} \equiv \ket{v}$ if $\ket{u} = e^{i\theta}\ket{v}$ for some $\theta$. This is because it is impossible to distinguish between two such vectors with any measurement.
+
 To ensure coherency with the properties of the inner product, we have that
 \begin{equation*}
 \bra{v} = \overline{\alpha} \bra{0} + \overline{\beta} \bra{1}.
@@ -144,6 +146,56 @@ X\ket{v} &= (\ket{0}\bra{1} + \ket{1}\bra{0})(\alpha \ket{0} + \beta \ket{1})\\
 &= \alpha \ket{1} + \beta \ket{0}
 \end{align*}
 as desired.
+
+\begin{itemize}
+\item A linear operator $U$ is said to be \emph{self-adjoint} (or \emph{hermitian}) if $U^\dag = U$
+\item A linear operator $U$ is said to be \emph{unitary} if $UU^\dag = U^\dag U = I$
+\end{itemize}
+For example, the operator $X$ is self-adjoint and unitary.
+
+\subsection{Rules of Quantum Mechanics}
+\begin{enumerate}
+\item \emph{States} of a quantum mechanical system correspond to normalised vectors in Hilbert space, up to an overall phase.
+\item \emph{Evolutions} of the system correspond to unitary operators.
+\item \emph{Measurements} on quantum states correspond to self-adjoint operators --- see below.
+\end{enumerate}
+
+\subsubsection{Spectral theorem and measurement}
+The outcome of a measurement depends on the state of the system and the type of measurement performed.
+The spectral theorem states that every self-adjoint operator $A$ can be represented by its spectral decomposition
+\begin{equation}\label{eq:operator_diag}
+A = \sum_{i} \lambda_i P_i
+\end{equation}
+where $\{\lambda_1,\dots, \lambda_k\}$ is the set of \emph{distinct} eigenvalues of $A$, and $P_i$ is the projection operator onto the eigenspace corresponding to eigenvalue $\lambda_i$.
+
+When we measure a state $\ket{x}$ using operator $A$, the measurement outcome we observe is one of the eigenvalues of $A$. In particular, we observe $\lambda_i$ with probability $\bra{x} P_i \ket{x}$.
+Making a measurement causes the system to collapse into the eigenstate corresponding to the observed eigenvalue; that is, the state after measurement is proportional to $P_i \ket{x}$.\\
+
+To give a concrete example, let us consider again the operator $X$. This operator has eigenvalues $\pm 1$ corresponding to eigenvectors (known as \emph{eigenstates} in quantum mechanics) $\ket{+}$ and $\ket{-}$ respectively.
+Therefore $X$ admits the diagonal representation
+\begin{equation*}
+X= \ket{+}\bra{+} - \ket{-}\bra{-}
+\end{equation*}
+which is of the form \eqref{eq:operator_diag}.
+Now suppose we make a measurement on the state $\ket{v} = \ket{0}$, using $X$.
+The outcome of the measurement will be an eigenvalue of $X$: either $+1$ or $-1$. We observe the outcome $+1$ with probability
+\begin{equation*}
+\bra{v} P_{+1} \ket{v} = \braket{0|+}\braket{+|0} = 1/2
+\end{equation*}
+in which case the state after measurement is
+\begin{equation*}
+P_{+1} \ket{v} = \ket{+} \braket{+|0} \propto \ket{+}.
+\end{equation*}
+Alternatively, with probability 1/2 we observe the outcome $-1$ and the state after measurement is $\ket{-}$.
+In this example, the two outcomes are equally likely because the state is `equidistant' from the two eigenstates of $X$. In general, outcomes that leave the state after measurement closer to the original state are more likely. We will see what is meant by distance between states in Section [REF].
+
+\subsection{Quantum randomness}
+It is worth remarking at this point on the difference between quantum and classical randomness.
+As statisticians we are used to dealing with randomness, but we accept that randomness is always part of a model, and is not purported to exist in nature. We artificially introduce random variables into our models to account for a lack of information, either about the state of the system or about the (presumably deterministic) processes that govern certain phenomena.
+
+On the contrary, our uncertainty about the outcome of a measurement on a quantum system is of a different kind. This uncertainty is not a symptom of our lack of knowledge: even when we know exactly the state of the system, as in the example above [REF], we are still unable to predict with certainty the outcome of a measurement on the system. The randomness here is intrinsic; it really does exist in nature.
+
+\subsection{The Bloch sphere}
 
 
 \bibliography{qbf.bib}
