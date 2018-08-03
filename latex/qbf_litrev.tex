@@ -24,10 +24,17 @@
 
 % graphics packages
 \usepackage{graphicx}
-%\usepackage{subfig}
+\usepackage[lofdepth,lotdepth]{subfig}
 \usepackage[font={small,it}]{caption}
 \usepackage{tikz}
 \usetikzlibrary{positioning, circuits.logic.US}
+
+% tikz ellipse arcs
+\tikzset{
+    partial ellipse/.style args={#1:#2:#3}{
+        insert path={+ (#1:#3) arc (#1:#2:#3)}
+    }
+}
 
 \title{QBF lit review?}
 \author{Suzie Brown}
@@ -189,13 +196,82 @@ P_{+1} \ket{v} = \ket{+} \braket{+|0} \propto \ket{+}.
 Alternatively, with probability 1/2 we observe the outcome $-1$ and the state after measurement is $\ket{-}$.
 In this example, the two outcomes are equally likely because the state is `equidistant' from the two eigenstates of $X$. In general, outcomes that leave the state after measurement closer to the original state are more likely. We will see what is meant by distance between states in Section [REF].
 
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{qit_comic.png}
+\caption{When a quantum system is in a superposition of states, making a measurement causes the system to collapse into the eigenstate corresponding to the observed eigenvalue.}
+\label{fig:quantum_mmt_comic}
+\end{figure}
+
 \subsection{Quantum randomness}
 It is worth remarking at this point on the difference between quantum and classical randomness.
 As statisticians we are used to dealing with randomness, but we accept that randomness is always part of a model, and is not purported to exist in nature. We artificially introduce random variables into our models to account for a lack of information, either about the state of the system or about the (presumably deterministic) processes that govern certain phenomena.
 
 On the contrary, our uncertainty about the outcome of a measurement on a quantum system is of a different kind. This uncertainty is not a symptom of our lack of knowledge: even when we know exactly the state of the system, as in the example above [REF], we are still unable to predict with certainty the outcome of a measurement on the system. The randomness here is intrinsic; it really does exist in nature.
 
+\subsection{Pure and mixed states}
+So far we have only encountered \emph{pure states}, like $\ket{0}$ or $\ket{+}$. But we can also consider probabilistic mixtures of pure states, known as \emph{mixed states}, like
+\begin{equation*}
+\ket{v} = \sum_{i} p_i \ket{v_i}
+\end{equation*}
+where $\{p_i\}$ is a probability distribution and the $\ket{v_i}$ are pure states.
+You can think of this as a `source' which emits a state $\ket{v_i}$ with probability $p_i$.
+A classical analogue is a bit which takes the value 1 with probability $p$ or 0 with probability $1-p$ (a $p$-coin). In this case, we can say that the expected value of the bit is $p$.
+
+There is no full ordering on the set of quantum states, so it is not possible to define the expected value of a mixed state. However, we can calculate the expected value of a measurement on a mixed state, using the state's \emph{density operator}.
+
+\subsubsection{Density operators}
+The density operator of a mixed state $\ket{v} = \sum_{i} p_i \ket{v_i}$ is given by
+\begin{equation*}
+\rho = \sum_{i} p_i \ket{v_i}\bra{v_i}.
+\end{equation*}
+Different mixtures of states may have the same density operator, but in this case is is impossible to distinguish between them by any measurement. For example, a source which emits $\ket{0}$ or $\ket{1}$ each with probability 1/2 has the same density operator $\rho = I/2$ as a source which emits $\ket{+}$ or $\ket{-}$ each with probability 1/2, and the two sources are indistinguishable.
+
+Suppose we measure a mixed state using the self-adjoint operator $A= \sum_k \lambda_k P_k$, where $\{\lambda_k\}$ are the distinct eigenvalues of $A$ and $P_k$ the projection onto the corresponding eigenspace. Recall [REF] that the outcome of the measurement will be an eigenvalue of $A$. The probability of observing a particular outcome is
+\begin{equation*}
+\PR(observe \lambda_j) = \sum_i p_i \bra{v_i} P_j \ket{v_i} = tr(\rho P_j)
+\end{equation*}
+where $tr(\cdot)$ denotes the trace of a matrix.
+Note that $tr(\rho)=1$ because the states are normalised and $\{p_i\}$ is a probability distribution.
+
 \subsection{The Bloch sphere}
+\begin{figure}
+\centering
+\subfloat[][]{
+\begin{tikzpicture}
+\draw (0,4) -- (0,-4);
+\filldraw (0,4) circle (2pt) node[anchor=west] {0};
+\filldraw (0,-4) circle (2pt) node[anchor=west] {1};
+\end{tikzpicture}
+}
+\hspace{5cm}
+\subfloat[][]{
+\begin{tikzpicture}
+\draw (0,0) circle (4cm);
+\draw (0,4) -- (0,-4);
+\draw[gray] (-4,0) -- (4,0);
+\draw[gray] (0,0) ellipse (4cm and 1cm);
+\filldraw (0,4) circle (2pt) node[anchor=south] {$\ket{0}\bra{0}$};
+\filldraw (0,-4) circle (2pt) node[anchor=north] {$\ket{1}\bra{1}$};
+\filldraw (-4,0) circle (2pt) node[anchor=east] {$\ket{-}\bra{-}$};
+\filldraw (4,0) circle (2pt) node[anchor=west] {$\ket{+}\bra{+}$};
+%\filldraw (0,0) circle (2pt) node [anchor=west] {$I/2$};
+\draw[ultra thick, ->] (0,0) -- (2,2);
+\draw[dotted] (0,0) -- (2,-0.5);
+\draw[dotted] (2,-0.5) -- (2,2);
+%
+\draw[blue] (0.5,0) arc (0:45:0.5);
+\draw[blue] (0.5,0) arc (0:-14:0.5);
+\draw[red] (0,-0.07) [partial ellipse=-90:-14:0.5cm and 0.25cm];
+\node[red] at (0.3,-0.5) {$\theta$};
+\node[blue] at (0.7, 0.2) {$\phi$};
+\end{tikzpicture}
+}
+\caption{State space of classical bits versus qubits. The state space of a classical bit is the line segment $[0,1]$. The `pure' states 0 and 1 are at the endpoints, and probabilistic mixtures of the two lie inbetween. The state space of a qubit is the Bloch sphere. Pure states are on the surface of the sphere, and mixed states are in the interior. The centre of the sphere is the maximally mixed state $\rho=I/2$.}
+\end{figure}
+% where should theta & phi actually be measured from? - values at 0,+ etc.
+
+
 
 
 \bibliography{qbf.bib}
