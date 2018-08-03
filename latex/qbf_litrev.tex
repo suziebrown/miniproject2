@@ -158,7 +158,7 @@ as desired.
 \item A linear operator $U$ is said to be \emph{self-adjoint} (or \emph{hermitian}) if $U^\dag = U$
 \item A linear operator $U$ is said to be \emph{unitary} if $UU^\dag = U^\dag U = I$
 \end{itemize}
-For example, the operator $X$ is self-adjoint and unitary.
+For example, the operator $X$ is self-adjoint and unitary. Trivially, unitary transformations are always reversible (i.e.\ the inverse operator exists).
 
 \subsection{Rules of Quantum Mechanics}
 \begin{enumerate}
@@ -231,10 +231,26 @@ Suppose we measure a mixed state using the self-adjoint operator $A= \sum_k \lam
 \begin{equation*}
 \PR(observe \lambda_j) = \sum_i p_i \bra{v_i} P_j \ket{v_i} = tr(\rho P_j)
 \end{equation*}
-where $tr(\cdot)$ denotes the trace of a matrix.
+where $tr(\cdot)$ denotes the trace of an operator.
 Note that $tr(\rho)=1$ because the states are normalised and $\{p_i\}$ is a probability distribution.
 
 \subsection{The Bloch sphere}
+Density operators have a neat geometrical representation as points in a unit sphere (Figure [REF]). This is called the \emph{Bloch sphere}, and can be thought of as the state space of a quantum bit (qubit).
+
+An arbitrary pure state can be written in the form
+\begin{equation*}
+\ket{v} = e^{i\psi} \left[ \cos \left(\frac{\theta}{2}\right) \ket{0} + e^{i\phi} \sin \left(\frac{\theta}{2}\right) \ket{1} \right].
+\end{equation*}
+Since the overall phase $e^{i\psi}$ can be ignored, the state is parametrised by two angles $\theta$ and $\phi$. Taking these as spherical coordinates with unit radius, we can think of each pure state as a point on the unit sphere (or equivalently, a unit vector). Orthogonal states lie opposite each other on the Bloch sphere.
+% if theta=0, phi doesn't have any effect...? -use proper coordinates for dens oper
+
+Mixed states can also be represented in the Bloch sphere. The Bloch vector for a mixed state is found by taking the weighted average of the Bloch vectors of its component pure states. Due to the triangle inequality, mixed states therefore lie strictly inside the unit sphere. 
+This illustrates that several different mixtures of states can have the same density operator. Qubit states are distinguishable if and only if they correspond to different points in the Bloch sphere. %really iff?
+
+There is an analogy here with classical information. The state space of a classical bit is the unit interval: its value could be 0 or 1, or we could take a probabilistic mixture of the two. The `pure' states then are 0 and 1, which lie on the `surface' of the interval, while `mixed' states lie strictly inside the interval (Figure [REF]). 
+
+Finally, unitary operators are rotations of the Bloch sphere. This illustrates that unitary transformations are reversible.
+
 \begin{figure}
 \centering
 \subfloat[][]{
@@ -250,7 +266,7 @@ Note that $tr(\rho)=1$ because the states are normalised and $\{p_i\}$ is a prob
 \draw (0,0) circle (4cm);
 \draw (0,4) -- (0,-4);
 \draw[gray] (-4,0) -- (4,0);
-\draw[gray] (0,0) ellipse (4cm and 1cm);
+\draw[gray] (0,0) ellipse (4cm and 1.5cm);
 \filldraw (0,4) circle (2pt) node[anchor=south] {$\ket{0}\bra{0}$};
 \filldraw (0,-4) circle (2pt) node[anchor=north] {$\ket{1}\bra{1}$};
 \filldraw (-4,0) circle (2pt) node[anchor=east] {$\ket{-}\bra{-}$};
