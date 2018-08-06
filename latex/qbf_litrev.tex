@@ -76,7 +76,7 @@
 \section{Quantum information}
 From the course by Noah Linden (University of Bristol) and discussion with Thomas Hebdige and David Jennings (Imperial College London). For a comprehensive introduction see for example \citet{nielsen2002} or \citet{wilde2013}.\\
 
-Quantum mechanics is essentially just linear algebra in a Hilbert space, with a few additional properties. The definitions in Sections \ref{sec:hilbert_defn} to \ref{sec:linear_ops} are exactly what you would find in a linear algebra course, apart from the notation.
+Quantum mechanics is essentially linear algebra in a Hilbert space, with a few additional properties. The definitions in Sections \ref{sec:hilbert_defn} to \ref{sec:linear_ops} are exactly what you would find in a linear algebra course, apart from the notation.
 
 \subsection{Dirac notation}
 Dirac notation is a convenient way of denoting vectors such that it is easy to visually identify inner and outer products, and thus quickly recognise scalars, vectors and matrices:
@@ -290,11 +290,10 @@ Finally, unitary operators are rotations of the Bloch sphere. This illustrates t
 \draw[dotted] (0,0) -- (2,-0.5);
 \draw[dotted] (2,-0.5) -- (2,2);
 %
-\draw[blue] (0.5,0) arc (0:45:0.5);
-\draw[blue] (0.5,0) arc (0:-14:0.5);
-\draw[red] (0,-0.07) [partial ellipse=-90:-14:0.5cm and 0.25cm];
-\node[red] at (0.3,-0.5) {$\theta$};
-\node[blue] at (0.7, 0.2) {$\phi$};
+\draw[blue] (0,0.5) arc (90:45:0.5);
+\draw[red] (0,0) [partial ellipse=90:332:0.5cm and 0.25cm];
+\node[red] at (-0.4,-0.4) {$\phi$};
+\node[blue] at (0.3, 0.7) {$\theta$};
 \end{tikzpicture}
 \caption{Qubit}
 \label{fig:qubit_state_space}
@@ -303,9 +302,6 @@ Finally, unitary operators are rotations of the Bloch sphere. This illustrates t
 \caption{State space of classical bits versus qubits. The state space of a classical bit is the line segment $[0,1]$. The `pure' states 0 and 1 are at the endpoints, and probabilistic mixtures of the two lie inbetween. The state space of a qubit is the Bloch sphere. Pure states are on the surface of the sphere, and mixed states are in the interior. The centre of the sphere is the maximally mixed state $\rho=I/2$.}
 \end{figure}
 % where should theta & phi actually be measured from? - values at 0,+ etc.
-
-
-
 
 \bibliography{qbf.bib}
 \end{document}
