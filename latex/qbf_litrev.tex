@@ -283,15 +283,15 @@ Finally, unitary operators are rotations of the Bloch sphere. This illustrates t
 \draw[gray] (0,0) ellipse (4cm and 1.5cm);
 \filldraw (0,4) circle (2pt) node[anchor=south] {$\ket{0}\bra{0}$};
 \filldraw (0,-4) circle (2pt) node[anchor=north] {$\ket{1}\bra{1}$};
-\filldraw (-4,0) circle (2pt) node[anchor=east] {$\ket{-}\bra{-}$};
-\filldraw (4,0) circle (2pt) node[anchor=west] {$\ket{+}\bra{+}$};
+\filldraw (-4,0) circle (2pt) node[anchor=east] {$\ket{+}\bra{+}$};
+\filldraw (4,0) circle (2pt) node[anchor=west] {$\ket{-}\bra{-}$};
 %\filldraw (0,0) circle (2pt) node [anchor=west] {$I/2$};
 \draw[ultra thick, ->] (0,0) -- (2,2);
 \draw[dotted] (0,0) -- (2,-0.5);
 \draw[dotted] (2,-0.5) -- (2,2);
 %
 \draw[blue] (0,0.5) arc (90:45:0.5);
-\draw[red] (0,0) [partial ellipse=90:332:0.5cm and 0.25cm];
+\draw[red] (0,0) [partial ellipse=180:332:0.5cm and 0.25cm];
 \node[red] at (-0.4,-0.4) {$\phi$};
 \node[blue] at (0.3, 0.7) {$\theta$};
 \end{tikzpicture}
