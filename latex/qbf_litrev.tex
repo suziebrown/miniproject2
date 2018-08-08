@@ -1,7 +1,7 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[margin=2cm]{geometry}
-%\usepackage{enumitem}
+\usepackage{enumitem}
 \usepackage{csquotes}
 
 % maths packages
@@ -36,7 +36,7 @@
     }
 }
 
-\title{QBF lit review?}
+\title{Quantum Bernoulli factory}
 \author{Suzie Brown}
 \date{\today}
 
@@ -47,6 +47,7 @@
 
 % theorems
 \newtheorem{thm}{Theorem}
+\newtheorem{lemma}{Lemma}
 \theoremstyle{definition}
 \newtheorem{defn}{Definition}
 \newtheorem{example}{Example}
@@ -71,7 +72,9 @@
 \newcommand{\NOT}{{\footnotesize NOT }}
 
 \begin{document}
-%\maketitle
+\maketitle
+
+\section{Introduction}
 
 \section{Quantum information}
 From the course by Noah Linden (University of Bristol) and discussion with Thomas Hebdige and David Jennings (Imperial College London). For a comprehensive introduction see for example \citet{nielsen2002} or \citet{wilde2013}.\\
@@ -255,7 +258,7 @@ Since the overall phase $e^{i\psi}$ can be ignored, the state is parametrised by
 
 Mixed states can also be represented in the Bloch sphere. The Bloch vector for a mixed state is found by taking the weighted average of the Bloch vectors of its component pure states. Due to the triangle inequality, mixed states therefore lie strictly inside the unit sphere.
 This illustrates that several different mixtures of states can have the same density operator. Qubit states are distinguishable if and only if they correspond to different points in the Bloch sphere. %really iff?
-The notion of `distance' between states is formalised as Euclidean distance between points in the Bloch sphere: orthogonal states are the `most different' and lie the furthest possible distance apart on the sphere; while the maximally mixed state is at the centre of the sphere, equidistant from every pure state.
+%The notion of `distance' between states is formalised as Euclidean distance between points in the Bloch sphere: orthogonal states are the `most different' and lie the furthest possible distance apart on the sphere; while the maximally mixed state is at the centre of the sphere, equidistant from every pure state. %-- not quite right...
 
 There is an analogy here with classical information. The state space of a classical bit is the unit interval: its value could be 0 or 1, or we could take a probabilistic mixture of the two. The `pure' states then are 0 and 1, which lie on the `surface' of the interval, while `mixed' states lie strictly inside the interval (Figure \ref{fig:cbit_state_space}). 
 
@@ -299,9 +302,138 @@ Finally, unitary operators are rotations of the Bloch sphere. This illustrates t
 \label{fig:qubit_state_space}
 \end{subfigure}
 
-\caption{State space of classical bits versus qubits. The state space of a classical bit is the line segment $[0,1]$. The `pure' states 0 and 1 are at the endpoints, and probabilistic mixtures of the two lie inbetween. The state space of a qubit is the Bloch sphere. Pure states are on the surface of the sphere, and mixed states are in the interior. The centre of the sphere is the maximally mixed state $\rho=I/2$.}
+\caption{State space of classical bits versus qubits. The state space of a classical bit is the line segment $[0,1]$. The `pure' states 0 and 1 are at the endpoints, and probabilistic mixtures of the two lie inbetween. The state space of a qubit is the Bloch sphere. Pure states are on the surface of the sphere, and mixed states lie in the interior. The centre of the sphere is the maximally mixed state $\rho=I/2$.}
 \end{figure}
-% where should theta & phi actually be measured from? - values at 0,+ etc.
+
+\subsubsection{Geometric view of measurement}
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\draw (-5,0) -- (5,0);
+\draw (0,-0.1) -- (0,0.1);
+\draw (5,0) arc (0:180:5);
+\filldraw (-5,0) circle (2pt) node[anchor=east] {$\ket{0}$};
+\filldraw (5,0) circle (2pt) node[anchor=west] {$\ket{1}$};
+\filldraw (-3,4) circle (2pt) node[anchor=south] {$\ket{v}$};
+\draw[->, line width = 1] (-3,4) -- (-3,0);
+\draw[dotted] (-3,4) -- (0,0);
+\draw[red] (-0.7, 0) arc (180:126:0.7);
+\node[red] at (-0.8,0.3) {$\theta$};
+\draw[red, <->] (-5,-0.2) -- node[anchor=north] {$x$} (-3,-0.2);
+\end{tikzpicture}
+\caption{When measuring a state in the computational basis, the probability of observing a certain eigenvalue is related to the projected distance $x$ from the corresponding eigenstate.}
+\label{fig:bloch_mmt}
+\end{figure}
+
+Suppose we are going to measure a pure state $\ket{v} = \cos \left(\frac{\theta}{2}\right) \ket{0} + e^{i\phi} \sin \left(\frac{\theta}{2}\right) \ket{1}$ in the computational basis. There is a simple relationship between the probability of each outcome and the projection of $\ket{v}$ onto the line segment between $\ket{0}$ and $\ket{1}$ on the Bloch sphere.
+
+Figure \ref{fig:bloch_mmt} shows the semicircular slice of the Bloch sphere on which $\ket{v}$ lies. The value of $\phi$ determines which slice this is, and conditional on that the state only depends on $\theta$ --- the following calculations are independent of $\phi$ and apply to an arbitrary pure state. 
+The state $\ket{v}$ is projected onto the line segment between $\ket{0}$ and $\ket{1}$ as shown.
+Since the sphere has unit radius, the distance labelled $x$ on Figure \ref{fig:bloch_mmt} is
+\begin{equation*}
+x = 1-\cos\theta.
+\end{equation*}
+Using the expansion of $\ket{v}$ in the computational basis, we can calculate the probability of observing measurement outcome 0:
+\begin{equation*}
+\PR(\text{observe }0) = \braket{v|0}\braket{0|v}
+= \cos^2\left(\frac{\theta}{2}\right)
+= \frac{\cos\theta + 1}{2}
+= 1 - \frac{x}{2}.
+\end{equation*}
+This relationship between the projected distance and measurement probabilities also applies to mixed states.
+If we take any mixture of states with the same value of $\theta$ (but different values of $\phi$), the result will hold, because $x$ and $\PR(\text{observe }0)$ will be the same for every component state, and hence for the mixed state too.
+But the result holds for general mixed states as well. Any point in the sphere whose projection onto the line segment between $\ket{0}$ and $\ket{1}$ lies a distance $x$ from $\ket{0}$ will measure 0 with probability $1-x/2$.
+
+Furthermore, this illustrates a more general concept, which applies not only to measurement in the computational basis but to any quantum measurement. 
+Any valid measurement operator on one qubit (that is non-trivial in the sense of having more than one possible outcome) has two eigenstates that lie opposite each other on the Bloch sphere. Projecting a state $\ket{v}$ onto the line segment between the two eigenstates gives the probabilities of observing the associated eigenvalues.
+
+\section{Bernoulli factories}
+Roughly speaking, a Bernoulli factory is an algorithm that takes samples a $\Bern(p)$ random variable as inputs and uses them to produce a $\Bern(f(p))$ sample as output, where $f$ is a known function but the parameter $p$ is unknown (therefore the algorithm must not depend on $p$).
+The imaginary device for generating $\Bern(p)$ random variables is sometimes referred to as a $p$-coin or black box; samples thereof may be called flips/tosses or queries.
+
+%
+\begin{defn}[Bernoulli factory]
+Let $f: S\to[0,1]$ be a function with domain $S \subseteq [0,1]$, and suppose we have access to a sequence of Bernoulli random variables $X_1,X_2,\dots \iidsim \Bern(p)$ with unknown parameter $p \in [0,1]$. 
+Let $U \in \mathcal{U}$ denote a set of auxiliary random variables with known distributions, independent of $p$. Let $\tau$ be a stopping time with respect to the natural filtration, such that $\PR(\tau<\infty)=1$.
+\end{defn}
+% copy technical defn from some paper...
+
+% We follow the terminology of blah...
+\begin{defn}[simulable]
+A function $f:S\to[0,1]$ is said to be \emph{simulable} if there is a Bernoulli factory that simulates $f(p)$ for all $p\in S$.
+It is \emph{strongly simulable} if there is a Bernoulli factory that simulates $f(p)$ without the need for auxiliary random variables $U$.
+\end{defn}
+
+The first formal treatment of a Bernoulli factory problem was presented by \citet{vonneumann1951}, who 
+described a Bernoulli factory for the function $f(p)\equiv 1/2$:
+\begin{displayquote}
+\textit{To cite a human example, for simplicity, in tossing a coin it is probably easier to make two consecutive tosses independent than to toss heads with probability exactly one-half. If independence of successive tosses is assumed, we can reconstruct a 50-50 chance out of even a badly biased coin by tossing twice. If we get heads-heads or tails-tails, we reject the tosses and try again. If we get head-tails (or tails-heads), we accept the result as heads (or tails). The resulting process is rigorously unbiased, although the amended process is at most 25 percent as efficient as ordinary coin-tossing.}
+\end{displayquote}
+
+Most authors now use the slightly more convenient convention with the outcomes inverted, so that once 10 or 01 is observed, the output of the Bernoulli factory is equal to the last coin flip (0 or 1 respectively). 
+It is clear that, as claimed, this procedure produces a (1/2)-coin, because 01 and 10 appear with the same probability, so conditional on observing one or the other, both outcomes have probability 1/2.
+The procedure is formalised in Example \ref{ex:const_half}.
+
+\begin{example}\label{ex:const_half}
+$f(p) \equiv 1/2$.\\
+This constant function is strongly simulable, using the procedure:
+\begin{align*}
+& \tau = \min\{ t \in \{2,4,\dots\} : X_{t-1} \neq X_t \} \\
+& \A(X_1,X_2,\dots) = X_\tau.
+\end{align*}
+The running time of this algorithm is random, and indeed unbounded (but it is finite almost surely, making it a valid Bernoulli factory). In particular, $\tau \eqdist 2\times\Geom(2p(1-p))$, with expectation $\E(\tau) = \frac{1}{p(1-p)}$. Figure \ref{fig:runtime_const2} shows the expected running time for various values of $p$. The expected running time achieves its minimum value of four when $p=1/2$ (that is, the coin was already unbiased), hence von Neumann's claim that ``the amended process is at most 25 percent as efficient as ordinary coin-tossing'' (which has deterministic running time one). The expected running time approaches infinity when $p$ is close to 0 or 1, but is moderate across a large range non-extreme values.
+\end{example}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{vonneu_runtime.pdf}
+\caption{•}
+\label{fig:runtime_const2}
+\end{figure}
+
+The algorithm given in Example \ref{ex:const_half} can be extended to simulate other constant functions of the form $f(p)\equiv 1/k$ for $k\in \{2,3,\dots\}$. The generalised procedure is:
+\begin{align*}
+& \tau = \min\left\{ t \in \{k,2k,3k,\dots\} : \sum_{i=t-k+1}^t X_{i} = 1 \right\} \\
+& \A(X_1,X_2,\dots) = X_\tau.
+\end{align*}
+However, the running time increases badly with $k$, even under certain early stopping strategies.
+Of course, any constant $f(p)\equiv c$ is simulable by employing an auxiliary random variable $U\sim \Bern(c)$, but von Neumann's example shows that $c=1/2$ is also strongly simulable.
+
+Another important example is the case of $f(p)=p^2$, which is strongly simulable using exactly two queries, returning heads if and only if both inputs are heads. Example \ref{ex:bf_pk} presents a generalisation of this procedure.
+
+\begin{example}\label{ex:bf_pk}
+$f(p) = p^k, k\in\{1,2,\dots\}$.\\
+This problem is solved easily by flipping the $p$-coin $k$ times and outputting heads if and only if all $k$ flips return heads. No auxiliary random variable is required.
+\begin{align*}
+& \tau = k \\
+& \A(X_1,\dots,X_T) = \mathbb{I}\{X_1 =1, X_2=1 ,\dots,X_\tau=1\}
+\end{align*}
+In this case the running time is deterministically equal to $k$. It is clear that this procedure produces heads with probability $p^k$, since the flips are independent and each gives heads with probability $p$.
+
+The running time of this algorithm can be decreased by using an early stopping strategy, whereby we stop the process as soon as a tails input appears (in which case we know immediately that the output will be tails). In this case the running time is random, but still bounded above by $k$:
+\begin{equation*}
+\tau = k \wedge \min\{t \in \{1,2,\dots\}:X_t=0 \} \eqdist \min\{k, \Geom(1-p)\}.
+\end{equation*}
+Figure \ref{fig:p2_runtime} shows the expected running time of this procedure for a few values of $k$. We see that early stopping can significantly reduce the expected running time when $p$ is not close to 1, and that the gain in efficiency is greater for larger $k$. In the case $k=1$, where $f$ is the identity, the number of coin flips required is deterministically equal to one, for any $p$.
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{pk_runtime.pdf}
+\caption{Expected running time for the $f(p)=p^k$ Bernoulli factory described, with early stopping. Without early stopping, the running time is deterministically equal to $k$. The early stopping procedure significantly increases the efficiency, particularly when $p$ is small or $k$ is large. The minimum number of queries is one for all $k$ and $p$, and of course the $k=1$ (identity) Bernoulli factory requires exactly one query for any $p$.}\label{fig:p2_runtime}
+\end{figure}
+\end{example}
+
+Examples \ref{ex:const_half} and \ref{ex:bf_pk} cast some light on the sort of manipulations that are possible when constructing Bernoulli factories. Lemma \ref{thm:products_compositions} provides some general properties, which are trivial to prove.
+
+\begin{lemma}\label{thm:products_compositions}
+Suppose we have a Bernoulli factory $\A_f$ for the function $f:S_f\to[0,1]$ and a Bernoulli factory $\A_g$ for $g:S_g\to R_g\subseteq[0,1]$. Then
+\begin{enumerate}[label=(\alph*)]
+\item There exists a Bernoulli factory for $1-f : S_f \to [0,1]$, given by inverting the output of $\A_f$.
+\item \label{thm:compositions} If $R_g \subseteq S_f$, then there exists a Bernoulli factory for the composition $f\circ g: S_g \to [0,1]$, given by the composition $\A_f \circ \A_g$.
+\item \label{thm:products} There exists a Bernoulli factory for the product $fg:S_f \cap S_g \to [0,1]$, given by $A_f \wedge A_g$.
+\end{enumerate}
+In the case of \ref{thm:compositions} and \ref{thm:products}, the running time is bounded if and only if the running time of both $A_f$ and $A_g$ is bounded.
+\end{lemma}
+% might have more properties to add here...
 
 \bibliography{qbf.bib}
 \end{document}
