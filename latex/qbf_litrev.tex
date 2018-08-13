@@ -347,7 +347,7 @@ But the result holds for general mixed states as well. Any point in the sphere w
 Furthermore, this illustrates a more general concept, which applies not only to measurement in the computational basis but to any quantum measurement. 
 Any valid measurement operator on one qubit (that is non-trivial in the sense of having more than one possible outcome) has two eigenstates that lie opposite each other on the Bloch sphere. Projecting a state $\ket{v}$ onto the line segment between the two eigenstates gives the probabilities of observing the associated eigenvalues.
 
-\subsection{Entanglement}
+\subsection{Entanglement}\label{sec:entanglement}
 Suppose we now have two qubits and would like to describe their joint state. 
 The joint state space will be $\mathbb{C}^2 \otimes \mathbb{C}^2$, where $\otimes$ denotes the tensor product. This state space has canonical basis
 \begin{equation*}
@@ -367,10 +367,9 @@ For example, consider the state $(\ket{00} + \ket{11})/\sqrt{2}$. This state is 
 
 The set of entangled states
 \begin{equation}
-\left\{ \frac{\ket{00}+\ket{11}}{\sqrt{2}} , \frac{\ket{00}-\ket{11}}{\sqrt{2}} , \frac{\ket{01}+\ket{10}}{\sqrt{2}} , \frac{\ket{01}-\ket{10}}{\sqrt{2}} \right\}
+\left\{ \frac{\ket{00}+\ket{11}}{\sqrt{2}} , \frac{\ket{00}-\ket{11}}{\sqrt{2}} , \frac{\ket{01}+\ket{10}}{\sqrt{2}} , \frac{\ket{01}-\ket{10}}{\sqrt{2}} \right\} =: \left\{\ket{\phi^+} , \ket{\phi^-} , \ket{\psi^+} , \ket{\psi^-} \right\}
 \end{equation}
 is another important basis for $\mathbb{C}^2 \otimes \mathbb{C}^2$, called the \emph{Bell basis}.
-
 
 \section{Bernoulli factories}
 Roughly speaking, a Bernoulli factory is an algorithm that takes samples a $\Bern(p)$ random variable as inputs and uses them to produce a $\Bern(f(p))$ sample as output, where $f$ is a known function but the parameter $p$ is unknown (therefore the algorithm must not depend on $p$).
@@ -446,12 +445,15 @@ Figure \ref{fig:p2_runtime} shows the expected running time of this procedure fo
 \end{figure}
 \end{example}
 
+% also include example 2p(1-p)
+
 Examples \ref{ex:const_half} and \ref{ex:bf_pk} cast some light on the sort of manipulations that are possible when constructing Bernoulli factories. Lemma \ref{thm:products_compositions} provides some general properties, which are trivial to prove.
 
 \begin{lemma}\label{thm:products_compositions}
 Suppose we have a Bernoulli factory $\A_f$ for the function $f:S_f\to[0,1]$ and a Bernoulli factory $\A_g$ for $g:S_g\to R_g\subseteq[0,1]$. Then
 \begin{enumerate}[label=(\alph*)]
 \item There exists a Bernoulli factory for $1-f: S_f \to [0,1]$, given by inverting the output of $\A_f$.
+\item \label{thm:convex_combns} For any $\alpha \in [0,1]$ there exists a Bernoulli factory for $\alpha f + (1-\alpha) g$, given by first sampling from $\Bern(\alpha)$ and, depending on the outcome, using either $f$ or $g$.
 \item \label{thm:compositions} If $R_g \subseteq S_f$, then there exists a Bernoulli factory for the composition $f\circ g: S_g \to [0,1]$, given by the composition $\A_f \circ \A_g$.
 \item \label{thm:products} There exists a Bernoulli factory for the product $fg:S_f \cap S_g \to [0,1]$, given by $A_f \wedge A_g$.
 \end{enumerate}
@@ -461,7 +463,7 @@ In the case of \ref{thm:compositions} and \ref{thm:products}, the running time i
 
 It is not immediately obvious that not all functions are simulable. However, one counterexample is the following.
 
-\begin{example}
+\begin{example}\label{ex:2p}
 $f(p) = 2p, p\in(0,1/2)$.\\
 This function turns out not to be simulable, although the truncated function $f(p) = 2p \wedge (1-\varepsilon)$ --- or equivalently, restricting the domain to $p\in(0,(1 - \varepsilon)/2)$ --- is simulable for any $\varepsilon>0$. In this case the number of queries required is $O(\varepsilon ^{-1})$ \citep{huber2016}.
 
@@ -532,14 +534,47 @@ This is a sensible definition since measuring $\ket{p}$ in the computational bas
 Note that the quantum Bernoulli factory has a quantum input (quoins) and a classical output (measurement outcome).
 We will call a function \emph{quantum simulable} if there exists a quantum Bernoulli factory for it.
 
-\citet{dale2015} proves that quantum computation allows a strictly larger class of Bernoulli factories to be constructed, taking as an example the notorious $f(p)=2p$. While this function is not simulable in the classical setting, the authors show that it is quantum simulable, and provide an explicit algorithm using two entangled qubits.
+\citet{dale2015} prove that quantum computation allows a strictly larger class of Bernoulli factories to be constructed, taking as an example the notorious $f(p)=2p$. While this function is not simulable in the classical setting, the authors show that it is quantum simulable, and provide an explicit algorithm using two entangled qubits.
 They also determine necessary and sufficient conditions for a function to be quantum simulable, which are weaker than those for classical simulability provided by the Keane-O'Brien theorem [REF].
 % with/without entanglement = same set of functions.
 
+Example \ref{ex:qbf_2p} gives the quantum algorithm of \citet{dale2015} for the function $f_\wedge(p) := 2\min\{p, 1-p\}$, $p\in[0,1]$. This function (Figure \ref{fig:wedge_fn}) coincides with that of Example \ref{ex:2p} when the domain is restricted to $p\in(0,1/2)$, so it is clearly sufficient to find a Bernoulli factory for $f_\wedge$.
 
+\begin{figure} % add side-by-side a plot of 4p(1-p) which this problem is boiled down to for the QBF. (or overlay on one plot?)
+\centering
+\includegraphics[width=0.8\textwidth]{Wedge_function.pdf}
+\caption{•}
+\label{fig:wedge_fn}
+\end{figure}
 
+\begin{example}\label{ex:qbf_2p}
+First note that 
+\begin{equation*}
+f_\wedge(p) = 2\min\{p, 1-p\} = 1-\sqrt{1-4p(1-p)} = \sum_{k=1}^{\infty} \binom{2k}{k} \frac{1}{(2k-1)2^{2k}} (4p(1-p))^k =: \sum_{k=1}^{\infty} q_k (4p(1-p))^k.
+\end{equation*} % check that taylor expansion /!\
+where $q_k$ are constants not depending on $p$, and are hence simulable. Due to property \ref{thm:convex_combns} of Lemma \ref{thm:products_compositions}, $f_wedge$ is therefore simulable if there exists a Bernoulli factory for $(4p(1-p))^k$. Since this is a case of Example \ref{ex:bf_pk}, we need only construct a Bernoulli factory for $4p(1-p)$. This function is not classically simulable since it still touches 1 at $p=0.5$.
 
+However, \citet{dale2015} describe the following quantum Bernoulli factory for this function.
+We first prepare two quoins; that is, we have two qubits jointly in the product state $\ket{p}\ket{p}$. We then measure the joint state in the Bell basis, say with the operator
+\begin{equation*}
+0\cdot\ket{\phi^+}\bra{\phi^+} + 1\cdot\ket{\phi^-}\bra{\phi^-} + 2\cdot\ket{\psi^+}\bra{\psi^+} + 3\cdot\ket{\psi^-}\bra{\psi^-}.
+\end{equation*} 
+Then the measurement outcomes are:
+\begin{align*}
+&\PR(\text{observe }0) = \braket{v|\phi^+}\braket{\phi^+|v} = 1/2 \\
+&\PR(\text{observe }1) = \braket{v|\phi^-}\braket{\phi^-|v} = \frac{(1-2p)^2}{2} \\
+&\PR(\text{observe }2) = \braket{v|\psi^+}\braket{\psi^+|v} = 2p(1-p) \\
+&\PR(\text{observe }3) = \braket{v|\psi^-}\braket{\psi^-|v} = 0
+\end{align*}
+This means that $\PR(\text{observe }1 \text{ or } 2) = 1/2$, and $\PR(\text{observe } 2 \mid \text{observe }1 \text{ or } 2) = 4p(1-p)$, which is the required function.
+Thus our Bernoulli factory is as follows: measure $\ket{p}\ket{p}$ in the Bell basis until the observed outcome is either 1 or 2, then return heads if the outcome is 2, and tails if the outcome is 1.
+\end{example}
+% then why does the quoin consumption vary with p???
 
+% CBFs subset of QBFs (Dale eqn 1) ?
+% Dale says the classical trucated 2p has poor (exponential) scaling of coin usage with epsilon...?
+
+% present the nec & suf conditions of Dale 2015. cf K-OB thm.
 
 \bibliography{qbf.bib}
 \end{document}

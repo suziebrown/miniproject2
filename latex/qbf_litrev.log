@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.4)  13 AUG 2018 12:17
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.4)  13 AUG 2018 21:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -716,63 +716,72 @@ Package pdftex.def Info: qit_comic.png  used on input line 211.
 <vonneu_runtime.pdf, id=42, 687.56876pt x 480.79625pt>
 File: vonneu_runtime.pdf Graphic file (type pdf)
 <use vonneu_runtime.pdf>
-Package pdftex.def Info: vonneu_runtime.pdf  used on input line 412.
+Package pdftex.def Info: vonneu_runtime.pdf  used on input line 411.
 (pdftex.def)             Requested size: 400.38872pt x 279.97713pt.
  [7]
 <pk_runtime.pdf, id=47, 687.56876pt x 480.79625pt>
 File: pk_runtime.pdf Graphic file (type pdf)
 <use pk_runtime.pdf>
-Package pdftex.def Info: pk_runtime.pdf  used on input line 444.
+Package pdftex.def Info: pk_runtime.pdf  used on input line 443.
 (pdftex.def)             Requested size: 400.38872pt x 279.97713pt.
  [8 <./vonneu_runtime.pdf>]
 <2p_truncation.pdf, id=58, 726.715pt x 503.8825pt>
 File: 2p_truncation.pdf Graphic file (type pdf)
 <use 2p_truncation.pdf>
-Package pdftex.def Info: 2p_truncation.pdf  used on input line 471.
+Package pdftex.def Info: 2p_truncation.pdf  used on input line 473.
 (pdftex.def)             Requested size: 400.38872pt x 277.6206pt.
 
-[9 <./pk_runtime.pdf>] [10 <./2p_truncation.pdf>] (./qbf_litrev.bbl
+[9 <./pk_runtime.pdf>] [10 <./2p_truncation.pdf>]
+<Wedge_function.pdf, id=81, 726.715pt x 503.8825pt>
+File: Wedge_function.pdf Graphic file (type pdf)
+<use Wedge_function.pdf>
+Package pdftex.def Info: Wedge_function.pdf  used on input line 545.
+(pdftex.def)             Requested size: 400.38872pt x 277.6206pt.
+LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <9> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 546.
+ (./qbf_litrev.bbl [11]
 Underfull \hbox (badness 1859) in paragraph at lines 44--47
 []\OT1/cmr/m/n/10 Tang, E. (2018), `A quantum-inspired clas-si-cal al-go-rithm 
 for rec-om-men-da-tion sys-tems', \OT1/cmr/m/it/10 arXiv preprint
  []
 
-) [11] (./qbf_litrev.aux) ) 
+) [12 <./Wedge_function.pdf>] (./qbf_litrev.aux) ) 
 Here is how much of TeX's memory you used:
- 16675 strings out of 492649
- 330299 string characters out of 6129623
- 395038 words of memory out of 5000000
- 20211 multiletter control sequences out of 15000+600000
+ 16686 strings out of 492649
+ 330515 string characters out of 6129623
+ 395088 words of memory out of 5000000
+ 20221 multiletter control sequences out of 15000+600000
  13739 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,10n,98p,799b,797s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2018/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmex10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmmi10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmmi5.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmmi6.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmmi7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmmi9.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mr17.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-5.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.p
-fb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb>
-</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></u
-sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/
-local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/l
-ocal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/loc
-al/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local
-/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/t
-exlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/te
-xlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texl
-ive/2018/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on qbf_litrev.pdf (11 pages, 2157285 bytes).
+</usr/local/texlive/2018/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2018/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2018/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2018/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2018/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2018/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2018/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2018/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2018/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr6.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmr7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr8.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr9.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmsy10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmsy6.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmsy7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmsy9.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+ti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmt
+i9.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/symbols/
+msbm10.pfb>
+Output written on qbf_litrev.pdf (12 pages, 2166705 bytes).
 PDF statistics:
- 157 PDF objects out of 1000 (max. 8388607)
- 112 compressed objects within 2 object streams
+ 166 PDF objects out of 1000 (max. 8388607)
+ 118 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 33 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 38 words of extra memory for PDF output out of 10000 (max. 10000000)
 
