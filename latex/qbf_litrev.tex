@@ -37,7 +37,7 @@
 }
 
 \title{Quantum Bernoulli factory}
-\author{Suzie Brown}
+\author{Suzie Brown \\ {\small supervised by Krzysztof \L atuszy\'nski}}
 \date{\today}
 
 % bibliography
@@ -347,6 +347,8 @@ But the result holds for general mixed states as well. Any point in the sphere w
 Furthermore, this illustrates a more general concept, which applies not only to measurement in the computational basis but to any quantum measurement. 
 Any valid measurement operator on one qubit (that is non-trivial in the sense of having more than one possible outcome) has two eigenstates that lie opposite each other on the Bloch sphere. Projecting a state $\ket{v}$ onto the line segment between the two eigenstates gives the probabilities of observing the associated eigenvalues.
 
+\subsection{Entanglement}
+
 \section{Bernoulli factories}
 Roughly speaking, a Bernoulli factory is an algorithm that takes samples a $\Bern(p)$ random variable as inputs and uses them to produce a $\Bern(f(p))$ sample as output, where $f$ is a known function but the parameter $p$ is unknown (therefore the algorithm must not depend on $p$).
 The imaginary device for generating $\Bern(p)$ random variables is sometimes referred to as a $p$-coin or black box; samples thereof may be called flips/tosses or queries.
@@ -358,7 +360,7 @@ Let $U \in \mathcal{U}$ denote a set of auxiliary random variables with known di
 \end{defn}
 % copy technical defn from some paper...
 
-% We follow the terminology of blah...
+We follow the terminology of \citet{keane1994}:
 \begin{defn}[simulable]
 A function $f:S\to[0,1]$ is said to be \emph{simulable} if there is a Bernoulli factory that simulates $f(p)$ for all $p\in S$.
 It is \emph{strongly simulable} if there is a Bernoulli factory that simulates $f(p)$ without the need for auxiliary random variables $U$.
@@ -382,14 +384,13 @@ This constant function is strongly simulable, using the procedure:
 & \A(X_1,X_2,\dots) = X_\tau.
 \end{align*}
 The running time of this algorithm is random, and indeed unbounded (but it is finite almost surely, making it a valid Bernoulli factory). In particular, $\tau \eqdist 2\times\Geom(2p(1-p))$, with expectation $\E(\tau) = \frac{1}{p(1-p)}$. Figure \ref{fig:runtime_const2} shows the expected running time for various values of $p$. The expected running time achieves its minimum value of four when $p=1/2$ (that is, the coin was already unbiased), hence von Neumann's claim that ``the amended process is at most 25 percent as efficient as ordinary coin-tossing'' (which has deterministic running time one). The expected running time approaches infinity when $p$ is close to 0 or 1, but is moderate across a large range non-extreme values.
-\end{example}
-
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{vonneu_runtime.pdf}
-\caption{•}
+\caption{Expected running time $\E(\tau)$ of von Neumann's Bernoulli factory for $f(p)\equiv 1/2$ \citep{vonneumann1951}.  The expectation attains its minimum $\E(\tau)=4$ at $p=1/2$, and is moderate over a large range of $p$, but grows unboundedly as $p$ approaches 0 and 1.}
 \label{fig:runtime_const2}
 \end{figure}
+\end{example}
 
 The algorithm given in Example \ref{ex:const_half} can be extended to simulate other constant functions of the form $f(p)\equiv 1/k$ for $k\in \{2,3,\dots\}$. The generalised procedure is:
 \begin{align*}
@@ -402,7 +403,7 @@ Of course, any constant $f(p)\equiv c$ is simulable by employing an auxiliary ra
 Another important example is the case of $f(p)=p^2$, which is strongly simulable using exactly two queries, returning heads if and only if both inputs are heads. Example \ref{ex:bf_pk} presents a generalisation of this procedure.
 
 \begin{example}\label{ex:bf_pk}
-$f(p) = p^k, k\in\{1,2,\dots\}$.\\
+$f(p) = p^k, p\in[0,1], k\in\{1,2,\dots\}$.\\
 This problem is solved easily by flipping the $p$-coin $k$ times and outputting heads if and only if all $k$ flips return heads. No auxiliary random variable is required.
 \begin{align*}
 & \tau = k \\
@@ -427,13 +428,92 @@ Examples \ref{ex:const_half} and \ref{ex:bf_pk} cast some light on the sort of m
 \begin{lemma}\label{thm:products_compositions}
 Suppose we have a Bernoulli factory $\A_f$ for the function $f:S_f\to[0,1]$ and a Bernoulli factory $\A_g$ for $g:S_g\to R_g\subseteq[0,1]$. Then
 \begin{enumerate}[label=(\alph*)]
-\item There exists a Bernoulli factory for $1-f : S_f \to [0,1]$, given by inverting the output of $\A_f$.
+\item There exists a Bernoulli factory for $1-f: S_f \to [0,1]$, given by inverting the output of $\A_f$.
 \item \label{thm:compositions} If $R_g \subseteq S_f$, then there exists a Bernoulli factory for the composition $f\circ g: S_g \to [0,1]$, given by the composition $\A_f \circ \A_g$.
 \item \label{thm:products} There exists a Bernoulli factory for the product $fg:S_f \cap S_g \to [0,1]$, given by $A_f \wedge A_g$.
 \end{enumerate}
 In the case of \ref{thm:compositions} and \ref{thm:products}, the running time is bounded if and only if the running time of both $A_f$ and $A_g$ is bounded.
 \end{lemma}
 % might have more properties to add here...
+
+It is not immediately obvious that not all functions are simulable. However, one counterexample is the following.
+
+\begin{example}
+$f(p) = 2p, p\in(0,1/2)$.\\
+This function turns out not to be simulable, although the truncated function $f(p) = 2p \wedge (1-\varepsilon)$ --- or equivalently, restricting the domain to $p\in(0,(1 - \varepsilon)/2)$ --- is simulable for any $\varepsilon>0$. In this case the number of queries required is $O(\varepsilon ^{-1})$ \citep{huber2016}.
+
+The problem with the unrestricted function is that $f(p)$ approaches 1 within $p\in(0,1)$, which violates one of the necessary and sufficient conditions given in the Keane-O'Brien theorem [REF].
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{2p_truncation.pdf}
+\caption{The function $f(p)=2p$ (black) is not simulable; whereas the truncated function $f(p)=2p\wedge (1-\varepsilon)$ (red) is simulable for any $\varepsilon>0$, using $O(\varepsilon^{-1})$ queries.}
+\label{fig:2p_truncation}
+\end{figure}
+\end{example}
+
+\begin{thm}
+It is not possible to construct a Bernoulli factory for $f(p)=2p$ where $p\in(0,1/2)$.
+\end{thm}
+The following proof is an intuitive one, adapted from \citet{latuszynski2011}.
+The intuition behind the proof is that there is no sharp change between say a (1/4)-coin and a (1/2)-coin; but there is a qualitative difference between the resulting (1/2)-coin and 1-coin respectively. The latter is no longer random, but deterministically returns heads every time, regardless of the outcome on the (1/2)-coin that seeds it.
+\begin{proof}
+Let $\PR_{p}$ denote the probability measure when the seeding coin has probability $p$ of showing heads. We will compare the cases $p=1/4$ and $p=1/2 - \varepsilon$.
+First, 
+\begin{equation*}
+\lim_{t\to\infty} \PR_{1/4} [\A(X_1,\dots,X_T)=0, T<t] = \frac{1}{2}
+\end{equation*}
+Thus there exists a $t_0 \in \mathbb{N}$ such that 
+\begin{equation*}
+\PR_{1/4} [\A(X_1,\dots,X_T)=0, T\leq t_0] > \frac{1}{4}
+\end{equation*}
+%Now, fixing $\varepsilon>0$, consider the corresponding quantity $\PR_{1/2 - \varepsilon} [\A(X_1,\dots,X_T)=0, T\leq t_0]$; we have the following relation:
+We have for any $p \in [1/4, 1/2)$:
+\begin{equation*}
+\PR_{p} [\A(X_1,\dots,X_T)=0, T\leq t_0] \geq \left(\frac{1}{2}\right)^{t_0} \PR_{1/4} [\A(X_1,\dots,X_T)=0, T\leq t_0] \geq \left(\frac{1}{2}\right)^{t_0+2}
+\end{equation*}
+Since, restricted to $T\leq t_0$, $\PR_p$ has the same support for any $p \in (0,1)$, we can consider the ratio of probabilities of any sequence in $\{0,1\}^{t_0}$. In particular, we consider 
+\begin{equation*}
+\inf_{p\in[1/4,1/2)}\, \inf_{A\subseteq\{0,1\}^{t_0}} \frac{\PR_{p}(A)}{\PR_{1/4}(A)}
+\end{equation*}
+%where the factor of $\left(\frac{1}{2}\right)^{t_0}$ is the largest possible discrepancy between the probabilities of a sequence of $t_0$ flips from a (1/2)-coin or (1/4)-coin.
+Now
+\begin{equation*}
+\PR_{1/2 - \varepsilon} [\text{output } 1] = 1-\PR_{1/2 - \varepsilon} [\A(X_1,X_2,\dots)=0]  \leq 1- \PR_{1/2 - \varepsilon} [\A(X_1,\dots,X_T)=0, T\leq t_0] \leq 1- \left(\frac{1}{2}\right)^{t_0+2}
+\end{equation*}
+Taking the limit as $\varepsilon\to 0$, the LHS is $f(1/2 - \varepsilon) = 1-2\varepsilon \rightarrow 1$, while the RHS is independent of $\varepsilon$ and remains strictly less than 1. This provides the contradiction, and hence such an algorithm $\A$ cannot exist.
+\end{proof}
+% not sure if this proof is complete and correct yet...
+
+
+
+% present Keane-O'Brien theorem.
+
+
+
+\section{The quantum advantage}
+It is known that for certain computational problems, quantum computers provide a theoretical advantage over classical computers. For example, the Deutsch-Jozsa algorithm \citep{deutsch1992} is an example of a problem (if not a particularly practical one) which a quantum computer can solve in exponentially less time than the best possible classical algorithm.
+
+It is widely believed (at least within the field) that quantum computing really is more powerful than its classical counterpart. Quantum computers are able to do anything that classical computers can, and quantum speed-ups have been proved for a handful of carefully constructed problems (see for example Grover's algorithm for unstructured search \citep{grover1997}), so from a theoretical viewpoint there is no denying the so-called `quantum supremacy'.
+
+There is, however, a lack of rigorous results for any computational problems with significant practical applications.
+One such problem was apparently solved by \citet{kerenidis2016}, who came up with a quantum speed-up for the recommendation problem --- that is, how Amazon and Netflix estimate which products you will like given yours and other customers' ratings of all products. However, the authors were unable to prove that no comparably fast classical algorithm exists, and one has now been found by \citet{tang2018}.
+
+\subsection{A quantum Bernoulli factory}
+The Bernoulli factory problem is an example of a practically applicable problem that is nevertheless simple to state and analyse. It was therefore a good candidate for the quest for a practical and provable quantum advantage, and indeed \citet{dale2015} prove this advantage. 
+
+We will use the term \emph{quantum Bernoulli factory} to refer to an algorithm that takes $p$-quoins as inputs, and outputs a $\Bern(f(p))$ sample, where as usual $p\in S$ is unknown and $f:S\to [0,1]$ is known. A $p$-quoin is the quantum analogue of a classical $p$-coin, given by the quantum state
+\begin{equation}
+\ket{p} = \sqrt{1-p} \ket{0} + \sqrt{p} \ket{1}.
+\end{equation}
+This is a sensible definition since measuring $\ket{p}$ in the computational basis gives output 0 with probability $1-p$ or 1 with probability $p$, like a classical $p$-coin.
+Note that the quantum Bernoulli factory has a quantum input (quoins) and a classical output (measurement outcome).
+We will call a function \emph{quantum simulable} if there exists a quantum Bernoulli factory for it.
+
+\citet{dale2015} proves that quantum computation allows a strictly larger class of Bernoulli factories to be constructed, taking as an example the notorious $f(p)=2p$. While this function is not simulable in the classical setting, the authors show that it is quantum simulable, and provide an explicit algorithm using two entangled qubits.
+
+
+
+
 
 \bibliography{qbf.bib}
 \end{document}

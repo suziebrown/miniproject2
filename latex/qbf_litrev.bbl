@@ -1,8 +1,49 @@
 \begin{thebibliography}{xx}
 
+\harvarditem[Dale et~al.]{Dale, Jennings \harvardand\ Rudolph}{2015}{dale2015}
+Dale, H., Jennings, D. \harvardand\ Rudolph, T.  \harvardyearleft
+  2015\harvardyearright , `Provable quantum advantage in randomness
+  processing', {\em Nature communications} {\bf 6},~8203.
+
+\harvarditem{Deutsch \harvardand\ Jozsa}{1992}{deutsch1992}
+Deutsch, D. \harvardand\ Jozsa, R.  \harvardyearleft 1992\harvardyearright ,
+  `Rapid solution of problems by quantum computation', {\em Proc. R. Soc. Lond.
+  A} {\bf 439}(1907),~553--558.
+
+\harvarditem{Grover}{1997}{grover1997}
+Grover, L.~K.  \harvardyearleft 1997\harvardyearright , `Quantum mechanics
+  helps in searching for a needle in a haystack', {\em Physical review letters}
+  {\bf 79}(2),~325.
+
+\harvarditem{Huber}{2016}{huber2016}
+Huber, M.  \harvardyearleft 2016\harvardyearright , `Nearly optimal bernoulli
+  factories for linear functions', {\em Combinatorics, Probability and
+  Computing} {\bf 25}(4),~577--591.
+
+\harvarditem{Keane \harvardand\ O'Brien}{1994}{keane1994}
+Keane, M. \harvardand\ O'Brien, G.~L.  \harvardyearleft 1994\harvardyearright ,
+  `A bernoulli factory', {\em ACM Transactions on Modeling and Computer
+  Simulation (TOMACS)} {\bf 4}(2),~213--219.
+
+\harvarditem{Kerenidis \harvardand\ Prakash}{2016}{kerenidis2016}
+Kerenidis, I. \harvardand\ Prakash, A.  \harvardyearleft 2016\harvardyearright
+  , `Quantum recommendation systems', {\em arXiv preprint arXiv:1603.08675} .
+
+\harvarditem[{\L}atuszy{\'n}ski et~al.]{{\L}atuszy{\'n}ski, Kosmidis,
+  Papaspiliopoulos \harvardand\ Roberts}{2011}{latuszynski2011}
+{\L}atuszy{\'n}ski, K., Kosmidis, I., Papaspiliopoulos, O. \harvardand\
+  Roberts, G.~O.  \harvardyearleft 2011\harvardyearright , `Simulating events
+  of unknown probabilities via reverse time martingales', {\em Random
+  Structures \& Algorithms} {\bf 38}(4),~441--452.
+
 \harvarditem{Nielsen \harvardand\ Chuang}{2002}{nielsen2002}
 Nielsen, M.~A. \harvardand\ Chuang, I.  \harvardyearleft 2002\harvardyearright
   , {\em Quantum computation and quantum information}, AAPT.
+
+\harvarditem{Tang}{2018}{tang2018}
+Tang, E.  \harvardyearleft 2018\harvardyearright , `A quantum-inspired
+  classical algorithm for recommendation systems', {\em arXiv preprint
+  arXiv:1807.04271} .
 
 \harvarditem{Von~Neumann}{1951}{vonneumann1951}
 Von~Neumann, J.  \harvardyearleft 1951\harvardyearright , `Various techniques

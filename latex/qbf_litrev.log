@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.4)  8 AUG 2018 17:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.4)  13 AUG 2018 10:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -707,7 +707,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 182--184
 
  []
 
-<qit_comic.png, id=25, 934.692pt x 485.6544pt>
+<qit_comic.png, id=26, 934.692pt x 485.6544pt>
 File: qit_comic.png Graphic file (type png)
 <use qit_comic.png>
 Package pdftex.def Info: qit_comic.png  used on input line 211.
@@ -718,48 +718,60 @@ File: vonneu_runtime.pdf Graphic file (type pdf)
 <use vonneu_runtime.pdf>
 Package pdftex.def Info: vonneu_runtime.pdf  used on input line 389.
 (pdftex.def)             Requested size: 400.38872pt x 279.97713pt.
-LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 390.
- [7 <./vonneu_runtime.pdf>]
-<pk_runtime.pdf, id=54, 687.56876pt x 480.79625pt>
+<pk_runtime.pdf, id=43, 687.56876pt x 480.79625pt>
 File: pk_runtime.pdf Graphic file (type pdf)
 <use pk_runtime.pdf>
-Package pdftex.def Info: pk_runtime.pdf  used on input line 420.
+Package pdftex.def Info: pk_runtime.pdf  used on input line 421.
 (pdftex.def)             Requested size: 400.38872pt x 279.97713pt.
+ [7]
+<2p_truncation.pdf, id=48, 726.715pt x 503.8825pt>
+File: 2p_truncation.pdf Graphic file (type pdf)
+<use 2p_truncation.pdf>
+Package pdftex.def Info: 2p_truncation.pdf  used on input line 448.
+(pdftex.def)             Requested size: 400.38872pt x 277.6206pt.
+ [8 <./vonneu_runtime.pdf>]
+[9 <./pk_runtime.pdf> <./2p_truncation.pdf>] [10] (./qbf_litrev.bbl
+Underfull \hbox (badness 1859) in paragraph at lines 44--47
+[]\OT1/cmr/m/n/10 Tang, E. (2018), `A quantum-inspired clas-si-cal al-go-rithm 
+for rec-om-men-da-tion sys-tems', \OT1/cmr/m/it/10 arXiv preprint
+ []
 
-(./qbf_litrev.bbl) [8] [9 <./pk_runtime.pdf>] (./qbf_litrev.aux) ) 
+) [11] (./qbf_litrev.aux) ) 
 Here is how much of TeX's memory you used:
- 16645 strings out of 492649
- 329717 string characters out of 6129623
- 394647 words of memory out of 5000000
- 20182 multiletter control sequences out of 15000+600000
+ 16675 strings out of 492649
+ 330299 string characters out of 6129623
+ 396037 words of memory out of 5000000
+ 20211 multiletter control sequences out of 15000+600000
  13739 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,10n,98p,799b,797s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/t
-exlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
-xlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/tex
-live/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texl
-ive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texli
-ve/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive
-/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2
-018/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/201
-8/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2018/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2018/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2018/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2018/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2018/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2018/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2018/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2018/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2018/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2018/texmf-dist/fonts/type
-1/public/amsfonts/symbols/msbm10.pfb>
-Output written on qbf_litrev.pdf (9 pages, 2095182 bytes).
+</usr/local/texlive/2018/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmex10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmmi10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmmi5.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmmi6.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmmi7.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmmi9.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmr10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr17.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
+5.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.p
+fb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb>
+</usr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></u
+sr/local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/
+local/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/l
+ocal/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/loc
+al/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local
+/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/t
+exlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/te
+xlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texl
+ive/2018/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on qbf_litrev.pdf (11 pages, 2153147 bytes).
 PDF statistics:
- 128 PDF objects out of 1000 (max. 8388607)
- 92 compressed objects within 1 object stream
+ 157 PDF objects out of 1000 (max. 8388607)
+ 112 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 28 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 33 words of extra memory for PDF output out of 10000 (max. 10000000)
 
