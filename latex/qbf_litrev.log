@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.4)  13 AUG 2018 10:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.7.4)  13 AUG 2018 12:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -716,21 +716,22 @@ Package pdftex.def Info: qit_comic.png  used on input line 211.
 <vonneu_runtime.pdf, id=42, 687.56876pt x 480.79625pt>
 File: vonneu_runtime.pdf Graphic file (type pdf)
 <use vonneu_runtime.pdf>
-Package pdftex.def Info: vonneu_runtime.pdf  used on input line 389.
-(pdftex.def)             Requested size: 400.38872pt x 279.97713pt.
-<pk_runtime.pdf, id=43, 687.56876pt x 480.79625pt>
-File: pk_runtime.pdf Graphic file (type pdf)
-<use pk_runtime.pdf>
-Package pdftex.def Info: pk_runtime.pdf  used on input line 421.
+Package pdftex.def Info: vonneu_runtime.pdf  used on input line 412.
 (pdftex.def)             Requested size: 400.38872pt x 279.97713pt.
  [7]
-<2p_truncation.pdf, id=48, 726.715pt x 503.8825pt>
+<pk_runtime.pdf, id=47, 687.56876pt x 480.79625pt>
+File: pk_runtime.pdf Graphic file (type pdf)
+<use pk_runtime.pdf>
+Package pdftex.def Info: pk_runtime.pdf  used on input line 444.
+(pdftex.def)             Requested size: 400.38872pt x 279.97713pt.
+ [8 <./vonneu_runtime.pdf>]
+<2p_truncation.pdf, id=58, 726.715pt x 503.8825pt>
 File: 2p_truncation.pdf Graphic file (type pdf)
 <use 2p_truncation.pdf>
-Package pdftex.def Info: 2p_truncation.pdf  used on input line 448.
+Package pdftex.def Info: 2p_truncation.pdf  used on input line 471.
 (pdftex.def)             Requested size: 400.38872pt x 277.6206pt.
- [8 <./vonneu_runtime.pdf>]
-[9 <./pk_runtime.pdf> <./2p_truncation.pdf>] [10] (./qbf_litrev.bbl
+
+[9 <./pk_runtime.pdf>] [10 <./2p_truncation.pdf>] (./qbf_litrev.bbl
 Underfull \hbox (badness 1859) in paragraph at lines 44--47
 []\OT1/cmr/m/n/10 Tang, E. (2018), `A quantum-inspired clas-si-cal al-go-rithm 
 for rec-om-men-da-tion sys-tems', \OT1/cmr/m/it/10 arXiv preprint
@@ -740,7 +741,7 @@ for rec-om-men-da-tion sys-tems', \OT1/cmr/m/it/10 arXiv preprint
 Here is how much of TeX's memory you used:
  16675 strings out of 492649
  330299 string characters out of 6129623
- 396037 words of memory out of 5000000
+ 395038 words of memory out of 5000000
  20211 multiletter control sequences out of 15000+600000
  13739 words of font info for 53 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -768,7 +769,7 @@ al/texlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local
 exlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/te
 xlive/2018/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texl
 ive/2018/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on qbf_litrev.pdf (11 pages, 2153147 bytes).
+Output written on qbf_litrev.pdf (11 pages, 2157285 bytes).
 PDF statistics:
  157 PDF objects out of 1000 (max. 8388607)
  112 compressed objects within 2 object streams

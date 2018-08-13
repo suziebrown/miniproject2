@@ -348,6 +348,29 @@ Furthermore, this illustrates a more general concept, which applies not only to 
 Any valid measurement operator on one qubit (that is non-trivial in the sense of having more than one possible outcome) has two eigenstates that lie opposite each other on the Bloch sphere. Projecting a state $\ket{v}$ onto the line segment between the two eigenstates gives the probabilities of observing the associated eigenvalues.
 
 \subsection{Entanglement}
+Suppose we now have two qubits and would like to describe their joint state. 
+The joint state space will be $\mathbb{C}^2 \otimes \mathbb{C}^2$, where $\otimes$ denotes the tensor product. This state space has canonical basis
+\begin{equation*}
+\{ \ket{0}\otimes\ket{0} , \ket{0}\otimes\ket{1} , \ket{1}\otimes\ket{0} , \ket{1}\otimes\ket{1} \}.
+\end{equation*}
+We also use the shorthand notations $\ket{0}\otimes\ket{0} = \ket{0}\ket{0} = \ket{00}$.
+The inner product on $\mathbb{C}^2 \otimes \mathbb{C}^2$ of $\ket{u_1}\ket{u_2}$ with $\ket{v_1}\ket{v_2}$  is defined as $\braket{u_1|v_1}\braket{u_2|v_2}$.
+
+The joint state of two qubits $\ket{u} = \alpha\ket{0} + \beta\ket{1}$ and $\ket{v} = \gamma\ket{0} + \delta\ket{1}$ can be expanded in the computational basis:
+\begin{equation*}
+\ket{u}\otimes\ket{v} = \alpha\gamma\ket{00} + \alpha\delta\ket{01} + \beta\gamma\ket{10} + \beta\delta\ket{11}.
+\end{equation*}
+States of this form are called \emph{product states} as they can be written as the tensor product of two states in $\mathbb{C}^2$. However, the set of all product states is only a subset of $\mathbb{C}^2 \otimes \mathbb{C}^2$.
+In general, a state $a\ket{00} + b\ket{01} + c\ket{10} + d\ket{11}$ may not be expressible as a product of two states in $\mathbb{C}^2$. In this case, it is called an \emph{entangled} state.
+
+For example, consider the state $(\ket{00} + \ket{11})/\sqrt{2}$. This state is entangled: if we try to write it in the form $\ket{u}\otimes\ket{v}$ as above, we find that either $\alpha$ or $\delta$ must be zero, in which case the coefficient of either $\ket{00}$ or $\ket{11}$ must be zero, producing a contradiction.
+
+The set of entangled states
+\begin{equation}
+\left\{ \frac{\ket{00}+\ket{11}}{\sqrt{2}} , \frac{\ket{00}-\ket{11}}{\sqrt{2}} , \frac{\ket{01}+\ket{10}}{\sqrt{2}} , \frac{\ket{01}-\ket{10}}{\sqrt{2}} \right\}
+\end{equation}
+is another important basis for $\mathbb{C}^2 \otimes \mathbb{C}^2$, called the \emph{Bell basis}.
+
 
 \section{Bernoulli factories}
 Roughly speaking, a Bernoulli factory is an algorithm that takes samples a $\Bern(p)$ random variable as inputs and uses them to produce a $\Bern(f(p))$ sample as output, where $f$ is a known function but the parameter $p$ is unknown (therefore the algorithm must not depend on $p$).
@@ -502,14 +525,17 @@ One such problem was apparently solved by \citet{kerenidis2016}, who came up wit
 The Bernoulli factory problem is an example of a practically applicable problem that is nevertheless simple to state and analyse. It was therefore a good candidate for the quest for a practical and provable quantum advantage, and indeed \citet{dale2015} prove this advantage. 
 
 We will use the term \emph{quantum Bernoulli factory} to refer to an algorithm that takes $p$-quoins as inputs, and outputs a $\Bern(f(p))$ sample, where as usual $p\in S$ is unknown and $f:S\to [0,1]$ is known. A $p$-quoin is the quantum analogue of a classical $p$-coin, given by the quantum state
-\begin{equation}
-\ket{p} = \sqrt{1-p} \ket{0} + \sqrt{p} \ket{1}.
-\end{equation}
+\begin{equation*}
+\ket{p} = \sqrt{1-p}\, \ket{0} + \sqrt{p}\, \ket{1}.
+\end{equation*}
 This is a sensible definition since measuring $\ket{p}$ in the computational basis gives output 0 with probability $1-p$ or 1 with probability $p$, like a classical $p$-coin.
 Note that the quantum Bernoulli factory has a quantum input (quoins) and a classical output (measurement outcome).
 We will call a function \emph{quantum simulable} if there exists a quantum Bernoulli factory for it.
 
 \citet{dale2015} proves that quantum computation allows a strictly larger class of Bernoulli factories to be constructed, taking as an example the notorious $f(p)=2p$. While this function is not simulable in the classical setting, the authors show that it is quantum simulable, and provide an explicit algorithm using two entangled qubits.
+They also determine necessary and sufficient conditions for a function to be quantum simulable, which are weaker than those for classical simulability provided by the Keane-O'Brien theorem [REF].
+% with/without entanglement = same set of functions.
+
 
 
 
