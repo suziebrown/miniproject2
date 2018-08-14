@@ -48,6 +48,7 @@
 % theorems
 \newtheorem{thm}{Theorem}
 \newtheorem{lemma}{Lemma}
+\newtheorem{cor}{Corollary}
 \theoremstyle{definition}
 \newtheorem{defn}{Definition}
 \newtheorem{example}{Example}
@@ -75,6 +76,8 @@
 \maketitle
 
 \section{Introduction}
+% motivation of problem: ABC/pseudo-marginal, diffusions.
+% lit review.
 
 \section{Quantum information}
 From the course by Noah Linden (University of Bristol) and discussion with Thomas Hebdige and David Jennings (Imperial College London). For a comprehensive introduction see for example \citet{nielsen2002} or \citet{wilde2013}.\\
@@ -111,13 +114,13 @@ Restricting to the space $\mathbb{C}^2$, which is all that is needed to understa
 \ket{v} = \alpha \ket{0} + \beta \ket{1} \equiv (\alpha,\beta)^T
 \end{equation*}
 for some $\alpha, \beta \in \mathbb{C}$. For reasons which will probably not become apparent in this treatment, we will restrict to \emph{normalised} vectors, requiring also $|\alpha|^2 + |\beta|^2 = 1$.
-We will also consider two vectors equivalent if they differ only by an overall phase, i.e.\ $\ket{u} \equiv \ket{v}$ if $\ket{u} = e^{i\theta}\ket{v}$ for some $\theta$. This is because it is impossible to distinguish between two such vectors with any measurement.
+We will also consider two vectors equivalent if they differ only by an overall phase, i.e.\ $\ket{u} \equiv \ket{v}$ if $\ket{u} = e^{i\theta}\ket{v}$ for some $\theta$, since it is impossible to distinguish between two such vectors with any measurement.
 
 To ensure coherency with the properties of the inner product, we have that
 \begin{equation*}
 \bra{v} = \overline{\alpha} \bra{0} + \overline{\beta} \bra{1}.
 \end{equation*}
-The inner product of $\ket{u} = u_0\ket{0} + u_1\ket{1}$ with $\ket{v} = v_0\ket{0} + v_1\ket{1}$ is therefore computed as
+The inner product of $\ket{u} = u_0\ket{0} + u_1\ket{1}$ with $\ket{v} = v_0\ket{0} + v_1\ket{1}$ is therefore computed as %use alpha beta delta gamma instead?
 \begin{align*}
 \braket{u|v} &= (\overline{u_0}\bra{0} + \overline{u_1}\bra{1}) (v_0\ket{0} + v_1\ket{1})\\
 &= \overline{u_0}v_0\braket{0|0} + \overline{u_0}v_1\braket{0|1} + \overline{u_1}v_0\braket{1|0} + \overline{u_1}v_1\braket{1|1} \\
@@ -254,14 +257,11 @@ An arbitrary pure state can be written in the form
 \ket{v} = e^{i\psi} \left[ \cos \left(\frac{\theta}{2}\right) \ket{0} + e^{i\phi} \sin \left(\frac{\theta}{2}\right) \ket{1} \right].
 \end{equation*}
 Since the overall phase $e^{i\psi}$ can be ignored, the state is parametrised by two angles $\theta$ and $\phi$. Taking these as spherical coordinates with unit radius, we can think of each pure state as a point on the unit sphere (or equivalently, a unit vector). Orthogonal states lie opposite each other on the Bloch sphere.
-% if theta=0, phi doesn't have any effect...? -use proper coordinates for dens oper
 
 Mixed states can also be represented in the Bloch sphere. The Bloch vector for a mixed state is found by taking the weighted average of the Bloch vectors of its component pure states. Due to the triangle inequality, mixed states therefore lie strictly inside the unit sphere.
-This illustrates that several different mixtures of states can have the same density operator. Qubit states are distinguishable if and only if they correspond to different points in the Bloch sphere. %really iff?
-%The notion of `distance' between states is formalised as Euclidean distance between points in the Bloch sphere: orthogonal states are the `most different' and lie the furthest possible distance apart on the sphere; while the maximally mixed state is at the centre of the sphere, equidistant from every pure state. %-- not quite right...
+This illustrates that several different mixtures of states can have the same density operator. Qubit states are distinguishable if and only if they correspond to different points in the Bloch sphere.
 
 There is an analogy here with classical information. The state space of a classical bit is the unit interval: its value could be 0 or 1, or we could take a probabilistic mixture of the two. The `pure' states then are 0 and 1, which lie on the `surface' of the interval, while `mixed' states lie strictly inside the interval (Figure \ref{fig:cbit_state_space}). 
-
 
 Finally, unitary operators are rotations of the Bloch sphere. This illustrates that unitary transformations are reversible.
 
@@ -351,7 +351,7 @@ Any valid measurement operator on one qubit (that is non-trivial in the sense of
 Suppose we now have two qubits and would like to describe their joint state. 
 The joint state space will be $\mathbb{C}^2 \otimes \mathbb{C}^2$, where $\otimes$ denotes the tensor product. This state space has canonical basis
 \begin{equation*}
-\{ \ket{0}\otimes\ket{0} , \ket{0}\otimes\ket{1} , \ket{1}\otimes\ket{0} , \ket{1}\otimes\ket{1} \}.
+\left\{ \ket{0}\otimes\ket{0} , \ket{0}\otimes\ket{1} , \ket{1}\otimes\ket{0} , \ket{1}\otimes\ket{1} \right\}.
 \end{equation*}
 We also use the shorthand notations $\ket{0}\otimes\ket{0} = \ket{0}\ket{0} = \ket{00}$.
 The inner product on $\mathbb{C}^2 \otimes \mathbb{C}^2$ of $\ket{u_1}\ket{u_2}$ with $\ket{v_1}\ket{v_2}$  is defined as $\braket{u_1|v_1}\braket{u_2|v_2}$.
@@ -366,26 +366,25 @@ In general, a state $a\ket{00} + b\ket{01} + c\ket{10} + d\ket{11}$ may not be e
 For example, consider the state $(\ket{00} + \ket{11})/\sqrt{2}$. This state is entangled: if we try to write it in the form $\ket{u}\otimes\ket{v}$ as above, we find that either $\alpha$ or $\delta$ must be zero, in which case the coefficient of either $\ket{00}$ or $\ket{11}$ must be zero, producing a contradiction.
 
 The set of entangled states
-\begin{equation}
-\left\{ \frac{\ket{00}+\ket{11}}{\sqrt{2}} , \frac{\ket{00}-\ket{11}}{\sqrt{2}} , \frac{\ket{01}+\ket{10}}{\sqrt{2}} , \frac{\ket{01}-\ket{10}}{\sqrt{2}} \right\} =: \left\{\ket{\phi^+} , \ket{\phi^-} , \ket{\psi^+} , \ket{\psi^-} \right\}
-\end{equation}
+\begin{equation*}
+\left\{\ket{\phi^+} , \ket{\phi^-} , \ket{\psi^+} , \ket{\psi^-} \right\} := \left\{ \frac{\ket{00}+\ket{11}}{\sqrt{2}} , \frac{\ket{00}-\ket{11}}{\sqrt{2}} , \frac{\ket{01}+\ket{10}}{\sqrt{2}} , \frac{\ket{01}-\ket{10}}{\sqrt{2}} \right\}
+\end{equation*}
 is another important basis for $\mathbb{C}^2 \otimes \mathbb{C}^2$, called the \emph{Bell basis}.
 
 \section{Bernoulli factories}
 Roughly speaking, a Bernoulli factory is an algorithm that takes samples a $\Bern(p)$ random variable as inputs and uses them to produce a $\Bern(f(p))$ sample as output, where $f$ is a known function but the parameter $p$ is unknown (therefore the algorithm must not depend on $p$).
 The imaginary device for generating $\Bern(p)$ random variables is sometimes referred to as a $p$-coin or black box; samples thereof may be called flips/tosses or queries.
 
-%
 \begin{defn}[Bernoulli factory]
-Let $f: S\to[0,1]$ be a function with domain $S \subseteq [0,1]$, and suppose we have access to a sequence of Bernoulli random variables $X_1,X_2,\dots \iidsim \Bern(p)$ with unknown parameter $p \in [0,1]$. 
-Let $U \in \mathcal{U}$ denote a set of auxiliary random variables with known distributions, independent of $p$. Let $\tau$ be a stopping time with respect to the natural filtration, such that $\PR(\tau<\infty)=1$.
+Let $S \subseteq [0,1]$ and $f: S\to[0,1]$, and suppose we have access to a sequence of Bernoulli random variables $X_1,X_2,\dots \iidsim \Bern(p)$ with unknown parameter $p \in S$.
+Let $U \in \mathcal{U}$ denote an auxiliary random variable with known distribution, independent of $p$. Let $\tau$ be a stopping time with respect to the natural filtration such that $\PR(\tau<\infty)=1$.\\
+A \emph{Bernoulli factory} is a computable function $\mathcal{A}(U, X_1, \dots, X_\tau)$ with the property that $Y:=\mathcal{A}(U, X_1, \dots, X_\tau) \sim \Bern(f(p))$ for all $p\in S$.\\
+The stopping time $\tau$, which may depend on the observed values of $U$ and $X_1, X_2, \dots$, is the first time at which the value of $\mathcal{A}$ can be computed, and is called the \emph{running time} of the Bernoulli factory.
 \end{defn}
-% copy technical defn from some paper...
 
-We follow the terminology of \citet{keane1994}:
 \begin{defn}[simulable]
-A function $f:S\to[0,1]$ is said to be \emph{simulable} if there is a Bernoulli factory that simulates $f(p)$ for all $p\in S$.
-It is \emph{strongly simulable} if there is a Bernoulli factory that simulates $f(p)$ without the need for auxiliary random variables $U$.
+Following the terminology of \citet{keane1994}, a function $f:S\to[0,1]$ is said to be \emph{simulable} if there is a Bernoulli factory that simulates $f(p)$ for all $p\in S$.
+Furthermore, it is \emph{strongly simulable} if there is a Bernoulli factory that simulates $f(p)$ without the need for an auxiliary random variable $U$.
 \end{defn}
 
 The first formal treatment of a Bernoulli factory problem was presented by \citet{vonneumann1951}, who 
@@ -445,9 +444,17 @@ Figure \ref{fig:p2_runtime} shows the expected running time of this procedure fo
 \end{figure}
 \end{example}
 
-% also include example 2p(1-p)
+\begin{example}\label{ex:bf3}
+$f(p) = 2p(1-p)$.\\
+This is the probability of obtaining either 01 or 10 with two coin flips. Therefore the Bernoulli factory is simply:
+\begin{align*}
+& \tau = 2 \\
+& \A(X_1,X_2) = \mathbb{I}\{(X_1,X_2) \in \{(0,1),(1,0)\} \}
+\end{align*}
+Of course, many other functions can be similarly obtained by varying the number of coin flips and the set of outcomes resulting in heads. One example, mentioned by \citet{patel2018}, is the function $f(p) = 3p(1-p)$. Noticing that $3p(1-p) = 3p^2(1-p) + 3p(1-p)^2$, this function is the probability of obtaining any outcome other than 000 or 111 with three coin flips.
+\end{example}
 
-Examples \ref{ex:const_half} and \ref{ex:bf_pk} cast some light on the sort of manipulations that are possible when constructing Bernoulli factories. Lemma \ref{thm:products_compositions} provides some general properties, which are trivial to prove.
+Examples \ref{ex:const_half}, \ref{ex:bf_pk} and \ref{ex:bf3} cast some light on the sort of manipulations that are possible when constructing Bernoulli factories. Lemma \ref{thm:products_compositions} provides some general properties, which are trivial to prove.
 
 \begin{lemma}\label{thm:products_compositions}
 Suppose we have a Bernoulli factory $\A_f$ for the function $f:S_f\to[0,1]$ and a Bernoulli factory $\A_g$ for $g:S_g\to R_g\subseteq[0,1]$. Then
@@ -457,11 +464,13 @@ Suppose we have a Bernoulli factory $\A_f$ for the function $f:S_f\to[0,1]$ and 
 \item \label{thm:compositions} If $R_g \subseteq S_f$, then there exists a Bernoulli factory for the composition $f\circ g: S_g \to [0,1]$, given by the composition $\A_f \circ \A_g$.
 \item \label{thm:products} There exists a Bernoulli factory for the product $fg:S_f \cap S_g \to [0,1]$, given by $A_f \wedge A_g$.
 \end{enumerate}
-In the case of \ref{thm:compositions} and \ref{thm:products}, the running time is bounded if and only if the running time of both $A_f$ and $A_g$ is bounded.
+In the case of \ref{thm:convex_combns}, \ref{thm:compositions} and \ref{thm:products} the overall running time is bounded if and only if the running time of both $A_f$ and $A_g$ is bounded.
 \end{lemma}
-% might have more properties to add here...
+Note that \ref{thm:convex_combns} is a special case of \ref{thm:compositions}.
+Additionally, since there is a trivial Bernoulli factory for $f(p)\equiv 0$, \ref{thm:convex_combns} implies that $\alpha f$ is simulable for any $\alpha\in[0,1]$.\\
 
 It is not immediately obvious that not all functions are simulable. However, one counterexample is the following.
+% f(p)=2p as canonical function = basis for constructing everything else [citation?]
 
 \begin{example}\label{ex:2p}
 $f(p) = 2p, p\in(0,1/2)$.\\
@@ -476,9 +485,9 @@ The problem with the unrestricted function is that $f(p)$ approaches 1 within $p
 \end{figure}
 \end{example}
 
-\begin{thm}
+\begin{lemma}[{\citet[Corollary 3.3]{latuszynski2011}}]\label{thm:no_2p_bf}
 It is not possible to construct a Bernoulli factory for $f(p)=2p$ where $p\in(0,1/2)$.
-\end{thm}
+\end{lemma}
 The following proof is an intuitive one, adapted from \citet{latuszynski2011}.
 The intuition behind the proof is that there is no sharp change between say a (1/4)-coin and a (1/2)-coin; but there is a qualitative difference between the resulting (1/2)-coin and 1-coin respectively. The latter is no longer random, but deterministically returns heads every time, regardless of the outcome on the (1/2)-coin that seeds it.
 \begin{proof}
@@ -509,11 +518,29 @@ Taking the limit as $\varepsilon\to 0$, the LHS is $f(1/2 - \varepsilon) = 1-2\v
 \end{proof}
 % not sure if this proof is complete and correct yet...
 
+\begin{thm}[\citet{keane1994}]\label{thm:KOB}
+A function $f:S\to[0,1]$ is simulable if and only if $f$ is continuous on $S$ and either
+\begin{enumerate}[label=(\alph*)]
+\item $f$ is constant on $S$, or
+\item there exists $n\in\mathbb{N}$ such that $\min\{f(p),1-f(p)\} \geq \min\{p^n, (1-p)^n\}$ for all $p\in S$.
+\end{enumerate}
+\end{thm}
 
-
-% present Keane-O'Brien theorem.
-
-
+Roughly speaking, the second condition is ``$f(p)$ is polynomially bounded away from 0 and 1 for all $p\in S\cap(0,1)$''. A proof is given in \citet{keane1994}, but is not reproduced here. We now see that Lemma \ref{thm:no_2p_bf} follows as a corollary from the Keane-O'Brien theorem.
+\begin{cor}
+It is not possible to construct a Bernoulli factory for $f(p)=2p$ where $p\in(0,1/2)$.
+\end{cor}
+\begin{proof}
+Firstly, $f$ is continuous on $S=(0,1/2)$, so the initial condition of Theorem \ref{thm:KOB} is satisfied.
+Since $f$ is not constant, we require that there exists $n\in\mathbb{N}$ such that $\min\{f(p),1-f(p)\} \geq \min\{p^n, (1-p)^n\}$ for all $p\in S$.
+Take $p=\frac{1}{2} - \varepsilon$. Then for all $\varepsilon>0$, $p\in S$.
+We calculate the relevant quantities and, since the inequality should hold for all $\varepsilon>0$,  we can take the limit $\varepsilon\to 0$:
+\begin{align*}
+&\min\{f(p),1-f(p)\} = 2\varepsilon \quad \overset{\varepsilon\to 0}{\longrightarrow}\quad 0 \\
+&\min\{p^n, (1-p)^n\} = \left( \frac{1}{2} - \varepsilon \right)^n \quad \overset{\varepsilon\to 0}{\longrightarrow}\quad \frac{1}{2^n}.
+\end{align*}
+Since $1/2^n >0$ for all $n\in\mathbb{N}$, we have that for all $n$ there exists $\varepsilon$ such that $\min\{f(p),1-f(p)\} < \min\{p^n, (1-p)^n\}$; therefore $f$ violates the second condition of Theorem \ref{thm:KOB}.
+\end{proof}
 
 \section{The quantum advantage}
 It is known that for certain computational problems, quantum computers provide a theoretical advantage over classical computers. For example, the Deutsch-Jozsa algorithm \citep{deutsch1992} is an example of a problem (if not a particularly practical one) which a quantum computer can solve in exponentially less time than the best possible classical algorithm.
@@ -524,7 +551,7 @@ There is, however, a lack of rigorous results for any computational problems wit
 One such problem was apparently solved by \citet{kerenidis2016}, who came up with a quantum speed-up for the recommendation problem --- that is, how Amazon and Netflix estimate which products you will like given yours and other customers' ratings of all products. However, the authors were unable to prove that no comparably fast classical algorithm exists, and one has now been found by \citet{tang2018}.
 
 \subsection{A quantum Bernoulli factory}
-The Bernoulli factory problem is an example of a practically applicable problem that is nevertheless simple to state and analyse. It was therefore a good candidate for the quest for a practical and provable quantum advantage, and indeed \citet{dale2015} prove this advantage. 
+The Bernoulli factory problem is an example of a practically applicable problem that is nevertheless simple to state and analyse. It was therefore a good candidate in the quest for a practical and provable quantum advantage, and indeed \citet{dale2015} prove this advantage. 
 
 We will use the term \emph{quantum Bernoulli factory} to refer to an algorithm that takes $p$-quoins as inputs, and outputs a $\Bern(f(p))$ sample, where as usual $p\in S$ is unknown and $f:S\to [0,1]$ is known. A $p$-quoin is the quantum analogue of a classical $p$-coin, given by the quantum state
 \begin{equation*}
@@ -535,16 +562,25 @@ Note that the quantum Bernoulli factory has a quantum input (quoins) and a class
 We will call a function \emph{quantum simulable} if there exists a quantum Bernoulli factory for it.
 
 \citet{dale2015} prove that quantum computation allows a strictly larger class of Bernoulli factories to be constructed, taking as an example the notorious $f(p)=2p$. While this function is not simulable in the classical setting, the authors show that it is quantum simulable, and provide an explicit algorithm using two entangled qubits.
-They also determine necessary and sufficient conditions for a function to be quantum simulable, which are weaker than those for classical simulability provided by the Keane-O'Brien theorem [REF].
-% with/without entanglement = same set of functions.
+They also determine necessary and sufficient conditions (Theorem \ref{thm:qbf_simulable}) for a function to be quantum simulable, which are weaker than those for classical simulability provided by the Keane-O'Brien theorem (Theorem \ref{thm:KOB}).
 
 Example \ref{ex:qbf_2p} gives the quantum algorithm of \citet{dale2015} for the function $f_\wedge(p) := 2\min\{p, 1-p\}$, $p\in[0,1]$. This function (Figure \ref{fig:wedge_fn}) coincides with that of Example \ref{ex:2p} when the domain is restricted to $p\in(0,1/2)$, so it is clearly sufficient to find a Bernoulli factory for $f_\wedge$.
 
-\begin{figure} % add side-by-side a plot of 4p(1-p) which this problem is boiled down to for the QBF. (or overlay on one plot?)
+\begin{figure}
 \centering
-\includegraphics[width=0.8\textwidth]{Wedge_function.pdf}
-\caption{•}
+\begin{subfigure}{0.45\linewidth}
+\centering
+\includegraphics[width=\textwidth]{wedge_function.pdf}
+\caption{The function $f_\wedge(p)$, which cannot be simulated classically since it touches 1 within its domain.}
 \label{fig:wedge_fn}
+\end{subfigure}%
+\hfill
+\begin{subfigure}{0.45\linewidth}
+\centering
+\includegraphics[width=\textwidth]{wedge_qbf_fn.pdf}
+\caption{Simulation of $f_\wedge(p)$ reduces to simulation of this function $4p(1-p)$, which is also classically unobtainable.}
+\label{fig:wedge_qbf_fn}
+\end{subfigure}
 \end{figure}
 
 \begin{example}\label{ex:qbf_2p}
@@ -567,14 +603,33 @@ Then the measurement outcomes are:
 &\PR(\text{observe }3) = \braket{v|\psi^-}\braket{\psi^-|v} = 0
 \end{align*}
 This means that $\PR(\text{observe }1 \text{ or } 2) = 1/2$, and $\PR(\text{observe } 2 \mid \text{observe }1 \text{ or } 2) = 4p(1-p)$, which is the required function.
-Thus our Bernoulli factory is as follows: measure $\ket{p}\ket{p}$ in the Bell basis until the observed outcome is either 1 or 2, then return heads if the outcome is 2, and tails if the outcome is 1.
+Thus our Bernoulli factory is as follows: measure $\ket{p}\ket{p}$ in the Bell basis until the observed outcome is either 1 or 2, then return heads if the outcome is 2, or tails if the outcome is 1.
 \end{example}
 % then why does the quoin consumption vary with p???
 
 % CBFs subset of QBFs (Dale eqn 1) ?
 % Dale says the classical trucated 2p has poor (exponential) scaling of coin usage with epsilon...?
 
-% present the nec & suf conditions of Dale 2015. cf K-OB thm.
+\begin{thm}[{\citet[Theorem 1]{dale2015}}]\label{thm:qbf_simulable}
+A function $f:[0,1]\to[0,1]$ % can say S\to[0,1] as above ??
+is quantum simulable (using only operations on single qubits) if and only if:
+\begin{enumerate}[label=(\alph*)]
+\item $f$ is continuous on S
+\item $Z:=\{z:f(z)=0\}$ and $W:=\{w:f(w)=1\}$ are both finite sets
+\item\label{thm:qbf_cond_zeroes} $\forall z\in Z$ there exist constants $c\in\mathbb{R}$, $\delta>0$, integer $k<\infty$ such that $c(p-z)^{2k} \leq f(p)$ for all $p \in [z-\delta, z+\delta]$
+\item\label{thm:qbf_cond_ones} $\forall w\in W$ there exist constants $c\in\mathbb{R}$, $\delta>0$, integer $k<\infty$ such that $1 - c(p-w)^{2k} \leq f(p)$ for all $p \in [w-\delta, w+\delta]$.
+\end{enumerate}
+\end{thm}
+In the quantum case, the function $f$ is allowed to touch 0 and 1 at finitely many points in its domain, as opposed to the classical case where $f(p)$ may only take the values 0 and 1 at $p\in\{0,1\}$ or in the cases of the constant functions $f\equiv 0$ and $f\equiv 1$.
+The conditions \ref{thm:qbf_cond_zeroes} and \ref{thm:qbf_cond_ones} ensure that $f$ does not go to 0 or 1 too quickly at these points.
+
+\citet{dale2015} also claim that the same necessary and sufficient conditions apply even when operations on more than one qubit are allowed. That is, taking advantage of quantum entanglement (as in Example \ref{ex:qbf_2p}) does not expand the set of simulable functions. It can, however, substantially reduce the consumption of $p$-quoins, as demonstrated in \citet{patel2018}.
+
+\section{Discussion}
+% difference between this (the quatum guys') view of a BF and ours (the one applicable to MC) - 
+% can it be resolved?
+% is it sensible to compare number of quoins used to number of coins used?
+% 
 
 \bibliography{qbf.bib}
 \end{document}
