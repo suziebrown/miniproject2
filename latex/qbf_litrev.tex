@@ -76,10 +76,26 @@
 \maketitle
 
 \section{Introduction}
-% motivation of problem: ABC/pseudo-marginal, diffusions.
-% lit review.
+Loosely speaking, a Bernoulli factory is an algorithm taking $p$-coin flips as inputs and producing a $f(p)$-coin flip as output.
+The existence and performance of such algorithms for various choices of $p$ has been a subject of interest since the 1950s when random number generation was gaining popularity, and a subject of focused study since the 1990s.
 
-\section{Quantum information}
+The fundamental problem of which functions are possible was neatly solved by \citet{keane1994}, which gives necessary and sufficient conditions on $f$ for existence of a Bernoulli factory, but does not address the question of running time (that is, the number of $p$-coin flips required as inputs).
+Theorems of \citet{nacu2005} determined further necessary conditions on $f$ for the running time to satisfy various properties.
+
+The contribution of \citet{dale2015} is a theorem analogous to that of \citet{keane1994}, in the context of a ``quantum Bernoulli factory'': where the inputs are quantum $p$-coins (``quoins''), and quantum processing is allowed.
+They show that quantum algorithms can simulate a larger class of functions than classical ones, and may consume many fewer input quoins than their classical counterparts do coins.
+% will do a more thorough literature review in the BFs section.
+
+Bernoulli factories are necessary components of certain Monte Carlo strategies, particularly calculating Metropolis-Hastings acceptance probabilities in pseudo-marginal methods and diffusion models. 
+In both cases, some terms in the acceptance probability cannot be evaluated, but can be Bernoulli sampled. The acceptance probability $\alpha$ does not need to be calculated; the Metropolis-Hastings accept/reject step only uses $\alpha$ to produce a $\Bern(\alpha)$ random variable. Choosing whether to accept or reject a proposal therefore comes down to converting the available Bernoulli samples to the desired $\Bern(\alpha)$ sample, which is precisely a Bernoulli factory problem.
+
+The remainder of the document is organised as follows.
+Section \ref{sec:quantum_info} provides the background in quantum information theory required to understand the quantum Bernoulli factory. 
+Section \ref{sec:BFs} introduces the Bernoulli factory problem and summarises previous work on classical solutions.
+Section \ref{sec:quantum_advantage} gives the context in the quantum information literature of a quantum Bernoulli factory and explains how it works, with comparison to the classical case.
+Finally, Section \ref{sec:discussion} discusses the scope of its implications and poses some questions for further research.
+
+\section{Quantum information}\label{sec:quantum_info}
 This section is based on the course by Noah Linden (University of Bristol) and discussion with Thomas Hebdige and David Jennings (Imperial College London). For a comprehensive introduction see for example \citet{nielsen2002} or \citet{wilde2013}.
 
 The basis of quantum mechanics is simply linear algebra in a Hilbert space. The definitions in Sections \ref{sec:hilbert_defn} to \ref{sec:linear_ops} are exactly what you would find in a linear algebra course, except for the notation. 
@@ -396,14 +412,24 @@ The set of four entangled states
 \end{equation*}
 is another important basis for $\mathbb{C}^2 \otimes \mathbb{C}^2$, called the \emph{Bell basis}.
 
-\section{Bernoulli factories}
-Roughly speaking, a Bernoulli factory is an algorithm that takes samples a $\Bern(p)$ random variable as inputs and uses them to produce a $\Bern(f(p))$ sample as output, where $f$ is a known function but the parameter $p$ is unknown (therefore the algorithm must not depend on $p$).
+\section{Bernoulli factories}\label{sec:BFs}
+A Bernoulli factory is an algorithm that takes samples a $\Bern(p)$ random variable as inputs and uses them to produce a $\Bern(f(p))$ sample as output, where $f$ is a known function but the parameter $p$ is unknown (therefore the algorithm must not depend on $p$). The concept is formalised in Definition \ref{defn:BF}.
 The imaginary device for generating $\Bern(p)$ random variables is sometimes referred to as a $p$-coin or black box; samples thereof may be called flips/tosses or queries.
+The (possibly random) number of queries required to produce one output is referred to as the running time of the Bernoulli factory.
 
-\begin{defn}[Bernoulli factory]
+The first description of a Bernoulli factory (though not under that name) is attributed to \citet{vonneumann1951}, who described an algorithm for $f(p)\equiv 1/2$ (Example \ref{ex:const_half}).
+Four decades later, \citep{keane1994} published necessary and sufficient conditions on $f$ under which a Bernoulli factory exists (Theorem \ref{thm:KOB}). They also give an explicit algorithm for simulating $f$ under these conditions, using a decomposition into Bernstein polynomials. However they do not consider the running time, except insofar as fulfilling the standard condition that it must be almost surely finite.
+
+\citet{nacu2005}%cite exact props/thms?
+considers in detail the properties of the running time, presenting necessary conditions [REF] on $f$ for the running time to have finite expectation or finite $k^{th}$ moment respectively. Moreover, they give necessary and sufficient conditions [REF] for the running time to have exponentially decaying tails, in which case they say that $f$ has a `fast' simulation.
+The construction of the theorem shows that the construction of any real analytic function rests on the ability to simulate $f(p)=2p$ \citep[Proposition 14(iii)]{nacu2005}, affording this function the significance to justify its popularity in the literature.
+
+\citet{huber2016} provides a generic algorithm for functions of the form $f(p)=kp$ with $k>1$ (with the necessary $\varepsilon$-truncation of the domain to satisfy the conditions of the Keane-O'Brien theorem), which of course includes the $2p$ case. He derives a lower bound on the running time for any $kp$ algorithm, and thus shows that the running time of his algorithm attains the optimal scaling with $k$ and $\varepsilon$.
+
+\begin{defn}[Bernoulli factory]\label{defn:BF}
 Let $S \subseteq [0,1]$ and $f: S\to[0,1]$, and suppose we have access to a sequence of Bernoulli random variables $X_1,X_2,\dots \iidsim \Bern(p)$ with unknown parameter $p \in S$.
 Let $U \in \mathcal{U}$ denote an auxiliary random variable with known distribution, independent of $p$. Let $\tau$ be a stopping time with respect to the natural filtration such that $\PR(\tau<\infty)=1$.\\
-A \emph{Bernoulli factory} is a computable function $\mathcal{A}(U, X_1, \dots, X_\tau)$ with the property that $Y:=\mathcal{A}(U, X_1, \dots, X_\tau) \sim \Bern(f(p))$ for all $p\in S$.\\
+A \emph{Bernoulli factory} is a computable function $\mathcal{A}(U, X_1, \dots, X_\tau)$ not depending on $p$, with the property that $Y:=\mathcal{A}(U, X_1, \dots, X_\tau) \sim \Bern(f(p))$ for all $p\in S$.\\
 The stopping time $\tau$, which may depend on the observed values of $U$ and $X_1, X_2, \dots$, is the first time at which the value of $\mathcal{A}$ can be computed, and is called the \emph{running time} of the Bernoulli factory.
 \end{defn}
 
@@ -567,7 +593,7 @@ We calculate the relevant quantities and, since the inequality should hold for a
 Since $1/2^n >0$ for all $n\in\mathbb{N}$, we have that for all $n$ there exists $\varepsilon$ such that $\min\{f(p),1-f(p)\} < \min\{p^n, (1-p)^n\}$; therefore $f$ violates the second condition of Theorem \ref{thm:KOB}.
 \end{proof}
 
-\section{The quantum advantage}
+\section{The quantum advantage}\label{sec:quantum_advantage}
 It is known that for certain computational problems, quantum computers provide a theoretical advantage over classical computers. For example, the Deutsch-Jozsa algorithm \citep{deutsch1992} is an example of a problem (if not a particularly practical one) which a quantum computer can solve in exponentially less time than the best possible classical algorithm.
 
 It is widely believed (at least within the field) that quantum computing really is more powerful than its classical counterpart. Quantum computers are able to do anything that classical computers can, and quantum speed-ups have been proved for a handful of carefully constructed problems (see for example Grover's algorithm for unstructured search \citep{grover1997}), so from a theoretical viewpoint there is no denying the so-called `quantum supremacy'.
@@ -575,7 +601,7 @@ It is widely believed (at least within the field) that quantum computing really 
 There is, however, a lack of rigorous results for any computational problems with significant practical applications.
 One such problem was apparently solved by \citet{kerenidis2016}, who came up with a quantum speed-up for the recommendation problem --- that is, how Amazon and Netflix estimate which products you will like given yours and other customers' ratings of all products. However, the authors were unable to prove that no comparably fast classical algorithm exists, and one has now been found by \citet{tang2018}.
 
-\subsection{A quantum Bernoulli factory}
+\subsection{A quantum Bernoulli factory}\label{sec:QBF}
 The Bernoulli factory problem is an example of a practically applicable problem that is nevertheless simple to state and analyse. It was therefore a good candidate in the quest for a practical and provable quantum advantage, and indeed \citet{dale2015} prove this advantage. 
 
 We will use the term \emph{quantum Bernoulli factory} to refer to an algorithm that takes $p$-quoins as inputs, and outputs a $\Bern(f(p))$ sample, where as usual $p\in S$ is unknown and $f:S\to [0,1]$ is known. A $p$-quoin is the quantum analogue of a classical $p$-coin, given by the quantum state
@@ -650,7 +676,7 @@ The conditions \ref{thm:qbf_cond_zeroes} and \ref{thm:qbf_cond_ones} ensure that
 
 \citet{dale2015} also claim that the same necessary and sufficient conditions apply even when operations on more than one qubit are allowed. That is, taking advantage of quantum entanglement (as in Example \ref{ex:qbf_2p}) does not expand the set of simulable functions. It can, however, substantially reduce the consumption of $p$-quoins, as demonstrated in \citet{patel2018}.
 
-\section{Discussion}
+\section{Discussion}\label{sec:discussion}
 % difference between this (the quatum guys') view of a BF and ours (the one applicable to MC) - 
 % can it be resolved?
 % is it sensible to compare number of quoins used to number of coins used?
