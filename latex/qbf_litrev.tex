@@ -79,15 +79,16 @@
 Loosely speaking, a Bernoulli factory is an algorithm taking $p$-coin flips as inputs and producing a $f(p)$-coin flip as output.
 The existence and performance of such algorithms for various choices of $p$ has been a subject of interest since the 1950s when random number generation was gaining popularity, and a subject of focused study since the 1990s.
 
+Bernoulli factories are necessary components of certain Monte Carlo strategies, particularly calculating Metropolis-Hastings acceptance probabilities in pseudo-marginal methods and diffusion models. 
+In both cases, some terms in the acceptance probability cannot be evaluated, but can be Bernoulli sampled. The acceptance probability $\alpha$ does not need to be calculated; the Metropolis-Hastings accept/reject step only uses $\alpha$ to produce a $\Bern(\alpha)$ random variable. Choosing whether to accept or reject a proposal therefore comes down to converting the available Bernoulli samples to the desired $\Bern(\alpha)$ sample, which is precisely a Bernoulli factory problem.
+
 The fundamental problem of which functions are possible was neatly solved by \citet{keane1994}, which gives necessary and sufficient conditions on $f$ for existence of a Bernoulli factory, but does not address the question of running time (that is, the number of $p$-coin flips required as inputs).
 Theorems of \citet{nacu2005} determined further necessary conditions on $f$ for the running time to satisfy various properties.
 
 The contribution of \citet{dale2015} is a theorem analogous to that of \citet{keane1994}, in the context of a ``quantum Bernoulli factory'': where the inputs are quantum $p$-coins (``quoins''), and quantum processing is allowed.
 They show that quantum algorithms can simulate a larger class of functions than classical ones, and may consume many fewer input quoins than their classical counterparts do coins.
-% will do a more thorough literature review in the BFs section.
 
-Bernoulli factories are necessary components of certain Monte Carlo strategies, particularly calculating Metropolis-Hastings acceptance probabilities in pseudo-marginal methods and diffusion models. 
-In both cases, some terms in the acceptance probability cannot be evaluated, but can be Bernoulli sampled. The acceptance probability $\alpha$ does not need to be calculated; the Metropolis-Hastings accept/reject step only uses $\alpha$ to produce a $\Bern(\alpha)$ random variable. Choosing whether to accept or reject a proposal therefore comes down to converting the available Bernoulli samples to the desired $\Bern(\alpha)$ sample, which is precisely a Bernoulli factory problem.
+% general overview of the field of quantum monte carlo (quantum MH, qunatum MCMC etc?)
 
 The remainder of the document is organised as follows.
 Section \ref{sec:quantum_info} provides the background in quantum information theory required to understand the quantum Bernoulli factory. 
@@ -420,8 +421,7 @@ The (possibly random) number of queries required to produce one output is referr
 The first description of a Bernoulli factory (though not under that name) is attributed to \citet{vonneumann1951}, who described an algorithm for $f(p)\equiv 1/2$ (Example \ref{ex:const_half}).
 Four decades later, \citep{keane1994} published necessary and sufficient conditions on $f$ under which a Bernoulli factory exists (Theorem \ref{thm:KOB}). They also give an explicit algorithm for simulating $f$ under these conditions, using a decomposition into Bernstein polynomials. However they do not consider the running time, except insofar as fulfilling the standard condition that it must be almost surely finite.
 
-\citet{nacu2005}%cite exact props/thms?
-considers in detail the properties of the running time, presenting necessary conditions [REF] on $f$ for the running time to have finite expectation or finite $k^{th}$ moment respectively. Moreover, they give necessary and sufficient conditions [REF] for the running time to have exponentially decaying tails, in which case they say that $f$ has a `fast' simulation.
+\citet{nacu2005} considers in detail the properties of the running time, presenting necessary conditions (Theorem \ref{thm:nacu_peres}\ref{thm:np_finite_mean},\ref{thm:np_kth_moment}) on $f$ for the running time to have finite expectation or finite $k^{th}$ moment respectively. Moreover, they give necessary and sufficient conditions (Theorem \ref{thm:nacu_peres}\ref{thm:np_exponential_tails}) for the running time to have exponentially decaying tails, in which case they say that $f$ has a `fast' simulation.
 The construction of the theorem shows that the construction of any real analytic function rests on the ability to simulate $f(p)=2p$ \citep[Proposition 14(iii)]{nacu2005}, affording this function the significance to justify its popularity in the literature.
 
 \citet{huber2016} provides a generic algorithm for functions of the form $f(p)=kp$ with $k>1$ (with the necessary $\varepsilon$-truncation of the domain to satisfy the conditions of the Keane-O'Brien theorem), which of course includes the $2p$ case. He derives a lower bound on the running time for any $kp$ algorithm, and thus shows that the running time of his algorithm attains the optimal scaling with $k$ and $\varepsilon$.
@@ -517,6 +517,7 @@ Suppose we have a Bernoulli factory $\A_f$ for the function $f:S_f\to[0,1]$ and 
 \end{enumerate}
 In the case of \ref{thm:convex_combns}, \ref{thm:compositions} and \ref{thm:products} the overall running time is bounded if and only if the running time of both $A_f$ and $A_g$ is bounded.
 \end{lemma}
+% some such properties are given in Nacu Peres.
 Note that \ref{thm:convex_combns} is a special case of \ref{thm:compositions}.
 Additionally, since there is a trivial Bernoulli factory for $f(p)\equiv 0$, \ref{thm:convex_combns} implies that $\alpha f$ is simulable for any $\alpha\in[0,1]$.\\
 
@@ -588,10 +589,37 @@ Take $p=\frac{1}{2} - \varepsilon$. Then for all $\varepsilon>0$, $p\in S$.
 We calculate the relevant quantities and, since the inequality should hold for all $\varepsilon>0$,  we can take the limit $\varepsilon\to 0$:
 \begin{align*}
 &\min\{f(p),1-f(p)\} = 2\varepsilon \quad \overset{\varepsilon\to 0}{\longrightarrow}\quad 0 \\
-&\min\{p^n, (1-p)^n\} = \left( \frac{1}{2} - \varepsilon \right)^n \quad \overset{\varepsilon\to 0}{\longrightarrow}\quad \frac{1}{2^n}.
+&\min\{p^n, (1-p)^n\} = \left( \frac{1}{2} - \varepsilon \right)^n \quad \overset{\varepsilon\to 0}{\longrightarrow}\quad 2^{-n}.
 \end{align*}
-Since $1/2^n >0$ for all $n\in\mathbb{N}$, we have that for all $n$ there exists $\varepsilon$ such that $\min\{f(p),1-f(p)\} < \min\{p^n, (1-p)^n\}$; therefore $f$ violates the second condition of Theorem \ref{thm:KOB}.
+Since $2^{-n} >0$ for all $n\in\mathbb{N}$, we have that for all $n$ there exists $\varepsilon$ such that $\min\{f(p),1-f(p)\} < \min\{p^n, (1-p)^n\}$; therefore $f$ violates the second condition of Theorem \ref{thm:KOB}.
 \end{proof}
+
+\begin{thm}\label{thm:nacu_peres}
+Let $f:S\to(0,1)$. 
+There exists a Bernoulli factory for $f$ with $\tau$ satisfying the following properties, under the corresponding necessary conditions on $f$:
+\begin{enumerate}[label=(\alph*)]
+\item \label{thm:nplike_terminates_as} \textup{\citep{keane1994}} $\PR(\tau <\infty)=1$ only if $f$ is continuous on $S$.
+\item \label{thm:np_finite_mean} \textup{\citep[Proposition 23]{nacu2005}} $\sup_{p\in S} \E(\tau) <\infty$, only if $f$ is Lipschitz over $S$. 
+\item \label{thm:np_kth_moment} \textup{\citep[Proposition 22]{nacu2005}} $\E(\tau ^k)<\infty$ and $\lim_{n\to\infty} \E(\tau^k)\mathbb{I}\{\tau>t\} =0$ uniformly for all $p\in S$, only if $f\in C^k(S)$ where $C^k(S)$ denotes the set of functions with $k$ continuous derivatives on $S$.
+\item \label{thm:np_exponential_tails} \textup{\citep[Theorem 2]{nacu2005}} $\PR(\tau >t) \leq c\rho^t$, for some constants $c>0, \rho<1$ and for all $p\in S$, only if $f$ is real analytic on every open subset of its domain. %open/closed???
+\end{enumerate}
+\end{thm}
+%The conditions \ref{thm:np_exponential_tails} is referred to by \citet{nacu2005} as a ``fast'' simulation, but the term is used by someone else to mean something else...?
+The four cases of Theorem \ref{thm:nacu_peres} are summarised in Table \ref{tab:theorems_summary}. Proof are given in the original references but are not reproduced here.
+
+\begin{table}
+\centering
+\begin{tabular}{l c l}
+Property of $\tau$ & & Property of $f$ on $S$ \\
+\hline
+almost surely finite & $\Leftrightarrow$ & continuous \\
+finite expectation & $\Leftarrow$ & Lipschitz \\
+finite $k^{th}$ moment & $\Leftarrow$ & $k$ times continuously differentiable \\
+exponentially decaying tails & $\Leftrightarrow$ & real analytic
+\end{tabular}
+\caption{Summary of results from \citet{keane1994} and \citet{nacu2005} giving conditions on the function $f:S\to(0,1)$ for a Bernoulli factory to exist with running time $\tau$ satisfying certain properties.}
+\label{tab:theorems_summary}
+\end{table}
 
 \section{The quantum advantage}\label{sec:quantum_advantage}
 It is known that for certain computational problems, quantum computers provide a theoretical advantage over classical computers. For example, the Deutsch-Jozsa algorithm \citep{deutsch1992} is an example of a problem (if not a particularly practical one) which a quantum computer can solve in exponentially less time than the best possible classical algorithm.
@@ -672,7 +700,7 @@ is quantum simulable (using only operations on single qubits) if and only if:
 \end{enumerate}
 \end{thm}
 In the quantum case, the function $f$ is allowed to touch 0 and 1 at finitely many points in its domain, as opposed to the classical case where $f(p)$ may only take the values 0 and 1 at $p\in\{0,1\}$ or in the cases of the constant functions $f\equiv 0$ and $f\equiv 1$.
-The conditions \ref{thm:qbf_cond_zeroes} and \ref{thm:qbf_cond_ones} ensure that $f$ does not go to 0 or 1 too quickly at these points.
+The conditions \ref{thm:qbf_cond_zeroes} and \ref{thm:qbf_cond_ones} ensure that $f$ does not go to 0 or 1 too quickly at these points. % exponentially? polynomially?
 
 \citet{dale2015} also claim that the same necessary and sufficient conditions apply even when operations on more than one qubit are allowed. That is, taking advantage of quantum entanglement (as in Example \ref{ex:qbf_2p}) does not expand the set of simulable functions. It can, however, substantially reduce the consumption of $p$-quoins, as demonstrated in \citet{patel2018}.
 
