@@ -51,7 +51,10 @@
 \newtheorem{cor}{Corollary}
 \theoremstyle{definition}
 \newtheorem{defn}{Definition}
-\newtheorem{example}{Example}
+\newtheorem{examplex}{Example}
+\newenvironment{example}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\triangle$}\examplex}
+  {\popQED\endexamplex}
 
 % probability symbols
 \newcommand{\PR}{\mathbb{P}}
@@ -414,52 +417,53 @@ The set of four entangled states
 is another important basis for $\mathbb{C}^2 \otimes \mathbb{C}^2$, called the \emph{Bell basis}.
 
 \section{Bernoulli factories}\label{sec:BFs}
-A Bernoulli factory is an algorithm that takes samples a $\Bern(p)$ random variable as inputs and uses them to produce a $\Bern(f(p))$ sample as output, where $f$ is a known function but the parameter $p$ is unknown (therefore the algorithm must not depend on $p$). The concept is formalised in Definition \ref{defn:BF}.
+A Bernoulli factory is an algorithm that takes $\Bern(p)$ samples as inputs and uses them to produce a $\Bern(f(p))$ sample as output, where $f$ is a known function but the parameter $p$ is unknown (therefore the algorithm must not depend on $p$). The concept is formalised in Definition \ref{defn:BF}.
 The imaginary device for generating $\Bern(p)$ random variables is sometimes referred to as a $p$-coin or black box; samples thereof may be called flips/tosses or queries.
 The (possibly random) number of queries required to produce one output is referred to as the running time of the Bernoulli factory.
 
-The first description of a Bernoulli factory (though not under that name) is attributed to \citet{vonneumann1951}, who described an algorithm for $f(p)\equiv 1/2$ (Example \ref{ex:const_half}).
-Four decades later, \citep{keane1994} published necessary and sufficient conditions on $f$ under which a Bernoulli factory exists (Theorem \ref{thm:KOB}). They also give an explicit algorithm for simulating $f$ under these conditions, using a decomposition into Bernstein polynomials. However they do not consider the running time, except insofar as fulfilling the standard condition that it must be almost surely finite.
+The first description of a Bernoulli factory (though not under that name) is attributed to \citet{vonneumann1951}, who described an algorithm for simulating $f(p)\equiv 1/2$ (Example \ref{ex:const_half}).
+Four decades later, \citet{keane1994} published necessary and sufficient conditions on $f$ under which a Bernoulli factory exists (Theorem \ref{thm:KOB}). They also give an explicit algorithm for simulating $f$ under these conditions, using a decomposition into Bernstein polynomials. However they do not consider the running time, except insofar as fulfilling the standard condition that it must be almost surely finite.
 
-\citet{nacu2005} considers in detail the properties of the running time, presenting necessary conditions (Theorem \ref{thm:nacu_peres}\ref{thm:np_finite_mean},\ref{thm:np_kth_moment}) on $f$ for the running time to have finite expectation or finite $k^{th}$ moment respectively. Moreover, they give necessary and sufficient conditions (Theorem \ref{thm:nacu_peres}\ref{thm:np_exponential_tails}) for the running time to have exponentially decaying tails, in which case they say that $f$ has a `fast' simulation.
-The construction of the theorem shows that the construction of any real analytic function rests on the ability to simulate $f(p)=2p$ \citep[Proposition 14(iii)]{nacu2005}, affording this function the significance to justify its popularity in the literature.
+\citet{nacu2005} consider the running time more closely, presenting necessary conditions (Theorem \ref{thm:nacu_peres}\ref{thm:np_finite_mean},\ref{thm:np_kth_moment}) on $f$ for the running time to have finite expectation or finite $k^{th}$ moment respectively. Moreover, they give necessary and sufficient conditions (Theorem \ref{thm:nacu_peres}\ref{thm:np_exponential_tails}) for the running time to have exponentially decaying tails, in which case they say that $f$ has a `fast' simulation.
+This last theorem is underpinned by the result that simulating any real analytic function rests on the ability to simulate $f(p)=2p$ \citep[Proposition 14(iii)]{nacu2005}, affording this function the significance to justify its popularity in the literature.
 
-\citet{huber2016} provides a generic algorithm for functions of the form $f(p)=kp$ with $k>1$ (with the necessary $\varepsilon$-truncation of the domain to satisfy the conditions of the Keane-O'Brien theorem), which of course includes the $2p$ case. He derives a lower bound on the running time for any $kp$ algorithm, and thus shows that the running time of his algorithm attains the optimal scaling with $k$ and $\varepsilon$.
+\citet{huber2016} provides a generic algorithm for functions of the form $f(p)=kp$ with $k>1$ (with an appropriate $\varepsilon$-truncation of the domain to satisfy the conditions of the Keane-O'Brien theorem), which includes the $2p$ case. He derives a lower bound on the running time for any $kp$ algorithm, and thus shows that the running time of his algorithm attains the optimal scaling with $k$ and $\varepsilon$.
 
 \begin{defn}[Bernoulli factory]\label{defn:BF}
 Let $S \subseteq [0,1]$ and $f: S\to[0,1]$, and suppose we have access to a sequence of Bernoulli random variables $X_1,X_2,\dots \iidsim \Bern(p)$ with unknown parameter $p \in S$.
 Let $U \in \mathcal{U}$ denote an auxiliary random variable with known distribution, independent of $p$. Let $\tau$ be a stopping time with respect to the natural filtration such that $\PR(\tau<\infty)=1$.\\
 A \emph{Bernoulli factory} is a computable function $\mathcal{A}(U, X_1, \dots, X_\tau)$ not depending on $p$, with the property that $Y:=\mathcal{A}(U, X_1, \dots, X_\tau) \sim \Bern(f(p))$ for all $p\in S$.\\
-The stopping time $\tau$, which may depend on the observed values of $U$ and $X_1, X_2, \dots$, is the first time at which the value of $\mathcal{A}$ can be computed, and is called the \emph{running time} of the Bernoulli factory.
+The stopping time $\tau$, which may depend on the observed values of $U$ and $\{X_i\}$, is the first time at which the value of $\mathcal{A}$ can be computed, and is called the \emph{running time} of the Bernoulli factory.
 \end{defn}
 
 \begin{defn}[simulable]
-Following the terminology of \citet{keane1994}, a function $f:S\to[0,1]$ is said to be \emph{simulable} if there is a Bernoulli factory that simulates $f(p)$ for all $p\in S$.
-Furthermore, it is \emph{strongly simulable} if there is a Bernoulli factory that simulates $f(p)$ without the need for an auxiliary random variable $U$.
+Following the terminology of \citet{keane1994}, a function $f:S\to[0,1]$ is said to be \emph{simulable} if there exists a Bernoulli factory that simulates $f(p)$ for all $p\in S$.
+Furthermore, it is \emph{strongly simulable} if there exists a Bernoulli factory that simulates $f(p)$ without the need for an auxiliary random variable $U$.
 \end{defn}
 
 The first formal treatment of a Bernoulli factory problem was presented by \citet{vonneumann1951}, who 
-described a Bernoulli factory for the function $f(p)\equiv 1/2$:
+described a Bernoulli factory for the constant function $f(p)\equiv 1/2$:
 \begin{displayquote}
 \textit{To cite a human example, for simplicity, in tossing a coin it is probably easier to make two consecutive tosses independent than to toss heads with probability exactly one-half. If independence of successive tosses is assumed, we can reconstruct a 50-50 chance out of even a badly biased coin by tossing twice. If we get heads-heads or tails-tails, we reject the tosses and try again. If we get head-tails (or tails-heads), we accept the result as heads (or tails). The resulting process is rigorously unbiased, although the amended process is at most 25 percent as efficient as ordinary coin-tossing.}
 \end{displayquote}
 
+%As explained in Nacu-Peres, this can be extended to a BF for any constant
 Most authors now use the slightly more convenient convention with the outcomes inverted, so that once 10 or 01 is observed, the output of the Bernoulli factory is equal to the last coin flip (0 or 1 respectively). 
 It is clear that, as claimed, this procedure produces a (1/2)-coin, because 01 and 10 appear with the same probability, so conditional on observing one or the other, both outcomes have probability 1/2.
 The procedure is formalised in Example \ref{ex:const_half}.
 
 \begin{example}\label{ex:const_half}
 $f(p) \equiv 1/2$.\\
-This constant function is strongly simulable, using the procedure:
+This function is strongly simulable using the procedure:
 \begin{align*}
 & \tau = \min\{ t \in \{2,4,\dots\} : X_{t-1} \neq X_t \} \\
 & \A(X_1,X_2,\dots) = X_\tau.
 \end{align*}
-The running time of this algorithm is random, and indeed unbounded (but it is finite almost surely, making it a valid Bernoulli factory). In particular, $\tau \eqdist 2\times\Geom(2p(1-p))$, with expectation $\E(\tau) = \frac{1}{p(1-p)}$. Figure \ref{fig:runtime_const2} shows the expected running time for various values of $p$. The expected running time achieves its minimum value of four when $p=1/2$ (that is, the coin was already unbiased), hence von Neumann's claim that ``the amended process is at most 25 percent as efficient as ordinary coin-tossing'' (which has deterministic running time one), although this procedure may terminate in just two tosses. The expected running time approaches infinity when $p$ is close to 0 or 1, but is moderate across a large range non-extreme values.
+The running time of this algorithm is random and indeed unbounded, but it is almost surely finite, making it a valid Bernoulli factory. In particular, $\tau \eqdist 2\times\Geom(2p(1-p))$, with expectation $\E(\tau) = \frac{1}{p(1-p)}$. Figure \ref{fig:runtime_const2} shows the expected running time for various values of $p$. The expectation achieves its minimum value of 4 when $p=1/2$ (that is, the coin was already unbiased), hence von Neumann's claim that ``the amended process is at most 25 percent as efficient as ordinary coin-tossing'', although it is possible for this procedure to terminate in just two tosses. The expected running time approaches infinity when $p$ is close to 0 or 1, but is moderate across a large range of values.
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{vonneu_runtime.pdf}
-\caption{Expected running time $\E(\tau)$ of von Neumann's Bernoulli factory for $f(p)\equiv 1/2$ \citep{vonneumann1951}.  The expectation attains its minimum $\E(\tau)=4$ at $p=1/2$, and is moderate over a large range of $p$, but grows unboundedly as $p$ approaches 0 and 1.}
+\caption{Expected running time $\E(\tau)$ of von Neumann's Bernoulli factory for $f(p)\equiv 1/2$.  The expectation attains its minimum $\E(\tau)=4$ at $p=1/2$, and is moderate over a large range of $p$, but grows unboundedly as $p$ approaches 0 and 1.}
 \label{fig:runtime_const2}
 \end{figure}
 \end{example}
@@ -471,6 +475,8 @@ The algorithm given in Example \ref{ex:const_half} can be extended to simulate o
 \end{align*}
 However, the running time increases badly with $k$, even under certain early stopping strategies.
 Of course, any constant $f(p)\equiv c$ is simulable by employing an auxiliary random variable $U\sim \Bern(c)$, but von Neumann's example shows that $c=1/2$ is also strongly simulable.
+%N-P gives a procedure for any constant...
+In fact, this procedure is a primitive for a Bernoulli factory for arbitrary constants $f(p)\equiv c, c\in[0,1]$. The procedure described in \citet[Proposition 13]{nacu2005} ... blahblahblah
 
 Another important example is the case of $f(p)=p^2$, which is strongly simulable using exactly two queries, returning heads if and only if both inputs are heads. Example \ref{ex:bf_pk} presents a generalisation of this procedure.
 
