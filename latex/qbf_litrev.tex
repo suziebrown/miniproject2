@@ -455,7 +455,7 @@ This constant function is strongly simulable, using the procedure:
 & \tau = \min\{ t \in \{2,4,\dots\} : X_{t-1} \neq X_t \} \\
 & \A(X_1,X_2,\dots) = X_\tau.
 \end{align*}
-The running time of this algorithm is random, and indeed unbounded (but it is finite almost surely, making it a valid Bernoulli factory). In particular, $\tau \eqdist 2\times\Geom(2p(1-p))$, with expectation $\E(\tau) = \frac{1}{p(1-p)}$. Figure \ref{fig:runtime_const2} shows the expected running time for various values of $p$. The expected running time achieves its minimum value of four when $p=1/2$ (that is, the coin was already unbiased), hence von Neumann's claim that ``the amended process is at most 25 percent as efficient as ordinary coin-tossing'' (which has deterministic running time one). The expected running time approaches infinity when $p$ is close to 0 or 1, but is moderate across a large range non-extreme values.
+The running time of this algorithm is random, and indeed unbounded (but it is finite almost surely, making it a valid Bernoulli factory). In particular, $\tau \eqdist 2\times\Geom(2p(1-p))$, with expectation $\E(\tau) = \frac{1}{p(1-p)}$. Figure \ref{fig:runtime_const2} shows the expected running time for various values of $p$. The expected running time achieves its minimum value of four when $p=1/2$ (that is, the coin was already unbiased), hence von Neumann's claim that ``the amended process is at most 25 percent as efficient as ordinary coin-tossing'' (which has deterministic running time one), although this procedure may terminate in just two tosses. The expected running time approaches infinity when $p$ is close to 0 or 1, but is moderate across a large range non-extreme values.
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{vonneu_runtime.pdf}
@@ -601,11 +601,11 @@ There exists a Bernoulli factory for $f$ with $\tau$ satisfying the following pr
 \item \label{thm:nplike_terminates_as} \textup{\citep{keane1994}} $\PR(\tau <\infty)=1$ only if $f$ is continuous on $S$.
 \item \label{thm:np_finite_mean} \textup{\citep[Proposition 23]{nacu2005}} $\sup_{p\in S} \E(\tau) <\infty$, only if $f$ is Lipschitz over $S$. 
 \item \label{thm:np_kth_moment} \textup{\citep[Proposition 22]{nacu2005}} $\E(\tau ^k)<\infty$ and $\lim_{n\to\infty} \E(\tau^k)\mathbb{I}\{\tau>t\} =0$ uniformly for all $p\in S$, only if $f\in C^k(S)$ where $C^k(S)$ denotes the set of functions with $k$ continuous derivatives on $S$.
-\item \label{thm:np_exponential_tails} \textup{\citep[Theorem 2]{nacu2005}} $\PR(\tau >t) \leq c\rho^t$, for some constants $c>0, \rho<1$ and for all $p\in S$, only if $f$ is real analytic on every open subset of its domain. %open/closed???
+\item \label{thm:np_exponential_tails} \textup{\citep[Theorem 2]{nacu2005}} $\PR(\tau >t) \leq c\rho^t$, for some constants $c>0, \rho<1$ and for all $p\in S$, only if $f$ is real analytic on every open subset of $S$. %open/closed??? - different for each direction in N-P
 \end{enumerate}
 \end{thm}
 %The conditions \ref{thm:np_exponential_tails} is referred to by \citet{nacu2005} as a ``fast'' simulation, but the term is used by someone else to mean something else...?
-The four cases of Theorem \ref{thm:nacu_peres} are summarised in Table \ref{tab:theorems_summary}. Proof are given in the original references but are not reproduced here.
+The four cases of Theorem \ref{thm:nacu_peres} are summarised in Table \ref{tab:theorems_summary}. Proofs are given in the original references but are not reproduced here.
 
 \begin{table}
 \centering
@@ -629,10 +629,10 @@ It is widely believed (at least within the field) that quantum computing really 
 There is, however, a lack of rigorous results for any computational problems with significant practical applications.
 One such problem was apparently solved by \citet{kerenidis2016}, who came up with a quantum speed-up for the recommendation problem --- that is, how Amazon and Netflix estimate which products you will like given yours and other customers' ratings of all products. However, the authors were unable to prove that no comparably fast classical algorithm exists, and one has now been found by \citet{tang2018}.
 
-\subsection{A quantum Bernoulli factory}\label{sec:QBF}
+\subsection{Quantum Bernoulli factories}\label{sec:QBF}
 The Bernoulli factory problem is an example of a practically applicable problem that is nevertheless simple to state and analyse. It was therefore a good candidate in the quest for a practical and provable quantum advantage, and indeed \citet{dale2015} prove this advantage. 
 
-We will use the term \emph{quantum Bernoulli factory} to refer to an algorithm that takes $p$-quoins as inputs, and outputs a $\Bern(f(p))$ sample, where as usual $p\in S$ is unknown and $f:S\to [0,1]$ is known. A $p$-quoin is the quantum analogue of a classical $p$-coin, given by the quantum state
+We will use the term \emph{quantum Bernoulli factory} to refer to an algorithm that takes (almost surely finitely many) $p$-quoins as inputs, and outputs a $\Bern(f(p))$ sample, where as usual $p\in S$ is unknown and $f:S\to [0,1]$ is known. A $p$-quoin is the quantum analogue of a classical $p$-coin, given by the quantum state
 \begin{equation*}
 \ket{p} = \sqrt{1-p}\, \ket{0} + \sqrt{p}\, \ket{1}.
 \end{equation*}
@@ -643,9 +643,27 @@ We will call a function \emph{quantum simulable} if there exists a quantum Berno
 \citet{dale2015} prove that quantum computation allows a strictly larger class of Bernoulli factories to be constructed, taking as an example the notorious $f(p)=2p$. While this function is not simulable in the classical setting, the authors show that it is quantum simulable, and provide an explicit algorithm using two entangled qubits.
 They also determine necessary and sufficient conditions (Theorem \ref{thm:qbf_simulable}) for a function to be quantum simulable, which are weaker than those for classical simulability provided by the Keane-O'Brien theorem (Theorem \ref{thm:KOB}).
 
+\begin{thm}[{\citet[Theorem 1]{dale2015}}]\label{thm:qbf_simulable}
+A function $f:[0,1]\to[0,1]$ % can say S\to[0,1] as above ??
+is quantum simulable (using only operations on single qubits) if and only if:
+\begin{enumerate}[label=(\alph*)]
+\item $f$ is continuous on S
+\item $Z:=\{z:f(z)=0\}$ and $W:=\{w:f(w)=1\}$ are both finite sets
+\item\label{thm:qbf_cond_zeroes} $\forall z\in Z$ there exist constants $c\in\mathbb{R}$, $\delta>0$, integer $k<\infty$ such that $c(p-z)^{2k} \leq f(p)$ for all $p \in [z-\delta, z+\delta]$
+\item\label{thm:qbf_cond_ones} $\forall w\in W$ there exist constants $c\in\mathbb{R}$, $\delta>0$, integer $k<\infty$ such that $1 - c(p-w)^{2k} \leq f(p)$ for all $p \in [w-\delta, w+\delta]$.
+\end{enumerate}
+\end{thm}
+In the quantum case, the function $f$ is allowed to touch 0 and 1 at finitely many points in its domain, as opposed to the classical case where $f(p)$ may only take the values 0 and 1 at $p\in\{0,1\}$ or in the cases of the constant functions $f\equiv 0$ and $f\equiv 1$.
+The conditions \ref{thm:qbf_cond_zeroes} and \ref{thm:qbf_cond_ones} ensure that $f$ does not go to 0 or 1 too quickly at these points. % exponentially? polynomially?
+
+\citet{dale2015} also claim that the same necessary and sufficient conditions apply even when operations on more than one qubit are allowed. That is, taking advantage of quantum entanglement (as in Example \ref{ex:qbf_2p}) does not expand the set of simulable functions. It can, however, substantially reduce the consumption of $p$-quoins, as demonstrated in \citet{patel2018}.
+
+
+\subsection{A quantum Bernoulli factory for $2p$}
+% probably need to rewrite this a bit now...
 Example \ref{ex:qbf_2p} gives the quantum algorithm of \citet{dale2015} for the function $f_\wedge(p) := 2\min\{p, 1-p\}$, $p\in[0,1]$. This function (Figure \ref{fig:wedge_fn}) coincides with that of Example \ref{ex:2p} when the domain is restricted to $p\in(0,1/2)$, so it is clearly sufficient to find a Bernoulli factory for $f_\wedge$.
 
-\begin{figure}
+\begin{figure} % combine these onto one plot?
 \centering
 \begin{subfigure}{0.45\linewidth}
 \centering
@@ -662,12 +680,21 @@ Example \ref{ex:qbf_2p} gives the quantum algorithm of \citet{dale2015} for the 
 \end{subfigure}
 \end{figure}
 
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{approxtarget_1520100500.pdf}
+\caption{Approximations to $f_\wedge(p)$ when the series expansion [eqREF] is truncated at $k_{max} = 1,5,20,100,500$. Each subsequent approximation is closer to the target function, but none attains the ideal $f(1/2)=1$.}
+\label{fig:qbf_target_approximations}
+\end{figure}
+
 \begin{example}\label{ex:qbf_2p}
 First note that 
 \begin{equation*}
 f_\wedge(p) = 2\min\{p, 1-p\} = 1-\sqrt{1-4p(1-p)} = \sum_{k=1}^{\infty} \binom{2k}{k} \frac{1}{(2k-1)2^{2k}} (4p(1-p))^k =: \sum_{k=1}^{\infty} q_k (4p(1-p))^k.
 \end{equation*} % check that taylor expansion /!\
 where $q_k$ are constants not depending on $p$, and are hence simulable. Due to property \ref{thm:convex_combns} of Lemma \ref{thm:products_compositions}, $f_wedge$ is therefore simulable if there exists a Bernoulli factory for $(4p(1-p))^k$. Since this is a case of Example \ref{ex:bf_pk}, we need only construct a Bernoulli factory for $4p(1-p)$. This function is not classically simulable since it still touches 1 at $p=0.5$.
+
+% add flow diagram or pseudocode for the full algorithm
 
 However, \citet{dale2015} describe the following quantum Bernoulli factory for this function.
 We first prepare two quoins; that is, we have two qubits jointly in the product state $\ket{p}\ket{p}$. We then measure the joint state in the Bell basis, say with the operator
@@ -682,27 +709,37 @@ Then the measurement outcomes are:
 &\PR(\text{observe }3) = \braket{v|\psi^-}\braket{\psi^-|v} = 0
 \end{align*}
 This means that $\PR(\text{observe }1 \text{ or } 2) = 1/2$, and $\PR(\text{observe } 2 \mid \text{observe }1 \text{ or } 2) = 4p(1-p)$, which is the required function.
-Thus our Bernoulli factory is as follows: measure $\ket{p}\ket{p}$ in the Bell basis until the observed outcome is either 1 or 2, then return heads if the outcome is 2, or tails if the outcome is 1.
+Thus our Bernoulli factory for $4p(1-p)$ is as follows: measure $\ket{p}\ket{p}$ in the Bell basis until the observed outcome is either 1 or 2, then return heads if the outcome is 2, or tails if the outcome is 1. 
+This procedure has running time $\tau \eqdist \Geom(1/2)$, which is as good as we can hope for, having exponentially decaying tails.
+
+However, let us consider the full procedure for $f_\wedge$.
+We first choose a $k$ according to the probability distribution $\{q_k\}$, which has exponentially decaying tails (Figure [REF]).
+We then repeat the the $4p(1-p)$ Bernoulli factory $k$ times to determine the output. The full procedure therefore has running time 
+\begin{equation*}
+\tau \eqdist \Geom(1/2) \sum_{k=1}^\infty k \cdot q_k.
+\end{equation*}
+Alas $k\cdot q_k$ is not summable, and the expected running time is therefore $\E(\tau)=+\infty$ for all $p$.
+
+We can improve the running time by using early stopping as in Example [REF], so that we output tails as soon as any of the $4p(1-p)$ procedures outputs tails. In this case the running time becomes 
+\begin{equation*}
+\tau \eqdist \Geom(1/2) \sum_{k=1}^\infty [\Geom(1-4p(1-p)) \wedge k] \cdot q_k.
+\end{equation*} % so the expectation is what...?
+The Geometric early stopping time moderates the running time sufficiently that it has finite expectation whenever $p\neq 1/2$, but $\E(\tau) \to +\infty$ as $p\to 1/2$ (Figure [REF]). That is, the quoin consumption gets really big around the `difficult' point $p=1/2$.
+
+\citet{patel2018} describes a physical implementation of this quantum Bernoulli factory. Although the authors remain positive about their results, there are obvious shortcomings in the physical implementation. \citet[Figure 3e]{patel2018} shows a realisation of the quoin consumption, similar to Figure [REF], except that in practice the quoin consumption cannot approach infinity, and tops out at a mean of 60 in their experiment, when $p$ is close to 1/2.
+
+Since in a physical system, infinite quoin consumption cannot be allowed, the authors approximate the infinite sum [eqREF] by truncating at a certain value of $k$. The resulting target functions are only approximations of $f_\wedge$, which are rounded at the top and do not touch 1 at $p=1/2$ \citep[Figures 3a--d]{patel2018}. They also do not run their experiment at the input value $p=1/2$, since the coin consumption there would ideally have infinite mean, and so the approximation would be poor and the experiment time-consuming, with many runs using the maximum $k$ quoins.
+
+All this begs the question of whether the quantum Bernoulli factory for $f_\wedge$ is really an improvement on the classical truncated one, since experimental constraints effectively amount to something like an $\varepsilon$-truncation of the function even in the quantum case.
+\citet{patel2018} claim, however, that the a much better approximation can be achieved using the quantum algorithm with a fixed number of input quoins than with the best classical algorithm using the same number of input coins.
+% is this due to better constants or is it actually better than 1/eps scaling?
 \end{example}
-% then why does the quoin consumption vary with p???
+
 
 % CBFs subset of QBFs (Dale eqn 1) ?
-% Dale says the classical trucated 2p has poor (exponential) scaling of coin usage with epsilon...?
+% Dale says the classical truncated 2p has poor (exponential) scaling of coin usage with epsilon...?
 
-\begin{thm}[{\citet[Theorem 1]{dale2015}}]\label{thm:qbf_simulable}
-A function $f:[0,1]\to[0,1]$ % can say S\to[0,1] as above ??
-is quantum simulable (using only operations on single qubits) if and only if:
-\begin{enumerate}[label=(\alph*)]
-\item $f$ is continuous on S
-\item $Z:=\{z:f(z)=0\}$ and $W:=\{w:f(w)=1\}$ are both finite sets
-\item\label{thm:qbf_cond_zeroes} $\forall z\in Z$ there exist constants $c\in\mathbb{R}$, $\delta>0$, integer $k<\infty$ such that $c(p-z)^{2k} \leq f(p)$ for all $p \in [z-\delta, z+\delta]$
-\item\label{thm:qbf_cond_ones} $\forall w\in W$ there exist constants $c\in\mathbb{R}$, $\delta>0$, integer $k<\infty$ such that $1 - c(p-w)^{2k} \leq f(p)$ for all $p \in [w-\delta, w+\delta]$.
-\end{enumerate}
-\end{thm}
-In the quantum case, the function $f$ is allowed to touch 0 and 1 at finitely many points in its domain, as opposed to the classical case where $f(p)$ may only take the values 0 and 1 at $p\in\{0,1\}$ or in the cases of the constant functions $f\equiv 0$ and $f\equiv 1$.
-The conditions \ref{thm:qbf_cond_zeroes} and \ref{thm:qbf_cond_ones} ensure that $f$ does not go to 0 or 1 too quickly at these points. % exponentially? polynomially?
 
-\citet{dale2015} also claim that the same necessary and sufficient conditions apply even when operations on more than one qubit are allowed. That is, taking advantage of quantum entanglement (as in Example \ref{ex:qbf_2p}) does not expand the set of simulable functions. It can, however, substantially reduce the consumption of $p$-quoins, as demonstrated in \citet{patel2018}.
 
 \section{Discussion}\label{sec:discussion}
 % difference between this (the quatum guys') view of a BF and ours (the one applicable to MC) - 
