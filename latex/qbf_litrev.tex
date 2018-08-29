@@ -95,7 +95,7 @@ They show that quantum algorithms can simulate a larger class of functions than 
 
 The remainder of the document is organised as follows.
 Section \ref{sec:quantum_info} provides the background in quantum information theory required to understand the quantum Bernoulli factory. 
-Section \ref{sec:BFs} introduces the Bernoulli factory problem and summarises previous work on classical solutions.
+Section \ref{sec:BFs} introduces the Bernoulli factory problem and summarises previous work on classical solutions, starting with some illustrative examples before laying down the theoretical results.
 Section \ref{sec:quantum_advantage} gives the context in the quantum information literature of a quantum Bernoulli factory and explains how it works, with comparison to the classical case.
 Finally, Section \ref{sec:discussion} discusses the scope of its implications and poses some questions for further research.
 
@@ -476,7 +476,23 @@ The algorithm given in Example \ref{ex:const_half} can be extended to simulate o
 However, the running time increases badly with $k$, even under certain early stopping strategies.
 Of course, any constant $f(p)\equiv c$ is simulable by employing an auxiliary random variable $U\sim \Bern(c)$, but von Neumann's example shows that $c=1/2$ is also strongly simulable.
 %N-P gives a procedure for any constant...
-In fact, this procedure is a primitive for a Bernoulli factory for arbitrary constants $f(p)\equiv c, c\in[0,1]$. The procedure described in \citet[Proposition 13]{nacu2005} ... blahblahblah
+In fact, all constant functions are strongly simulable. The 1/2 procedure is a primitive for a Bernoulli factory for arbitrary constants $f(p)\equiv c\in[0,1]$, described in \citet[Proposition 13]{nacu2005}.
+
+\begin{example}\label{ex:general_const}
+$f(p)\equiv c\in[0,1]$ \\
+We can write $c$ in its binary expansion
+\begin{equation*}
+c = \sum_{n=1}^\infty c_n 2^{-n}
+\end{equation*}
+where $c_n \in \{0,1\}$.
+Using the procedure of Example \ref{ex:const_half} to generate (1/2)-coins, we toss (1/2)-coins until heads is observed. Call the number of (1/2)-coin tosses needed $M$. Finally we output $c_M$.
+$M \sim \Geom(1/2)$, so the total probability of outputting heads is
+\begin{equation*}
+\PR(\text{heads}) = \sum_{n=1}^\infty c_n \PR(M=n) = \sum_{n=1}^\infty c_n 2^{-n}
+\end{equation*}
+as desired.
+The running time of this Bernoulli factory is $\tau \eqdist \Geom(1/2)\times 2 \times \Geom(2p(1-p))$, independent of $c$. So on average this procedure for a general constant takes twice as long as the procedure for 1/2.
+\end{example}
 
 Another important example is the case of $f(p)=p^2$, which is strongly simulable using exactly two queries, returning heads if and only if both inputs are heads. Example \ref{ex:bf_pk} presents a generalisation of this procedure.
 
@@ -487,13 +503,14 @@ This problem is solved easily by flipping the $p$-coin $k$ times and outputting 
 & \tau = k \\
 & \A(X_1,\dots,X_T) = \mathbb{I}\{X_1 =1, X_2=1 ,\dots,X_\tau=1\}
 \end{align*}
-In this case the running time is deterministically equal to $k$. It is clear that this procedure produces heads with probability $p^k$, since the flips are independent and each gives heads with probability $p$.
+It is clear that this procedure produces heads with probability $p^k$, since the flips are independent and each gives heads with probability $p$.
 
-The running time of this algorithm can be decreased by using an early stopping strategy, whereby we stop the process as soon as a tails input appears (in which case we know immediately that the output will be tails). In this case the running time is random, but still bounded above by $k$:
+In this case the running time is deterministically equal to $k$. 
+This can be decreased by an early stopping strategy, whereby we stop the process as soon as a tails input appears (in which case we know immediately that the output will be tails). In this case the running time is random, but still bounded above by $k$:
 \begin{equation*}
-\tau = k \wedge \min\{t \in \{1,2,\dots\}:X_t=0 \} \eqdist \min\{k, \Geom(1-p)\}.
+\tau = k \wedge \min\{t \in \{1,2,\dots\}:X_t=0 \} \eqdist k \wedge \Geom(1-p).
 \end{equation*}
-Figure \ref{fig:p2_runtime} shows the expected running time of this procedure for a few values of $k$. We see that early stopping can significantly reduce the expected running time when $p$ is not close to 1, and that the gain in efficiency is greater for larger $k$. In the case $k=1$, where $f$ is the identity, the number of coin flips required is deterministically equal to one, for any $p$.
+Figure \ref{fig:p2_runtime} shows the expected running time of this procedure for a few values of $k$. We see that early stopping can significantly reduce the expected running time when $p$ is not close to 1, and that the gain in efficiency is greater for larger $k$. In the case $k=1$, where $f$ is the identity, the number of coin flips required is deterministically equal to 1, for any $p$.
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{pk_runtime.pdf}
@@ -508,10 +525,10 @@ This is the probability of obtaining either 01 or 10 with two coin flips. Theref
 & \tau = 2 \\
 & \A(X_1,X_2) = \mathbb{I}\{(X_1,X_2) \in \{(0,1),(1,0)\} \}
 \end{align*}
-Of course, many other functions can be similarly obtained by varying the number of coin flips and the set of outcomes resulting in heads. One example, mentioned by \citet{patel2018}, is the function $f(p) = 3p(1-p)$. Noticing that $3p(1-p) = 3p^2(1-p) + 3p(1-p)^2$, this function is the probability of obtaining any outcome other than 000 or 111 with three coin flips.
+Of course, many other functions can be similarly obtained by varying the number of $p$-coin flips used and the set of inputs resulting in a heads output. One example, mentioned in \citet{patel2018}, is the function $f(p) = 3p(1-p)$. Noticing that $3p(1-p) = 3p^2(1-p) + 3p(1-p)^2$, this function is the probability of obtaining any outcome other than 000 or 111 with three coin flips.
 \end{example}
 
-Examples \ref{ex:const_half}, \ref{ex:bf_pk} and \ref{ex:bf3} cast some light on the sort of manipulations that are possible when constructing Bernoulli factories. Lemma \ref{thm:products_compositions} provides some general properties, which are trivial to prove.
+Examples \ref{ex:const_half}--\ref{ex:bf3} cast some light on the sort of manipulations that are possible when constructing Bernoulli factories. Lemma \ref{thm:products_compositions} provides some general properties, all of which are trivial to prove.
 
 \begin{lemma}\label{thm:products_compositions}
 Suppose we have a Bernoulli factory $\A_f$ for the function $f:S_f\to[0,1]$ and a Bernoulli factory $\A_g$ for $g:S_g\to R_g\subseteq[0,1]$. Then
@@ -521,11 +538,11 @@ Suppose we have a Bernoulli factory $\A_f$ for the function $f:S_f\to[0,1]$ and 
 \item \label{thm:compositions} If $R_g \subseteq S_f$, then there exists a Bernoulli factory for the composition $f\circ g: S_g \to [0,1]$, given by the composition $\A_f \circ \A_g$.
 \item \label{thm:products} There exists a Bernoulli factory for the product $fg:S_f \cap S_g \to [0,1]$, given by $A_f \wedge A_g$.
 \end{enumerate}
-In the case of \ref{thm:convex_combns}, \ref{thm:compositions} and \ref{thm:products} the overall running time is bounded if and only if the running time of both $A_f$ and $A_g$ is bounded.
+%In the case of \ref{thm:convex_combns}, \ref{thm:compositions} and \ref{thm:products} the overall running time is bounded if and only if the running time of both $A_f$ and $A_g$ is bounded.
 \end{lemma}
-% some such properties are given in Nacu Peres.
 Note that \ref{thm:convex_combns} is a special case of \ref{thm:compositions}.
-Additionally, since there is a trivial Bernoulli factory for $f(p)\equiv 0$, \ref{thm:convex_combns} implies that $\alpha f$ is simulable for any $\alpha\in[0,1]$.\\
+Additionally, since there is a trivial Bernoulli factory for $f(p)\equiv 0$, \ref{thm:convex_combns} implies that $\alpha f$ is simulable for any $\alpha\in[0,1]$.
+Many more properties, including consideration of their running times, are presented in \citet{nacu2005}.\\
 
 It is not immediately obvious that not all functions are simulable. However, one counterexample is the following.
 % f(p)=2p as canonical function = basis for constructing everything else [citation?]
@@ -534,7 +551,7 @@ It is not immediately obvious that not all functions are simulable. However, one
 $f(p) = 2p, p\in(0,1/2)$.\\
 This function turns out not to be simulable, although the truncated function $f(p) = 2p \wedge (1-\varepsilon)$ --- or equivalently, restricting the domain to $p\in(0,(1 - \varepsilon)/2)$ --- is simulable for any $\varepsilon>0$. In this case the number of queries required is $O(\varepsilon ^{-1})$ \citep{huber2016}.
 
-The problem with the unrestricted function is that $f(p)$ approaches 1 within $p\in(0,1)$, which violates one of the necessary and sufficient conditions given in the Keane-O'Brien theorem [REF].
+The problem with the unrestricted function is that $f(p)$ approaches 1 within $p\in(0,1)$, which violates one of the conditions given in the Keane-O'Brien theorem (Theorem \ref{thm:KOB}).
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{2p_truncation.pdf}
@@ -543,31 +560,30 @@ The problem with the unrestricted function is that $f(p)$ approaches 1 within $p
 \end{figure}
 \end{example}
 
-\begin{lemma}[{\citet[Corollary 3.3]{latuszynski2011}}]\label{thm:no_2p_bf}
+\begin{lemma}\label{thm:no_2p_bf}
 It is not possible to construct a Bernoulli factory for $f(p)=2p$ where $p\in(0,1/2)$.
 \end{lemma}
-The following proof is an intuitive one, adapted from \citet{latuszynski2011}.
+The following proof is an intuitive one, adapted from \citet[Corollary 3.3]{latuszynski2011}.
 The intuition behind the proof is that there is no sharp change between say a (1/4)-coin and a (1/2)-coin; but there is a qualitative difference between the resulting (1/2)-coin and 1-coin respectively. The latter is no longer random, but deterministically returns heads every time, regardless of the outcome on the (1/2)-coin that seeds it.
 \begin{proof}
-Let $\PR_{p}$ denote the probability measure when the seeding coin has probability $p$ of showing heads. We will compare the cases $p=1/4$ and $p=1/2 - \varepsilon$.
+Let $\PR_{p}$ denote the probability measure conditioned on the input coin having probability $p$ of heads. We will compare the cases $p=1/4$ and $p=1/2 - \varepsilon$.
 First, 
 \begin{equation*}
-\lim_{t\to\infty} \PR_{1/4} [\A(X_1,\dots,X_T)=0, T<t] = \frac{1}{2}
+\frac{1}{2} = \PR_{1/4} [\A(X_1,X_2,\dots)=0] = \lim_{t\to\infty} \PR_{1/4} [\A(X_1,\dots,X_T)=0, T<t]
 \end{equation*}
 Thus there exists a $t_0 \in \mathbb{N}$ such that 
 \begin{equation*}
 \PR_{1/4} [\A(X_1,\dots,X_T)=0, T\leq t_0] > \frac{1}{4}
 \end{equation*}
 %Now, fixing $\varepsilon>0$, consider the corresponding quantity $\PR_{1/2 - \varepsilon} [\A(X_1,\dots,X_T)=0, T\leq t_0]$; we have the following relation:
-We have for any $p \in [1/4, 1/2)$:
+Bounding the maximum possible discrepancy between a sequence of $t_0$ flips from a $p$-coin and a (1/4)-coin, we have for any $p \in [1/4, 1/2)$:
 \begin{equation*}
-\PR_{p} [\A(X_1,\dots,X_T)=0, T\leq t_0] \geq \left(\frac{1}{2}\right)^{t_0} \PR_{1/4} [\A(X_1,\dots,X_T)=0, T\leq t_0] \geq \left(\frac{1}{2}\right)^{t_0+2}
+\PR_{p} [\A(X_1,\dots,X_T)=0, T\leq t_0] \geq \left(\frac{1}{2}\right)^{t_0} \PR_{1/4} [\A(X_1,\dots,X_T)=0, T\leq t_0] \geq \left(\frac{1}{2}\right)^{t_0+2}.
 \end{equation*}
-Since, restricted to $T\leq t_0$, $\PR_p$ has the same support for any $p \in (0,1)$, we can consider the ratio of probabilities of any sequence in $\{0,1\}^{t_0}$. In particular, we consider 
-\begin{equation*}
-\inf_{p\in[1/4,1/2)}\, \inf_{A\subseteq\{0,1\}^{t_0}} \frac{\PR_{p}(A)}{\PR_{1/4}(A)}
-\end{equation*}
-%where the factor of $\left(\frac{1}{2}\right)^{t_0}$ is the largest possible discrepancy between the probabilities of a sequence of $t_0$ flips from a (1/2)-coin or (1/4)-coin.
+%%\texttt{Since, restricted to $T\leq t_0$, $\PR_p$ has the same support for any $p \in (0,1)$, we can consider the ratio of probabilities of any sequence in $\{0,1\}^{t_0}$. In particular, we consider 
+%%\begin{equation*}
+%%\inf_{p\in[1/4,1/2)}\, \inf_{A\subseteq\{0,1\}^{t_0}} \frac{\PR_{p}(A)}{\PR_{1/4}(A)}
+%%\}end{equation*}
 Now
 \begin{equation*}
 \PR_{1/2 - \varepsilon} [\text{output } 1] = 1-\PR_{1/2 - \varepsilon} [\A(X_1,X_2,\dots)=0]  \leq 1- \PR_{1/2 - \varepsilon} [\A(X_1,\dots,X_T)=0, T\leq t_0] \leq 1- \left(\frac{1}{2}\right)^{t_0+2}
@@ -576,6 +592,7 @@ Taking the limit as $\varepsilon\to 0$, the LHS is $f(1/2 - \varepsilon) = 1-2\v
 \end{proof}
 % not sure if this proof is complete and correct yet...
 
+Lemma \ref{thm:no_2p_bf} is just a particular example of a general class of functions that cannot be simulated by a classical Bernoulli factory. The Keane-O'Brien theorem describes the exact class of classically simulable functions.
 \begin{thm}[\citet{keane1994}]\label{thm:KOB}
 A function $f:S\to[0,1]$ is simulable if and only if $f$ is continuous on $S$ and either
 \begin{enumerate}[label=(\alph*)]
@@ -584,14 +601,14 @@ A function $f:S\to[0,1]$ is simulable if and only if $f$ is continuous on $S$ an
 \end{enumerate}
 \end{thm}
 
-Roughly speaking, the second condition is ``$f(p)$ is polynomially bounded away from 0 and 1 for all $p\in S\cap(0,1)$''. A proof is given in \citet{keane1994}, but is not reproduced here. We now see that Lemma \ref{thm:no_2p_bf} follows as a corollary from the Keane-O'Brien theorem.
+Roughly speaking, the second condition is ``$f(p)$ is polynomially bounded away from 0 and 1 inside its domain'' --- note that $f(p)$ is allowed to touch 0 and 1 at $p\in\{0,1\}$. A proof is given in \citet{keane1994}, but is not reproduced here. We now see that Lemma \ref{thm:no_2p_bf} follows as a corollary from the Keane-O'Brien theorem.
 \begin{cor}
 It is not possible to construct a Bernoulli factory for $f(p)=2p$ where $p\in(0,1/2)$.
 \end{cor}
 \begin{proof}
 Firstly, $f$ is continuous on $S=(0,1/2)$, so the initial condition of Theorem \ref{thm:KOB} is satisfied.
 Since $f$ is not constant, we require that there exists $n\in\mathbb{N}$ such that $\min\{f(p),1-f(p)\} \geq \min\{p^n, (1-p)^n\}$ for all $p\in S$.
-Take $p=\frac{1}{2} - \varepsilon$. Then for all $\varepsilon>0$, $p\in S$.
+Take $p=\frac{1}{2} - \varepsilon$; then $p\in S$ for all $\varepsilon>0$.
 We calculate the relevant quantities and, since the inequality should hold for all $\varepsilon>0$,  we can take the limit $\varepsilon\to 0$:
 \begin{align*}
 &\min\{f(p),1-f(p)\} = 2\varepsilon \quad \overset{\varepsilon\to 0}{\longrightarrow}\quad 0 \\
@@ -606,7 +623,7 @@ There exists a Bernoulli factory for $f$ with $\tau$ satisfying the following pr
 \begin{enumerate}[label=(\alph*)]
 \item \label{thm:nplike_terminates_as} \textup{\citep{keane1994}} $\PR(\tau <\infty)=1$ only if $f$ is continuous on $S$.
 \item \label{thm:np_finite_mean} \textup{\citep[Proposition 23]{nacu2005}} $\sup_{p\in S} \E(\tau) <\infty$, only if $f$ is Lipschitz over $S$. 
-\item \label{thm:np_kth_moment} \textup{\citep[Proposition 22]{nacu2005}} $\E(\tau ^k)<\infty$ and $\lim_{n\to\infty} \E(\tau^k)\mathbb{I}\{\tau>t\} =0$ uniformly for all $p\in S$, only if $f\in C^k(S)$ where $C^k(S)$ denotes the set of functions with $k$ continuous derivatives on $S$.
+\item \label{thm:np_kth_moment} \textup{\citep[Proposition 22]{nacu2005}} $\E(\tau ^k)<\infty$ and $\lim_{n\to\infty} \E(\tau^k)\mathbb{I}\{\tau>t\} =0$ uniformly for all $p\in S$, only if $f$ is $k$ times continuously differentiable on $S$.
 \item \label{thm:np_exponential_tails} \textup{\citep[Theorem 2]{nacu2005}} $\PR(\tau >t) \leq c\rho^t$, for some constants $c>0, \rho<1$ and for all $p\in S$, only if $f$ is real analytic on every open subset of $S$. %open/closed??? - different for each direction in N-P
 \end{enumerate}
 \end{thm}
@@ -620,7 +637,7 @@ Property of $\tau$ & & Property of $f$ on $S$ \\
 \hline
 almost surely finite & $\Leftrightarrow$ & continuous \\
 finite expectation & $\Leftarrow$ & Lipschitz \\
-finite $k^{th}$ moment & $\Leftarrow$ & $k$ times continuously differentiable \\
+finite $k^{th}$ moment & $\Leftarrow$ & $k$ continuous derivatives \\
 exponentially decaying tails & $\Leftrightarrow$ & real analytic
 \end{tabular}
 \caption{Summary of results from \citet{keane1994} and \citet{nacu2005} giving conditions on the function $f:S\to(0,1)$ for a Bernoulli factory to exist with running time $\tau$ satisfying certain properties.}

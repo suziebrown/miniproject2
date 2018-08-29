@@ -9,7 +9,7 @@
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Quantum information}{1}}
 \newlabel{sec:quantum_info}{{2}{1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Dirac notation}{1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Dirac notation}{2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Hilbert space}{2}}
 \newlabel{sec:hilbert_defn}{{2.2}{2}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Orthonormal bases}{2}}
@@ -54,55 +54,53 @@
 \citation{nacu2005}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Expected running time $\mathbb  {E}(\tau )$ of von Neumann's Bernoulli factory for $f(p)\equiv 1/2$. The expectation attains its minimum $\mathbb  {E}(\tau )=4$ at $p=1/2$, and is moderate over a large range of $p$, but grows unboundedly as $p$ approaches 0 and 1.\relax }}{9}}
 \newlabel{fig:runtime_const2}{{4}{9}}
-\newlabel{ex:bf_pk}{{4}{9}}
+\newlabel{ex:general_const}{{4}{9}}
 \citation{patel2018}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Expected running time for the $f(p)=p^k$ Bernoulli factory described, with early stopping. Without early stopping, the running time is deterministically equal to $k$. The early stopping procedure significantly increases the efficiency, particularly when $p$ is small or $k$ is large. The minimum number of queries is one for all $k$ and $p$, and of course the $k=1$ (identity) Bernoulli factory requires exactly one query for any $p$.\relax }}{10}}
 \newlabel{fig:p2_runtime}{{5}{10}}
-\newlabel{ex:bf3}{{5}{10}}
-\newlabel{thm:products_compositions}{{1}{10}}
-\newlabel{thm:convex_combns}{{{{(b)}}}{10}}
+\newlabel{ex:bf_pk}{{5}{10}}
+\newlabel{ex:bf3}{{6}{10}}
+\citation{nacu2005}
 \citation{huber2016}
 \citation{latuszynski2011}
-\citation{latuszynski2011}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The function $f(p)=2p$ (black) is not simulable; whereas the truncated function $f(p)=2p\wedge (1-\varepsilon )$ (red) is simulable for any $\varepsilon >0$, using $O(\varepsilon ^{-1})$ queries.\relax }}{11}}
-\newlabel{fig:2p_truncation}{{6}{11}}
+\citation{keane1994}
+\newlabel{thm:products_compositions}{{1}{11}}
+\newlabel{thm:convex_combns}{{{{(b)}}}{11}}
 \newlabel{thm:compositions}{{{{(c)}}}{11}}
 \newlabel{thm:products}{{{{(d)}}}{11}}
-\newlabel{ex:2p}{{6}{11}}
+\newlabel{ex:2p}{{7}{11}}
 \newlabel{thm:no_2p_bf}{{2}{11}}
 \citation{keane1994}
 \citation{keane1994}
-\citation{keane1994}
 \citation{nacu2005}
 \citation{nacu2005}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The function $f(p)=2p$ (black) is not simulable; whereas the truncated function $f(p)=2p\wedge (1-\varepsilon )$ (red) is simulable for any $\varepsilon >0$, using $O(\varepsilon ^{-1})$ queries.\relax }}{12}}
+\newlabel{fig:2p_truncation}{{6}{12}}
+\newlabel{thm:KOB}{{1}{12}}
+\newlabel{thm:nacu_peres}{{2}{12}}
+\newlabel{thm:nplike_terminates_as}{{{{(a)}}}{12}}
 \citation{nacu2005}
 \citation{keane1994}
 \citation{nacu2005}
 \citation{keane1994}
 \citation{nacu2005}
 \citation{deutsch1992}
-\newlabel{thm:KOB}{{1}{12}}
-\newlabel{thm:nacu_peres}{{2}{12}}
-\newlabel{thm:nplike_terminates_as}{{{{(a)}}}{12}}
-\newlabel{thm:np_finite_mean}{{{{(b)}}}{12}}
-\newlabel{thm:np_kth_moment}{{{{(c)}}}{12}}
-\newlabel{thm:np_exponential_tails}{{{{(d)}}}{12}}
 \citation{grover1997}
 \citation{kerenidis2016}
 \citation{tang2018}
 \citation{dale2015}
 \citation{dale2015}
 \citation{dale2015}
-\citation{dale2015}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Summary of results from \citet  {keane1994} and \citet  {nacu2005} giving conditions on the function $f:S\to (0,1)$ for a Bernoulli factory to exist with running time $\tau $ satisfying certain properties.\relax }}{13}}
 \newlabel{tab:theorems_summary}{{1}{13}}
+\newlabel{thm:np_finite_mean}{{{{(b)}}}{13}}
+\newlabel{thm:np_kth_moment}{{{{(c)}}}{13}}
+\newlabel{thm:np_exponential_tails}{{{{(d)}}}{13}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}The quantum advantage}{13}}
 \newlabel{sec:quantum_advantage}{{4}{13}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Quantum Bernoulli factories}{13}}
 \newlabel{sec:QBF}{{4.1}{13}}
-\newlabel{thm:qbf_simulable}{{3}{13}}
-\newlabel{thm:qbf_cond_zeroes}{{{{(c)}}}{13}}
-\newlabel{thm:qbf_cond_ones}{{{{(d)}}}{13}}
+\citation{dale2015}
 \citation{patel2018}
 \citation{dale2015}
 \citation{dale2015}
@@ -110,14 +108,17 @@
 \newlabel{sub@fig:wedge_fn}{{a}{14}}
 \newlabel{fig:wedge_qbf_fn}{{7b}{14}}
 \newlabel{sub@fig:wedge_qbf_fn}{{b}{14}}
+\newlabel{thm:qbf_simulable}{{3}{14}}
+\newlabel{thm:qbf_cond_zeroes}{{{{(c)}}}{14}}
+\newlabel{thm:qbf_cond_ones}{{{{(d)}}}{14}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}A quantum Bernoulli factory for $2p$}{14}}
-\newlabel{ex:qbf_2p}{{7}{14}}
-\citation{patel2018}
-\citation{patel2018}
+\newlabel{ex:qbf_2p}{{8}{14}}
 \citation{patel2018}
 \citation{patel2018}
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Approximations to $f_\wedge (p)$ when the series expansion [eqREF] is truncated at $k_{max} = 1,5,20,100,500$. Each subsequent approximation is closer to the target function, but none attains the ideal $f(1/2)=1$.\relax }}{15}}
 \newlabel{fig:qbf_target_approximations}{{8}{15}}
+\citation{patel2018}
+\citation{patel2018}
 \bibdata{qbf.bib}
 \bibcite{dale2015}{{1}{2015}{{Dale et~al.}}{{Dale, Jennings and\ Rudolph}}}
 \bibcite{deutsch1992}{{2}{1992}{{Deutsch and\ Jozsa}}{{}}}
