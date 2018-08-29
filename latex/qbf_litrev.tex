@@ -645,12 +645,12 @@ exponentially decaying tails & $\Leftrightarrow$ & real analytic
 \end{table}
 
 \section{The quantum advantage}\label{sec:quantum_advantage}
-It is known that for certain computational problems, quantum computers provide a theoretical advantage over classical computers. For example, the Deutsch-Jozsa algorithm \citep{deutsch1992} is an example of a problem (if not a particularly practical one) which a quantum computer can solve in exponentially less time than the best possible classical algorithm.
+It is known that for certain computational problems, quantum computers provide a theoretical advantage over classical computers. For instance, the Deutsch-Jozsa algorithm \citep{deutsch1992} is an example of a problem (if not a particularly practical one) which a quantum computer can solve in exponentially less time than the best possible classical algorithm.
 
-It is widely believed (at least within the field) that quantum computing really is more powerful than its classical counterpart. Quantum computers are able to do anything that classical computers can, and quantum speed-ups have been proved for a handful of carefully constructed problems (see for example Grover's algorithm for unstructured search \citep{grover1997}), so from a theoretical viewpoint there is no denying the so-called `quantum supremacy'.
+It is widely believed (at least within the field) that quantum computing really is more powerful than its classical counterpart. Quantum computers are able to do anything that classical computers can, and quantum speed-ups have been proved for a handful of carefully constructed problems (see for another example Grover's algorithm for unstructured search \citep{grover1997}), so from a theoretical viewpoint there is no denying the so-called `quantum supremacy'.
 
 There is, however, a lack of rigorous results for any computational problems with significant practical applications.
-One such problem was apparently solved by \citet{kerenidis2016}, who came up with a quantum speed-up for the recommendation problem --- that is, how Amazon and Netflix estimate which products you will like given yours and other customers' ratings of all products. However, the authors were unable to prove that no comparably fast classical algorithm exists, and one has now been found by \citet{tang2018}.
+One such problem was apparently solved by \citet{kerenidis2016}, who came up with a quantum speed-up for the recommendation problem --- that is, how Amazon and Netflix estimate which products you will like given yours and other customers' ratings of all products. However, the authors were unable to prove that no comparably fast classical algorithm exists, and one has now been found \citep{tang2018}.
 
 \subsection{Quantum Bernoulli factories}\label{sec:QBF}
 The Bernoulli factory problem is an example of a practically applicable problem that is nevertheless simple to state and analyse. It was therefore a good candidate in the quest for a practical and provable quantum advantage, and indeed \citet{dale2015} prove this advantage. 
@@ -663,7 +663,7 @@ This is a sensible definition since measuring $\ket{p}$ in the computational bas
 Note that the quantum Bernoulli factory has a quantum input (quoins) and a classical output (measurement outcome).
 We will call a function \emph{quantum simulable} if there exists a quantum Bernoulli factory for it.
 
-\citet{dale2015} prove that quantum computation allows a strictly larger class of Bernoulli factories to be constructed, taking as an example the notorious $f(p)=2p$. While this function is not simulable in the classical setting, the authors show that it is quantum simulable, and provide an explicit algorithm using two entangled qubits.
+\citet{dale2015} prove that quantum computation allows a strictly larger class of functions to be simulated, taking as an example the notorious $f(p)=2p$. While this function is not simulable in the classical setting, the authors show that it is quantum simulable, and provide an explicit algorithm using two entangled qubits.
 They also determine necessary and sufficient conditions (Theorem \ref{thm:qbf_simulable}) for a function to be quantum simulable, which are weaker than those for classical simulability provided by the Keane-O'Brien theorem (Theorem \ref{thm:KOB}).
 
 \begin{thm}[{\citet[Theorem 1]{dale2015}}]\label{thm:qbf_simulable}
@@ -677,14 +677,51 @@ is quantum simulable (using only operations on single qubits) if and only if:
 \end{enumerate}
 \end{thm}
 In the quantum case, the function $f$ is allowed to touch 0 and 1 at finitely many points in its domain, as opposed to the classical case where $f(p)$ may only take the values 0 and 1 at $p\in\{0,1\}$ or in the cases of the constant functions $f\equiv 0$ and $f\equiv 1$.
-The conditions \ref{thm:qbf_cond_zeroes} and \ref{thm:qbf_cond_ones} ensure that $f$ does not go to 0 or 1 too quickly at these points. % exponentially? polynomially?
+The conditions \ref{thm:qbf_cond_zeroes} and \ref{thm:qbf_cond_ones} ensure that $f$ goes to 0 or 1 only polynomially quickly at these points.
 
 \citet{dale2015} also claim that the same necessary and sufficient conditions apply even when operations on more than one qubit are allowed. That is, taking advantage of quantum entanglement (as in Example \ref{ex:qbf_2p}) does not expand the set of simulable functions. It can, however, substantially reduce the consumption of $p$-quoins, as demonstrated in \citet{patel2018}.
 
 
-\subsection{A quantum Bernoulli factory for $2p$}
-% probably need to rewrite this a bit now...
-Example \ref{ex:qbf_2p} gives the quantum algorithm of \citet{dale2015} for the function $f_\wedge(p) := 2\min\{p, 1-p\}$, $p\in[0,1]$. This function (Figure \ref{fig:wedge_fn}) coincides with that of Example \ref{ex:2p} when the domain is restricted to $p\in(0,1/2)$, so it is clearly sufficient to find a Bernoulli factory for $f_\wedge$.
+\subsection{A quantum Bernoulli factory for 2p}
+This section describes the quantum algorithm of \citet{dale2015} for the function $f_\wedge(p) := 2\min\{p, 1-p\}$, $p\in[0,1]$. This function (Figure \ref{fig:wedge_fn}) coincides with that of Example \ref{ex:2p} when the domain is restricted to $p\in(0,1/2)$, so it is sufficient to find a Bernoulli factory for $f_\wedge$.
+
+First note that 
+\begin{equation}\label{eq:2p_seriesexp}
+f_\wedge(p) = 2\min\{p, 1-p\} = 1-\sqrt{1-4p(1-p)} = \sum_{k=1}^{\infty} \binom{2k}{k} \frac{1}{(2k-1)2^{2k}} (4p(1-p))^k =: \sum_{k=1}^{\infty} q_k (4p(1-p))^k.
+\end{equation} % check that taylor expansion /!\
+where $q_k$ are constants not depending on $p$, and are therefore simulable. Due to property \ref{thm:convex_combns} of Lemma \ref{thm:products_compositions}, $f_\wedge$ is then simulable if there exists a Bernoulli factory for $(4p(1-p))^k$. Since this is a case of Example \ref{ex:bf_pk}, we need only construct a Bernoulli factory for $4p(1-p)$. This function is not classically simulable since it still touches 1 at $p=0.5$ (Figure \ref{fig:wedge_qbf_fn}).
+
+% add flow diagram or pseudocode for the full algorithm
+
+However, \citet{dale2015} describe the following quantum Bernoulli factory for the function $4p(1-p)$.
+We first prepare two $p$-quoins; that is, we have two qubits jointly in the product state $\ket{p}\ket{p}$. We then measure the joint state in the Bell basis, say with the operator
+\begin{equation*}
+0\cdot\ket{\phi^+}\bra{\phi^+} + 1\cdot\ket{\phi^-}\bra{\phi^-} + 2\cdot\ket{\psi^+}\bra{\psi^+} + 3\cdot\ket{\psi^-}\bra{\psi^-}.
+\end{equation*} 
+Then the possible measurement outcomes are:
+\begin{align*}
+&\PR(\text{observe }0) = \braket{v|\phi^+}\braket{\phi^+|v} = 1/2 \\
+&\PR(\text{observe }1) = \braket{v|\phi^-}\braket{\phi^-|v} = \frac{(1-2p)^2}{2} \\
+&\PR(\text{observe }2) = \braket{v|\psi^+}\braket{\psi^+|v} = 2p(1-p) \\
+&\PR(\text{observe }3) = \braket{v|\psi^-}\braket{\psi^-|v} = 0
+\end{align*}
+This means that $\PR(\text{observe }1 \text{ or } 2) = 1/2$, and $\PR(\text{observe } 2 \mid \text{observe }1 \text{ or } 2) = 4p(1-p)$, which is the required function.
+Thus our Bernoulli factory for $4p(1-p)$ is as follows: measure $\ket{p}\ket{p}$ in the Bell basis until the observed outcome is either 1 or 2, then return heads if the outcome is 2, or tails if the outcome is 1. 
+This procedure has running time $\tau \eqdist \Geom(1/2)$, which is as good as we can hope for, having exponentially decaying tails.
+
+Let us now consider the full procedure for $f_\wedge$.
+We first choose a $k$ according to the probability distribution $\{q_k\}$ (Figure \ref{fig:qbf_qk}).
+We then repeat the the $4p(1-p)$ Bernoulli factory $k$ times to determine the output. The full procedure therefore has running time 
+\begin{equation*}
+\tau \eqdist \Geom(1/2) \sum_{k=1}^\infty k \cdot q_k
+\end{equation*}
+which is almost surely finite as required. But since $k\cdot q_k$ is not summable, the \emph{expected} running time is $\E(\tau)=+\infty$ for all $p$.
+
+However, we can improve the running time by using early stopping as in Example \ref{ex:bf_pk}, so that we output tails as soon as any of the $4p(1-p)$ procedures outputs tails. In this case the running time becomes 
+\begin{equation*}
+\tau \eqdist \Geom(1/2) \sum_{k=1}^\infty [\Geom(1-4p(1-p)) \wedge k] \cdot q_k.
+\end{equation*} % so the expectation is what...?
+The Geometric early stopping time moderates the running time sufficiently that it has finite expectation whenever $p\neq 1/2$, but $\E(\tau) \to +\infty$ as $p\to 1/2$ (Figure \ref{fig:qbf_wedge_runtime}). That is, the Bernoulli factory behaves badly around the `difficult' point $p=1/2$.
 
 \begin{figure} % combine these onto one plot?
 \centering
@@ -701,62 +738,42 @@ Example \ref{ex:qbf_2p} gives the quantum algorithm of \citet{dale2015} for the 
 \caption{Simulation of $f_\wedge(p)$ reduces to simulation of this function $4p(1-p)$, which is also classically unobtainable.}
 \label{fig:wedge_qbf_fn}
 \end{subfigure}
+\caption{The function $f\wedge(p)=2\min\{p, 1-p\}$ and the component function $4p(1-p)$ to which its quantum Bernoulli factory reduces.}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{approxtarget_1520100500.pdf}
-\caption{Approximations to $f_\wedge(p)$ when the series expansion [eqREF] is truncated at $k_{max} = 1,5,20,100,500$. Each subsequent approximation is closer to the target function, but none attains the ideal $f(1/2)=1$.}
+\caption{Approximations to $f_\wedge(p)$ when the series expansion \eqref{eq:2p_seriesexp} is truncated at $k_{max} = 1,5,20,100,500$. Each subsequent approximation is closer to the target function, but none attains the ideal $f(1/2)=1$.}
 \label{fig:qbf_target_approximations}
 \end{figure}
 
-\begin{example}\label{ex:qbf_2p}
-First note that 
-\begin{equation*}
-f_\wedge(p) = 2\min\{p, 1-p\} = 1-\sqrt{1-4p(1-p)} = \sum_{k=1}^{\infty} \binom{2k}{k} \frac{1}{(2k-1)2^{2k}} (4p(1-p))^k =: \sum_{k=1}^{\infty} q_k (4p(1-p))^k.
-\end{equation*} % check that taylor expansion /!\
-where $q_k$ are constants not depending on $p$, and are hence simulable. Due to property \ref{thm:convex_combns} of Lemma \ref{thm:products_compositions}, $f_wedge$ is therefore simulable if there exists a Bernoulli factory for $(4p(1-p))^k$. Since this is a case of Example \ref{ex:bf_pk}, we need only construct a Bernoulli factory for $4p(1-p)$. This function is not classically simulable since it still touches 1 at $p=0.5$.
+\begin{figure}
+\centering
+\begin{subfigure}{0.45\linewidth}
+\centering
+\includegraphics[width=\textwidth]{qk_values.pdf}
+\caption{Value of $q_k$ (on a logarithmic scale) for various $k$. The probabilities decay quickly, so it is unlikely to choose a large value of $k$ which would make the QBF slow.}
+\label{fig:qbf_qk}
+\end{subfigure}%
+\hfill
+\begin{subfigure}{0.45\linewidth}
+\centering
+\includegraphics[width=\textwidth]{2p_qbf_runtime.pdf}
+\caption{Expected running time for the $f_\wedge(p)$ quantum Bernoulli factory. The running time is almost surely finite for all $p$, but its expectation goes to infinity when $p$ is close to 1/2.}
+\label{fig:qbf_wedge_runtime}
+\end{subfigure}
+\caption{(a) Value of $q_k$ for $k=1,\dots, 100$. (b) Expected running time of the QBF for $f_\wedge(p)$.}
+\end{figure}
 
-% add flow diagram or pseudocode for the full algorithm
-
-However, \citet{dale2015} describe the following quantum Bernoulli factory for this function.
-We first prepare two quoins; that is, we have two qubits jointly in the product state $\ket{p}\ket{p}$. We then measure the joint state in the Bell basis, say with the operator
-\begin{equation*}
-0\cdot\ket{\phi^+}\bra{\phi^+} + 1\cdot\ket{\phi^-}\bra{\phi^-} + 2\cdot\ket{\psi^+}\bra{\psi^+} + 3\cdot\ket{\psi^-}\bra{\psi^-}.
-\end{equation*} 
-Then the measurement outcomes are:
-\begin{align*}
-&\PR(\text{observe }0) = \braket{v|\phi^+}\braket{\phi^+|v} = 1/2 \\
-&\PR(\text{observe }1) = \braket{v|\phi^-}\braket{\phi^-|v} = \frac{(1-2p)^2}{2} \\
-&\PR(\text{observe }2) = \braket{v|\psi^+}\braket{\psi^+|v} = 2p(1-p) \\
-&\PR(\text{observe }3) = \braket{v|\psi^-}\braket{\psi^-|v} = 0
-\end{align*}
-This means that $\PR(\text{observe }1 \text{ or } 2) = 1/2$, and $\PR(\text{observe } 2 \mid \text{observe }1 \text{ or } 2) = 4p(1-p)$, which is the required function.
-Thus our Bernoulli factory for $4p(1-p)$ is as follows: measure $\ket{p}\ket{p}$ in the Bell basis until the observed outcome is either 1 or 2, then return heads if the outcome is 2, or tails if the outcome is 1. 
-This procedure has running time $\tau \eqdist \Geom(1/2)$, which is as good as we can hope for, having exponentially decaying tails.
-
-However, let us consider the full procedure for $f_\wedge$.
-We first choose a $k$ according to the probability distribution $\{q_k\}$, which has exponentially decaying tails (Figure [REF]).
-We then repeat the the $4p(1-p)$ Bernoulli factory $k$ times to determine the output. The full procedure therefore has running time 
-\begin{equation*}
-\tau \eqdist \Geom(1/2) \sum_{k=1}^\infty k \cdot q_k.
-\end{equation*}
-Alas $k\cdot q_k$ is not summable, and the expected running time is therefore $\E(\tau)=+\infty$ for all $p$.
-
-We can improve the running time by using early stopping as in Example [REF], so that we output tails as soon as any of the $4p(1-p)$ procedures outputs tails. In this case the running time becomes 
-\begin{equation*}
-\tau \eqdist \Geom(1/2) \sum_{k=1}^\infty [\Geom(1-4p(1-p)) \wedge k] \cdot q_k.
-\end{equation*} % so the expectation is what...?
-The Geometric early stopping time moderates the running time sufficiently that it has finite expectation whenever $p\neq 1/2$, but $\E(\tau) \to +\infty$ as $p\to 1/2$ (Figure [REF]). That is, the quoin consumption gets really big around the `difficult' point $p=1/2$.
-
+\subsubsection{Experimental implementation}
 \citet{patel2018} describes a physical implementation of this quantum Bernoulli factory. Although the authors remain positive about their results, there are obvious shortcomings in the physical implementation. \citet[Figure 3e]{patel2018} shows a realisation of the quoin consumption, similar to Figure [REF], except that in practice the quoin consumption cannot approach infinity, and tops out at a mean of 60 in their experiment, when $p$ is close to 1/2.
 
-Since in a physical system, infinite quoin consumption cannot be allowed, the authors approximate the infinite sum [eqREF] by truncating at a certain value of $k$. The resulting target functions are only approximations of $f_\wedge$, which are rounded at the top and do not touch 1 at $p=1/2$ \citep[Figures 3a--d]{patel2018}. They also do not run their experiment at the input value $p=1/2$, since the coin consumption there would ideally have infinite mean, and so the approximation would be poor and the experiment time-consuming, with many runs using the maximum $k$ quoins.
+Since in a physical system, infinite quoin consumption cannot be allowed, the authors approximate the infinite series \eqref{eq:2p_seriesexp} by truncating at a certain value of $k$. The resulting target functions are only approximations of $f_\wedge$, which are rounded at the top and do not touch 1 at $p=1/2$ \citep[Figures 3a--d]{patel2018}. They also do not run their experiment at the input value $p=1/2$, since the coin consumption there would ideally have infinite mean, and so the approximation would be poor and the experiment time-consuming, with many runs using the maximum $k$ quoins.
 
 All this begs the question of whether the quantum Bernoulli factory for $f_\wedge$ is really an improvement on the classical truncated one, since experimental constraints effectively amount to something like an $\varepsilon$-truncation of the function even in the quantum case.
 \citet{patel2018} claim, however, that the a much better approximation can be achieved using the quantum algorithm with a fixed number of input quoins than with the best classical algorithm using the same number of input coins.
 % is this due to better constants or is it actually better than 1/eps scaling?
-\end{example}
 
 
 % CBFs subset of QBFs (Dale eqn 1) ?
