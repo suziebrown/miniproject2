@@ -79,17 +79,17 @@
 \maketitle
 
 \section{Introduction}
-Loosely speaking, a Bernoulli factory is an algorithm taking $p$-coin flips as inputs and producing a $f(p)$-coin flip as output.
+Loosely speaking, a Bernoulli factory is an algorithm taking $p$-coin flips as inputs and producing an $f(p)$-coin flip as output.
 The existence and performance of such algorithms for various choices of $p$ has been a subject of interest since the 1950s when random number generation was gaining popularity, and a subject of focused study since the 1990s.
 
 Bernoulli factories are necessary components of certain Monte Carlo strategies, particularly calculating Metropolis-Hastings acceptance probabilities in pseudo-marginal methods and diffusion models. 
-In both cases, some terms in the acceptance probability cannot be evaluated, but can be Bernoulli sampled. The acceptance probability $\alpha$ does not need to be calculated; the Metropolis-Hastings accept/reject step only uses $\alpha$ to produce a $\Bern(\alpha)$ random variable. Choosing whether to accept or reject a proposal therefore comes down to converting the available Bernoulli samples to the desired $\Bern(\alpha)$ sample, which is precisely a Bernoulli factory problem.
+In both cases, some terms in the acceptance probability cannot be evaluated, but can be Bernoulli-sampled. Luckily the acceptance probability $\alpha$ does not need to be explicitly calculated; the Metropolis-Hastings accept/reject step only uses $\alpha$ to produce a $\Bern(\alpha)$ random variable. Choosing whether to accept or reject a proposal therefore comes down to converting the available Bernoulli samples to the desired $\Bern(\alpha)$ sample, which is precisely a Bernoulli factory problem.
 
-The fundamental problem of which functions are possible was neatly solved by \citet{keane1994}, which gives necessary and sufficient conditions on $f$ for existence of a Bernoulli factory, but does not address the question of running time (that is, the number of $p$-coin flips required as inputs).
+The fundamental problem of which functions are possible was neatly solved by \citet{keane1994}, who give necessary and sufficient conditions on $f$ for the existence of a Bernoulli factory, but does not address the question of running time (that is, the number of $p$-coin flips required as inputs).
 Theorems of \citet{nacu2005} determined further necessary conditions on $f$ for the running time to satisfy various properties.
 
 The contribution of \citet{dale2015} is a theorem analogous to that of \citet{keane1994}, in the context of a ``quantum Bernoulli factory'': where the inputs are quantum $p$-coins (``quoins''), and quantum processing is allowed.
-They show that quantum algorithms can simulate a larger class of functions than classical ones, and may consume many fewer input quoins than their classical counterparts do coins.
+They show that quantum algorithms can simulate a strictly larger class of functions than classical ones and, for classically simulable algorithms, may consume many fewer input quoins than their classical counterparts do coins.
 
 % general overview of the field of quantum monte carlo (quantum MH, qunatum MCMC etc?)
 
@@ -784,16 +784,13 @@ However, \citet{patel2018} claim that the quantum algorithm given a fixed number
 
 Although we were not able to investigate it thoroughly in the scope of this project, preliminary results suggest that the quoin consumption of this quantum Bernoulli factory is $O(\varepsilon^{-1})$, where $\varepsilon$ is the error at $p=1/2$ between $f_\wedge$ and the approximation using $k_{max}$ terms. This scaling is the same as we see in the classical case, where $\varepsilon$ is the level of truncation, again corresponding to the approximation error at $p=1/2$. This suggests that the difference in resource usage seen in \citet{patel2018} is due to better constants in the quantum case, rather than better scaling.
 
-% also the experimental error means we physically cannot obtain a better approximation than around kmax=2000, however many quoins we are given!
-
-
-
 
 \section{Discussion}\label{sec:discussion}
 % difference between this (the quatum guys') view of a BF and ours (the one applicable to MC) - 
 % can it be resolved?
 % is it sensible to compare number of quoins used to number of coins used?
-% 
+%
+
 
 \bibliography{qbf.bib}
 \end{document}
