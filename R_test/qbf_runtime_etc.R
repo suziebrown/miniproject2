@@ -7,8 +7,8 @@ plot(p, f(p), type='l', lwd=2, ylim=c(0,200))
 #---
 
 q <- function(k) {choose(2*k,k)/((2*k-1)*2^(2*k))}
-k <- 1:10
-plot(k, q(k))
+k <- 1:100
+plot(k, q(k), log='y', ylab='q_k', pch=16)
 
 #---
 # running time of QBF for wedge fn
@@ -29,7 +29,7 @@ for (j in 1:length(p2)) {
   Et[j] <- sum(Etauk)
 }
 
-plot(p, Et, type='l', lwd=2, ylim=c(0,20))
+plot(p, Et, type='l', lwd=2, ylim=c(0,20), ylab='E(tau)')
 #plot(p, rep(sum(2*k*q(k)), length(p)))
 #plot(k, cumsum(2*k*q(k)))
 
