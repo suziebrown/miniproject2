@@ -666,6 +666,8 @@ We will call a function \emph{quantum simulable} if there exists a quantum Berno
 \citet{dale2015} prove that quantum computation allows a strictly larger class of functions to be simulated, taking as an example the notorious $f(p)=2p$. While this function is not simulable in the classical setting, the authors show that it is quantum simulable, and provide an explicit algorithm using two entangled qubits.
 They also determine necessary and sufficient conditions (Theorem \ref{thm:qbf_simulable}) for a function to be quantum simulable, which are weaker than those for classical simulability provided by the Keane-O'Brien theorem (Theorem \ref{thm:KOB}).
 
+% CBFs subset of QBFs (Dale eqn 1)
+
 \begin{thm}[{\citet[Theorem 1]{dale2015}}]\label{thm:qbf_simulable}
 A function $f:[0,1]\to[0,1]$ % can say S\to[0,1] as above ??
 is quantum simulable (using only operations on single qubits) if and only if:
@@ -684,6 +686,8 @@ The conditions \ref{thm:qbf_cond_zeroes} and \ref{thm:qbf_cond_ones} ensure that
 
 \subsection{A quantum Bernoulli factory for 2p}
 This section describes the quantum algorithm of \citet{dale2015} for the function $f_\wedge(p) := 2\min\{p, 1-p\}$, $p\in[0,1]$. This function (Figure \ref{fig:wedge_fn}) coincides with that of Example \ref{ex:2p} when the domain is restricted to $p\in(0,1/2)$, so it is sufficient to find a Bernoulli factory for $f_\wedge$.
+
+Although \citet{dale2015} also constructs a quantum algorithm using only measurements on single qubits (and both algorithms are implemented by \citet{patel2018}), we will focus on the two-qubit algorithm which is simpler to describe and gives the best performance.
 
 First note that 
 \begin{equation}\label{eq:2p_seriesexp}
@@ -766,18 +770,22 @@ The Geometric early stopping time moderates the running time sufficiently that i
 \caption{(a) Value of $q_k$ for $k=1,\dots, 100$. (b) Expected running time of the QBF for $f_\wedge(p)$.}
 \end{figure}
 
-\subsubsection{Experimental implementation}
-\citet{patel2018} describes a physical implementation of this quantum Bernoulli factory. Although the authors remain positive about their results, there are obvious shortcomings in the physical implementation. \citet[Figure 3e]{patel2018} shows a realisation of the quoin consumption, similar to Figure [REF], except that in practice the quoin consumption cannot approach infinity, and tops out at a mean of 60 in their experiment, when $p$ is close to 1/2.
+\subsubsection{Experimental considerations}
+\citet{patel2018} describe a physical implementation of this quantum Bernoulli factory. 
+Since in a physical system infinite quoin consumption cannot be allowed, the authors approximate the infinite series \eqref{eq:2p_seriesexp} by truncating it after $k_{max}$ terms. The resulting target functions are only approximations of $f_\wedge$, which are rounded at the top and therefore do not touch 1 at $p=1/2$ (Figure \ref{fig:qbf_target_approximations}). %\citep[Figures 3a--d]{patel2018}.
 
-Since in a physical system, infinite quoin consumption cannot be allowed, the authors approximate the infinite series \eqref{eq:2p_seriesexp} by truncating at a certain value of $k$. The resulting target functions are only approximations of $f_\wedge$, which are rounded at the top and do not touch 1 at $p=1/2$ \citep[Figures 3a--d]{patel2018}. They also do not run their experiment at the input value $p=1/2$, since the coin consumption there would ideally have infinite mean, and so the approximation would be poor and the experiment time-consuming, with many runs using the maximum $k$ quoins.
+In fact, the authors admit that with the experimental equipment currently available, it is not possible to achieve a better approximation than that given by $k_{max} \simeq 2000$. For higher-order approximations, the experimental errors become overwhelming. This means that there is a bound on the precision possible with the quantum algorithm, no matter how many quoins we are allowed to use --- a shortcoming not suffered by the classical algorithm. Of course, improvements in equipment will allow higher precision, but it is reasonable to suppose that it will always be bounded at some level.
 
-All this begs the question of whether the quantum Bernoulli factory for $f_\wedge$ is really an improvement on the classical truncated one, since experimental constraints effectively amount to something like an $\varepsilon$-truncation of the function even in the quantum case.
-\citet{patel2018} claim, however, that the a much better approximation can be achieved using the quantum algorithm with a fixed number of input quoins than with the best classical algorithm using the same number of input coins.
-% is this due to better constants or is it actually better than 1/eps scaling?
+Also, the authors do not run their experiment at the input value $p=1/2$, presumably since the coin consumption there would ideally have infinite mean and so the experiment would be time-consuming, with many runs using the maximum $k_{max}$ quoins.
+\citet[Figure 3e]{patel2018} shows a realisation of the quoin consumption, similar to Figure \ref{fig:qbf_wedge_runtime}, except that in practice the quoin consumption cannot approach infinity, and tops out at a mean of 60 in their experiment, when $p$ is close to 1/2.
 
+There is a question as to whether the quantum Bernoulli factory for $f_\wedge$ is really an improvement on the classical truncated one, since experimental constraints effectively amount to something like an $\varepsilon$-truncation of the function even in the quantum case (Figure \ref{fig:qbf_target_approximations}).
+However, \citet{patel2018} claim that the quantum algorithm given a fixed number of input quoins achieves a much better approximation than the best classical algorithm using the equivalent number of input coins.
 
-% CBFs subset of QBFs (Dale eqn 1) ?
-% Dale says the classical truncated 2p has poor (exponential) scaling of coin usage with epsilon...?
+Although we were not able to investigate it thoroughly in the scope of this project, preliminary results suggest that the quoin consumption of this quantum Bernoulli factory is $O(\varepsilon^{-1})$, where $\varepsilon$ is the error at $p=1/2$ between $f_\wedge$ and the approximation using $k_{max}$ terms. This scaling is the same as we see in the classical case, where $\varepsilon$ is the level of truncation, again corresponding to the approximation error at $p=1/2$. This suggests that the difference in resource usage seen in \citet{patel2018} is due to better constants in the quantum case, rather than better scaling.
+
+% also the experimental error means we physically cannot obtain a better approximation than around kmax=2000, however many quoins we are given!
+
 
 
 
