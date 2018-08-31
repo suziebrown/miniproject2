@@ -787,7 +787,33 @@ Also, the authors do not run their experiment at the input value $p=1/2$, presum
 There is a question as to whether the quantum Bernoulli factory for $f_\wedge$ is really an improvement on the classical truncated one, since experimental constraints effectively amount to something like an $\varepsilon$-truncation of the function even in the quantum case (Figure \ref{fig:qbf_target_approximations}).
 However, \citet{patel2018} claim that the quantum algorithm given a fixed number of input quoins achieves a much better approximation than the best classical algorithm using the equivalent number of input coins.
 
-Although we were not able to investigate it thoroughly in the scope of this project, preliminary results suggest that the quoin consumption of this quantum Bernoulli factory is $O(\varepsilon^{-1})$, where $\varepsilon$ is the error at $p=1/2$ between $f_\wedge$ and the approximation using $k_{max}$ terms. This scaling is the same as we see in the classical case, where $\varepsilon$ is the level of truncation, again corresponding to the approximation error at $p=1/2$. This suggests that the difference in resource usage seen in \citet{patel2018} is due to better constants in the quantum case, rather than better scaling.
+\subsubsection{Scaling limits}
+\citet{huber2016} shows that the best classical Bernoulli factory for $f(p)=2p\wedge 1-\varepsilon$ has running time that scales like $1/\varepsilon$, where $\varepsilon$ is the error at $p=1/2$ between the ideal function $f(p)=2p$ and the approximate (truncated) function.
+In the quantum case we can similarly define $\varepsilon$ as the error at $p=1/2$ between $f_\wedge$ and the approximation using $k_{max}$ terms in the series expansion \eqref{eq:2p_seriesexp}.
+
+Figure \ref{fig:eps_scaling} shows the theoretical relationship between expected consumption (running time) and approximation error $\varepsilon$, for $p$ close to 1/2 (recall that at $p=1/2$ the running time has infinite expectation).
+The approximation error is given by
+\begin{equation*}
+\varepsilon = 1 - \sum_{k=1}^{k_{max}} q_k
+\end{equation*}
+and the expected quoin consumption is
+\begin{equation*}
+\frac{2}{1-4p(1-p)} \sum_{k=1}^\infty q_k [1-(4p(1-p))^k].
+\end{equation*}
+Each black point represents a different value of $k_{max}$, from 1 (bottom right) to 500 (top left). The value of $p$ used is 0.499; bringing $p$ any closer to 0.5 makes no perceptible difference. The red line shows the fitted $\E(\tau) \propto 1/\varepsilon$ relationship, which appears to fit the data very well.
+
+\citet{patel2018} claim that the quoin consumption scales like $\varepsilon^{-1/2}$, but their result is obtained by averaging over all values of $p$. This seems an unfair comparison, since the scaling is worst close to $p=1/2$. Indeed if the equivalent Figure \ref{fig:eps_scaling} is produced for different values of $p$ we see much better scaling when $p$ is not close to 1/2, so averaging over $p$ favourably biases the scaling results.
+The classical scaling result of \citet[Theorem 1]{huber2016} considers the `worst-case' of the running time, taking the supremum over $p$, which is what we have tried to emulate here.
+
+It seems therefore that both the classical and quantum Bernoulli factories for $2p$ have running time that scales with $1/\varepsilon$ when $p$ is close to 1/2. This suggests that the huge experimental difference in resource usage observed by \citet{patel2018} must be due only to better constants in the quantum case.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{eps_scaling.pdf}
+\caption{Expected running time (quoin consumption) at $p=0.499$ of the quantum Bernoulli factory for $f_\wedge$, for various values of $k_{max}$, against the amount of error $\varepsilon$ incurred by truncating at $k_{max}$ terms. A $1/\varepsilon$ relationship (red line) seems to fit very well.}
+\label{fig:eps_scaling}
+\end{figure}
+
 
 \subsection{Another quantum Bernoulli factory}
 A more impressive, if less fundamentally important, example is obtained by considering the function
@@ -831,7 +857,7 @@ However the comparison does not seem particularly fair.
 Firstly, the running time of the quantum Bernoulli factory is measured as the number of $p$-quoins consumed, whereas the running time of the classical Bernoulli factory is the number of flips of a $p$-coin used. In a sense, the classical Bernoulli factory only requires a single coin which can be flipped many times, while in the quantum Bernoulli factory a quoin is produced and then destroyed at every step.
 But this is still not quite the right way to look at it, since the classical coin is an abstraction and does not really exist; there are only Bernoulli samples which, like the quoins, are `used up' at each step.
 
-The second and more serious issue is that constructing a $p$-quoin requires the value of $p$ to be available (though not necessarily known to the experimenters). That is, producing the quantum state $\ket{p}$ requires the quantum computer to take the value of $p$ as an input --- but the fundamental point of a Bernoulli factory is that $p$ is unknown.
+The second and more serious issue is that constructing a $p$-quoin requires the value of $p$ to be available (though not necessarily known to the experimenters). That is, producing the quantum state $\ket{p}$ requires the quantum computer to take the value of $p$ as an input \citep{hebdige2018} --- but the fundamental point of a Bernoulli factory is that $p$ is unknown.
 
 On a philosophical level, we can abstract the problem and imagine that in both the classical and quantum cases $p$ is unknown to the experimenters but known to some third party. That third party is then responsible in the classical case for feeding the value of $p$ into a Bernoulli sample generator, or in the quantum case for feeding $p$ into a $p$-quoin generator. In this framework, $p$ plays the same role for both factories. This framework also addresses the first problem, because we can then equate classical coins with `dephased' quoins, which are exactly like quoins except that they lack the ability for quantum coherence and entanglement.
 
