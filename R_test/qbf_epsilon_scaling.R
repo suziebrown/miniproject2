@@ -28,7 +28,7 @@
 p2 <- function(p) {4*p*(1-p)}
 qk <- function(k) {choose(2*k,k)/((2*k-1)*2^(2*k))}
 
-p <- 0.4999 # see what happens when you vary this
+p <- 0.499 # see what happens when you vary this
 k <- 1:500
 
 epsilon <- 1- cumsum(qk(k))
