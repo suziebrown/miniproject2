@@ -6,14 +6,14 @@ plot(p, f(p), type='l', lwd=2, ylim=c(0,200))
 
 #---
 
-q <- function(k) {choose(2*k,k)/((2*k-1)*2^(2*k))}
+qk <- function(k) {choose(2*k,k)/((2*k-1)*2^(2*k))}
 k <- 1:100
 plot(k, q(k), log='y', ylab='q_k', pch=16)
 
 #---
 # running time of QBF for wedge fn
 
-q <- function(k) {choose(2*k,k)/((2*k-1)*2^(2*k))}
+qk <- function(k) {choose(2*k,k)/((2*k-1)*2^(2*k))}
 tauk_fn <- function(k,p) { 2 * choose(2*k,k) * (1-p^k)/((2*k-1)*2^(2*k) * (1-p)) } #possible to sum analytically over k?
 
 p <- seq(0.001, 0.999, 0.002)
@@ -38,7 +38,7 @@ plot(p, Et, type='l', lwd=2, ylim=c(0,20), ylab='E(tau)')
 #---
 # discrepancy caused by truncating k
 
-q <- function(k) {choose(2*k,k)/((2*k-1)*2^(2*k))}
+qk <- function(k) {choose(2*k,k)/((2*k-1)*2^(2*k))}
 p <- 0.49
 p2 <- function(p) {4*p*(1-p)}
 k <- 1:500
@@ -47,7 +47,7 @@ diff <- 1 - cumsum(kterms)
 plot(k, diff, xlab='k_max', ylab='error', log='y')
 
 # discrepancy as a function of mean quoin consumption
-q <- function(k) {choose(2*k,k)/((2*k-1)*2^(2*k))}
+qk <- function(k) {choose(2*k,k)/((2*k-1)*2^(2*k))}
 k <- 1:500
 
 diff <- 1- cumsum(q(k))
