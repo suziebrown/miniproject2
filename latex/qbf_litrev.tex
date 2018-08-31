@@ -784,6 +784,38 @@ However, \citet{patel2018} claim that the quantum algorithm given a fixed number
 
 Although we were not able to investigate it thoroughly in the scope of this project, preliminary results suggest that the quoin consumption of this quantum Bernoulli factory is $O(\varepsilon^{-1})$, where $\varepsilon$ is the error at $p=1/2$ between $f_\wedge$ and the approximation using $k_{max}$ terms. This scaling is the same as we see in the classical case, where $\varepsilon$ is the level of truncation, again corresponding to the approximation error at $p=1/2$. This suggests that the difference in resource usage seen in \citet{patel2018} is due to better constants in the quantum case, rather than better scaling.
 
+\subsection{Another quantum Bernoulli factory}
+A more impressive, if less fundamentally important, example is obtained by considering the function
+\begin{equation*}
+h_a(p) := \left( \sqrt{p(1-a)} - \sqrt{a(1-p)} \right)^2
+\end{equation*}
+which is plotted for various values of $a$ in Figure \ref{fig:function_ha}.
+This function is not classically simulable except when $a\in\{0,1\}$, since it takes the value 0 when $p=a$. (Note that for $a\in\{0,1\}$ we simply recover the functions $p$ and $1-p$ respectively, which are trivially simulable using one coin.)
+Contrarily, $h_a(p)$ is quantum simulable for all $a\in[0,1]$. Moreover, it can be simulated by a quantum Bernoulli factory using just one quoin.
+The quantum procedure involves applying the unitary operator
+\begin{equation*}
+\begin{pmatrix}
+\sqrt{1-a} & \sqrt{a} \\
+-\sqrt{a} & \sqrt{1-a}
+\end{pmatrix}
+\end{equation*}
+to a $p$-quoin $\ket{p} := \sqrt{1-p}\,\ket{0} + \sqrt{p}\,\ket{1}$, producing the state
+\begin{equation*}
+\left( \sqrt{(1-a)(1-p)} + \sqrt{ap} \right) \ket{0}
++ \left( \sqrt{p(1-a)} - \sqrt{a(1-p)}\right) \ket{1}.
+\end{equation*}
+Measurement in the computational basis then outputs 1 with the desired probability $h_a(p)$.
+
+This is an example of how the quantum ability to manipulate quoins prior to measurement yields flexibility that is not available through classical processing.
+The function $h_a(p)$ is used in \citet{dale2015} to produce upper and lower bounding functions for $f(p)$, which are required for the proof of Theorem \ref{thm:qbf_simulable}.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{function_ha.pdf}
+\caption{The function $h_a(p)$ for various values of $a$ (taking $a>0.5$ produces the reflection in $p=0.5$ of $h_{1-a}$). These functions are not classically simulable except for $a\in\{0,1\}$ because they touch 0 at $p=a$. But they can be simulated by a quantum Bernoulli factory using just one $p$-quoin.}
+\label{fig:function_ha}
+\end{figure}
+
 
 \section{Discussion}\label{sec:discussion}
 We have seen necessary and sufficient conditions describing the exact class of functions that are simulable by classical and quantum Bernoulli  factories respectively.

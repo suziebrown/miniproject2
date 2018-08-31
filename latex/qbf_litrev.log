@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.8.29)  30 AUG 2018 12:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.8.29)  31 AUG 2018 10:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -777,22 +777,28 @@ File: 2p_qbf_runtime.pdf Graphic file (type pdf)
 Package pdftex.def Info: 2p_qbf_runtime.pdf  used on input line 766.
 (pdftex.def)             Requested size: 225.21626pt x 172.61841pt.
  [15 <./Wedge_function.pdf> <./wedge_qbf_fn.pdf>] [16 <./Approxtarget_152010050
-0.pdf> <./qk_values.pdf> <./2p_qbf_runtime.pdf>] (./qbf_litrev.bbl [17]
+0.pdf> <./qk_values.pdf> <./2p_qbf_runtime.pdf>]
+<function_ha.pdf, id=132, 730.73pt x 560.0925pt>
+File: function_ha.pdf Graphic file (type pdf)
+<use function_ha.pdf>
+Package pdftex.def Info: function_ha.pdf  used on input line 814.
+(pdftex.def)             Requested size: 400.38872pt x 306.88953pt.
+ [17] [18 <./function_ha.pdf>] (./qbf_litrev.bbl
 Underfull \hbox (badness 1859) in paragraph at lines 54--57
 []\OT1/cmr/m/n/10 Tang, E. (2018), `A quantum-inspired clas-si-cal al-go-rithm 
 for rec-om-men-da-tion sys-tems', \OT1/cmr/m/it/10 arXiv preprint
  []
 
-) [18] (./qbf_litrev.aux)
+) [19] (./qbf_litrev.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 16788 strings out of 492642
- 332465 string characters out of 6129369
- 396567 words of memory out of 5000000
- 20322 multiletter control sequences out of 15000+600000
+ 16794 strings out of 492642
+ 332600 string characters out of 6129369
+ 396577 words of memory out of 5000000
+ 20327 multiletter control sequences out of 15000+600000
  14091 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,15n,98p,799b,797s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -821,10 +827,10 @@ s/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2018/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2018/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2018/texmf-dist/fonts/typ
 e1/public/amsfonts/symbols/msbm10.pfb>
-Output written on qbf_litrev.pdf (18 pages, 2248921 bytes).
+Output written on qbf_litrev.pdf (19 pages, 2283534 bytes).
 PDF statistics:
- 217 PDF objects out of 1000 (max. 8388607)
- 153 compressed objects within 2 object streams
+ 227 PDF objects out of 1000 (max. 8388607)
+ 160 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 58 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 63 words of extra memory for PDF output out of 10000 (max. 10000000)
 
