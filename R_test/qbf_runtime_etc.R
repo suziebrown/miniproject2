@@ -52,7 +52,7 @@ k <- 1:500
 
 diff <- 1- cumsum(qk(k))
 change_error <- qk(k)
-quoins <- (2/(1-p2(p)))* cumsum(qk(k)*(1-p2(p)^k))
+quoins <- (2/(1-p2(p))) * cumsum(qk(k) * (1-p2(p)^k))
 #plot(k, diff)
 #plot(k, quoins)
 ratio <- quoins/diff
