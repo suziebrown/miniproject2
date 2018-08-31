@@ -97,7 +97,7 @@ The remainder of the document is organised as follows.
 Section \ref{sec:quantum_info} provides the background in quantum information theory required to understand the quantum Bernoulli factory. 
 Section \ref{sec:BFs} introduces the Bernoulli factory problem and summarises previous work on classical solutions, starting with some illustrative examples before laying down the theoretical results.
 Section \ref{sec:quantum_advantage} gives the context in the quantum information literature of a quantum Bernoulli factory and explains how it works, with comparison to the classical case.
-Finally, Section \ref{sec:discussion} discusses the scope of its implications and poses some questions for further research.
+Finally, Section \ref{sec:discussion} discusses the scope of its implications.
 
 \section{Quantum information}\label{sec:quantum_info}
 This section is based on the course by Noah Linden (University of Bristol) and discussion with Thomas Hebdige and David Jennings (Imperial College London). For a comprehensive introduction see for example \citet{nielsen2002} or \citet{wilde2013}.
@@ -786,11 +786,24 @@ Although we were not able to investigate it thoroughly in the scope of this proj
 
 
 \section{Discussion}\label{sec:discussion}
-% difference between this (the quatum guys') view of a BF and ours (the one applicable to MC) - 
-% can it be resolved?
-% is it sensible to compare number of quoins used to number of coins used?
-%
+We have seen necessary and sufficient conditions describing the exact class of functions that are simulable by classical and quantum Bernoulli  factories respectively.
+The class of classically simulable functions is a strict subset of the class of quantum simulable functions, proving the superiority of quantum computing in this application.
 
+For the purposes of comparison we took a $p$-quoin, as the quantum analogue of a $p$-coin, to be equal in value to a classical $p$-coin flip.
+However the comparison does not seem particularly fair. 
+Firstly, the running time of the quantum Bernoulli factory is measured as the number of $p$-quoins consumed, whereas the running time of the classical Bernoulli factory is the number of flips of a $p$-coin used. In a sense, the classical Bernoulli factory only requires a single coin which can be flipped many times, while in the quantum Bernoulli factory a quoin is produced and then destroyed at every step.
+But this is still not quite the right way to look at it, since the classical coin is an abstraction and does not really exist; there are only Bernoulli samples which, like the quoins, are `used up' at each step.
+
+The second and more serious issue is that constructing a $p$-quoin requires the value of $p$ to be available (though not necessarily known to the experimenters). That is, producing the quantum state $\ket{p}$ requires the quantum computer to take the value of $p$ as an input --- but the fundamental point of a Bernoulli factory is that $p$ is unknown.
+
+On a philosophical level, we can abstract the problem and imagine that in both the classical and quantum cases $p$ is unknown to the experimenters but known to some third party. That third party is then responsible in the classical case for feeding the value of $p$ into a Bernoulli sample generator, or in the quantum case for feeding $p$ into a $p$-quoin generator. In this framework, $p$ plays the same role for both factories. This framework also addresses the first problem, because we can then equate classical coins with `dephased' quoins, which are exactly like quoins except that they lack the ability for quantum coherence and entanglement.
+
+However, this sort of abstraction neglects the original purpose of our Bernoulli factory. Returning to the Monte Carlo setting, we want to use a Bernoulli factory to decide whether to accept or reject a proposal during a particular step of a Metropolis-Hastings algorithm. The objective is to accept with probability exactly equal to $\alpha$, where $\alpha$ is a function of $p$. 
+The value of $p$ itself is not available analytically, nor can it be estimated efficiently. We are able to draw samples from $\Bern(p)$, although it may be computationally expensive to do so.
+
+Such samples are precisely the inputs required by a classical Bernoulli factory, so in the case of classically simulable functions they are sufficient to produce an exact sample from $\Bern(\alpha)$. On the other hand, the quantum Bernoulli factory requires the value of $p$ as an input, which is a much stronger requirement. The only possibility is to use many $\Bern(p)$ samples to produce an estimate of $p$ from which to construct quoins, in which case the Bernoulli factory would only be approximate.
+
+In light of these caveats, it seems that the quantum Bernoulli factory is not after all the coveted applicable example of quantum supremacy, but just another toy problem with no important application. The ``provable quantum advantage'' appears only when the classical coins are taken to be `dephased' quoins, in which case the algortihms are no longer applicable to Monte Carlo simulation.
 
 \bibliography{qbf.bib}
 \end{document}
