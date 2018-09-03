@@ -681,10 +681,10 @@ is quantum simulable (using only operations on single qubits) if and only if:
 In the quantum case, the function $f$ is allowed to touch 0 and 1 at finitely many points in its domain, as opposed to the classical case where $f(p)$ may only take the values 0 and 1 at $p\in\{0,1\}$ or in the cases of the constant functions $f\equiv 0$ and $f\equiv 1$.
 The conditions \ref{thm:qbf_cond_zeroes} and \ref{thm:qbf_cond_ones} ensure that $f$ goes to 0 or 1 only polynomially quickly at these points.
 
-\citet{dale2015} also claim that the same necessary and sufficient conditions apply even when operations on more than one qubit are allowed. That is, taking advantage of quantum entanglement (as in Example \ref{ex:qbf_2p}) does not expand the set of simulable functions. It can, however, substantially reduce the consumption of $p$-quoins, as demonstrated in \citet{patel2018}.
+\citet{dale2015} also claim that the same necessary and sufficient conditions apply even when operations on more than one qubit are allowed. That is, taking advantage of quantum entanglement (as in Section \ref{sec:qbf_2p}) does not expand the set of simulable functions. It can, however, substantially reduce the consumption of $p$-quoins, as demonstrated in \citet{patel2018}.
 
 
-\subsection{A quantum Bernoulli factory for 2p}
+\subsection{A quantum Bernoulli factory for 2p}\label{sec:qbf_2p}
 This section describes the quantum algorithm of \citet{dale2015} for the function $f_\wedge(p) := 2\min\{p, 1-p\}$, $p\in[0,1]$. This function (Figure \ref{fig:wedge_fn}) coincides with that of Example \ref{ex:2p} when the domain is restricted to $p\in(0,1/2)$, so it is sufficient to find a Bernoulli factory for $f_\wedge$.
 
 Although \citet{dale2015} also constructs a quantum algorithm using only measurements on single qubits (and both algorithms are implemented by \citet{patel2018}), we will focus on the two-qubit algorithm which is simpler to describe and gives the best performance.
