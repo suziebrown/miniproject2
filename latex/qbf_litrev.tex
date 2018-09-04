@@ -36,7 +36,7 @@
     }
 }
 
-\title{Quantum Bernoulli factory}
+\title{Bernoulli Factories: Classical to Quantum}
 \author{Suzie Brown \\ {\small supervised by Krzysztof \L atuszy\'nski}}
 \date{\today}
 
@@ -79,31 +79,31 @@
 \maketitle
 
 \section{Introduction}
-Loosely speaking, a Bernoulli factory is an algorithm taking $p$-coin flips as inputs and producing an $f(p)$-coin flip as output.
-The existence and performance of such algorithms for various choices of $p$ has been a subject of interest since the 1950s when random number generation was gaining popularity, and a subject of focused study since the 1990s.
+Loosely speaking, a Bernoulli factory is an algorithm taking $p$-coin flips (i.e.\ $\Bern(p)$ samples) as inputs and producing an $f(p)$-coin flip as output, where $p$ is unknown and $f$ is a known function. This idea is explained more thoroughly in Section \ref{sec:BFs}.
+The existence and performance of such algorithms for various choices of $p$ has been a subject of interest since the 1950s when (pseudo-)random number generation was emerging, and a subject of focused study since the 1990s.
 
-Bernoulli factories are necessary components of certain Monte Carlo strategies, particularly calculating Metropolis-Hastings acceptance probabilities in pseudo-marginal methods and diffusion models. 
-In both cases, some terms in the acceptance probability cannot be evaluated, but can be Bernoulli-sampled. Luckily the acceptance probability $\alpha$ does not need to be explicitly calculated; the Metropolis-Hastings accept/reject step only uses $\alpha$ to produce a $\Bern(\alpha)$ random variable. Choosing whether to accept or reject a proposal therefore comes down to converting the available Bernoulli samples to the desired $\Bern(\alpha)$ sample, which is precisely a Bernoulli factory problem.
+Bernoulli factories are necessary components of certain Monte Carlo strategies, particularly for calculating Metropolis-Hastings acceptance probabilities in pseudo-marginal methods and diffusion models. 
+In both cases, some terms in the acceptance probability cannot be evaluated, but can be Bernoulli-sampled. Luckily the acceptance probability $\alpha$ does not need to be explicitly calculated; the Metropolis-Hastings accept/reject step only requires a $\Bern(\alpha)$ sample. Choosing whether to accept or reject a proposal therefore comes down to converting the available Bernoulli samples to the desired $\Bern(\alpha)$ sample, which is precisely a Bernoulli factory problem.
 
-The fundamental problem of which functions are possible was neatly solved by \citet{keane1994}, who give necessary and sufficient conditions on $f$ for the existence of a Bernoulli factory, but does not address the question of running time (that is, the number of $p$-coin flips required as inputs).
-Theorems of \citet{nacu2005} determined further necessary conditions on $f$ for the running time to satisfy various properties.
+The fundamental problem of which functions are possible was neatly solved by \citet{keane1994}, who found necessary and sufficient conditions on $f$ for the existence of a Bernoulli factory, but their work does not address the question of running time (that is, the number of $p$-coin flips required as inputs).
+Theorems of \citet{nacu2005} determined further conditions on $f$ for the running time to satisfy various properties.
 
-The contribution of \citet{dale2015} is a theorem analogous to that of \citet{keane1994}, in the context of a ``quantum Bernoulli factory'': where the inputs are quantum $p$-coins (``quoins''), and quantum processing is allowed.
-They show that quantum algorithms can simulate a strictly larger class of functions than classical ones and, for classically simulable algorithms, may consume many fewer input quoins than their classical counterparts do coins.
+The contribution of \citet{dale2015} is a theorem analogous to that of \citet{keane1994}, in the context of a `quantum Bernoulli factory': where the inputs are a quantum analogue of $p$-coins (`quoins'), and quantum processing is allowed.
+They show that quantum algorithms can simulate a strictly larger class of functions than classical ones and, for classically simulable algorithms, may require many fewer input quoins than their classical counterparts do coins.
 
 % general overview of the field of quantum monte carlo (quantum MH, qunatum MCMC etc?)
 
 The remainder of the document is organised as follows.
 Section \ref{sec:quantum_info} provides the background in quantum information theory required to understand the quantum Bernoulli factory. 
 Section \ref{sec:BFs} introduces the Bernoulli factory problem and summarises previous work on classical solutions, starting with some illustrative examples before laying down the theoretical results.
-Section \ref{sec:quantum_advantage} gives the context in the quantum information literature of a quantum Bernoulli factory and explains how it works, with comparison to the classical case.
+Section \ref{sec:quantum_advantage} explains the context in the quantum information literature of a quantum Bernoulli factory and explains how it works, with comparison to the classical case.
 Finally, Section \ref{sec:discussion} discusses the scope of its implications.
 
 \section{Quantum information}\label{sec:quantum_info}
 This section is based on the course by Noah Linden (University of Bristol) and discussion with Thomas Hebdige and David Jennings (Imperial College London). For a comprehensive introduction see for example \citet{nielsen2002} or \citet{wilde2013}.
 
 The basis of quantum mechanics is simply linear algebra in a Hilbert space. The definitions in Sections \ref{sec:hilbert_defn} to \ref{sec:linear_ops} are exactly what you would find in a linear algebra course, except for the notation. 
-The famously strange quantum behaviour arises from the ``rules of quantum mechanics'' (Section \ref{sec:rules_of_qm}) pertaining to measurements. The majority of phenomena besides are described perfectly naturally by linear algebra, and are only counter-intuitive when one departs from the safety of mathematical abstraction and attempts to interpret quantum behaviour within the framework of the natural world, as perceived on a human scale. 
+The famously strange aspects of quantum behaviour arise chiefly from the `rules of quantum mechanics' (Section \ref{sec:rules_of_qm}) pertaining to measurements. The majority of phenomena besides are described perfectly naturally by standard linear algebra, and are only counter-intuitive when one departs from the safety of mathematical abstraction and attempts to interpret quantum behaviour within the framework of the natural world, as perceived on a human scale. 
 It is not surprising that such attempts should lead to confusion, since quantum mechanics is based on complex numbers and so diverges from human reality even at its very fundamentals.
 
 \subsection{Dirac notation}
@@ -131,12 +131,12 @@ An \emph{orthonormal basis} of a Hilbert space $\mathcal{H}$ is a set of vectors
 \item $\operatorname{span} \{v_1,\dots,v_n\} = \mathcal{H}$
 \item $\braket{v_i|v_j} = \delta_{ij}$
 \end{itemize}
-We now restrict to the Hilbert space $\mathbb{C}^2$, which is the state space of a single quantum bit (qubit), and is sufficient to describe the basics of quantum information. The \emph{computational basis} $\{\ket{0}, \ket{1}\} = \{(1,0)^T,(0,1)^T\}$ is taken as the canonical basis for $\mathbb{C}^2$ and is henceforth used wherever not specified otherwise. Since it is an orthonormal basis, every vector $\ket{v}$ in $\mathbb{C}^2$ has a unique representation
+We henceforth restrict to the Hilbert space $\mathbb{C}^2$, which is the state space of a single quantum bit (qubit), and is sufficient to describe the basics of quantum information. The \emph{computational basis} $\{\ket{0}, \ket{1}\} = \{(1,0)^T,(0,1)^T\}$ is taken as the canonical basis for $\mathbb{C}^2$ and is used wherever not specified otherwise. Since it is an orthonormal basis, every vector $\ket{v}$ in $\mathbb{C}^2$ has a unique representation
 \begin{equation*}
 \ket{v} = \alpha \ket{0} + \beta \ket{1} \equiv (\alpha,\beta)^T
 \end{equation*}
-for some $\alpha, \beta \in \mathbb{C}$. For reasons which will probably not become apparent in this treatment, we restrict ourselves to \emph{normalised} vectors, requiring also $|\alpha|^2 + |\beta|^2 = 1$.
-We will also consider two vectors equivalent if they differ only by an overall phase, i.e.\ $\ket{u} \equiv \ket{v}$ if $\ket{u} = e^{i\theta}\ket{v}$ for some $\theta$, since it is impossible to distinguish between two such vectors with any measurement.
+for some $\alpha, \beta \in \mathbb{C}$. We will restrict ourselves to \emph{normalised} vectors, requiring that $|\alpha|^2 + |\beta|^2 = 1$.
+We will also consider two vectors equivalent if they differ only by an overall phase, i.e.\ $\ket{u} \equiv \ket{v}$ if $\ket{u} = e^{i\theta}\ket{v}$ for some $\theta$, since it is impossible to distinguish between two such quantum states by any measurement.
 
 To ensure coherency with the properties of the inner product, we have that
 \begin{equation*}
@@ -174,14 +174,14 @@ In Dirac notation, operators are written in terms of outer products of basis sta
 \begin{equation*}
 X = \ket{0}\bra{1} + \ket{1}\bra{0}
 \end{equation*}
-This is equivalent to the matrix form:
+We see that this is equivalent to the matrix form:
 \begin{equation*}
 X = \begin{pmatrix}1\\0 \end{pmatrix} \begin{pmatrix} 0&1 \end{pmatrix}
 + \begin{pmatrix}0\\1 \end{pmatrix} \begin{pmatrix} 1&0 \end{pmatrix}
 = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix} +  \begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix}
 = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}.
 \end{equation*}
-Then the action of $X$ on a general state $\ket{v} = \alpha \ket{0} + \beta \ket{1}$ can be calculated:
+The action of $X$ on a general state $\ket{v} = \alpha \ket{0} + \beta \ket{1}$ can be calculated from any of these definitions. In Dirac notation:
 \begin{align*}
 X\ket{v} &= (\ket{0}\bra{1} + \ket{1}\bra{0})(\alpha \ket{0} + \beta \ket{1})\\
 &= \alpha \ket{0}\braket{1|0} + \alpha \ket{1}\braket{0|0} + \beta \ket{0}\braket{1|1} +
@@ -207,21 +207,21 @@ For example, the operator $X$ is both self-adjoint and unitary. Crucially, unita
 \end{enumerate}
 
 \subsubsection{Spectral theorem and measurement}\label{sec:quantum_mmt}
-The outcome of a measurement depends on the current state of the system and the type of measurement performed (i.e.\ which self-adjoint oeprator is applied).
+The outcome of a measurement depends on the current state of the system and the type of measurement performed (i.e.\ which self-adjoint operator is applied).
 The spectral theorem states that every self-adjoint operator $A$ can be represented by its spectral decomposition
 \begin{equation}\label{eq:operator_diag}
 A = \sum_{i} \lambda_i P_i
 \end{equation}
 where $\{\lambda_1,\dots, \lambda_k\}$ is the set of \emph{distinct} eigenvalues of $A$, and $P_i$ is the \emph{projection} operator onto the eigenspace corresponding to eigenvalue $\lambda_i$.
 
-When we measure a state $\ket{x}$ using operator $A$, the measurement outcome we observe is one of the eigenvalues of $A$. In particular, we observe $\lambda_i$ with probability $\bra{x} P_i \ket{x}$.
+When we measure a state $\ket{x}$ using operator $A$, the measurement outcome we observe is one of the eigenvalues of $A$. In particular, we observe $\lambda_i$ with probability $\bra{x} P_i \ket{x} = |P_i\ket{x}|^2$.
 Making a measurement causes the system to collapse onto the eigenspace corresponding to the observed eigenvalue; that is, the state after measurement is proportional to $P_i \ket{x}$.\\
 
 \begin{example}\label{ex:quantum_mmt}
 To give a concrete example, let us consider again the operator $X$. This operator has eigenvalues $\pm 1$ corresponding to eigenvectors (or \emph{eigenstates} in quantum mechanics) $\ket{+}$ and $\ket{-}$ respectively.
 Therefore $X$ admits the diagonal representation
 \begin{equation*}
-X= \ket{+}\bra{+} - \ket{-}\bra{-}
+X= \ket{+}\bra{+} \,-\, \ket{-}\bra{-}
 \end{equation*}
 which is of the form \eqref{eq:operator_diag}.
 Now suppose we make a measurement on the state $\ket{v} = \ket{0}$, using $X$.
@@ -231,7 +231,7 @@ The outcome of the measurement will be an eigenvalue of $X$: either $+1$ or $-1$
 \end{equation*}
 in which case the state after measurement is
 \begin{equation*}
-P_{+1} \ket{v} = \ket{+} \braket{+|0} \propto \ket{+}.
+P_{+1} \ket{v} = \ket{+} \braket{+|0} \,\propto\, \ket{+}.
 \end{equation*}
 Similarly, with probability 1/2 we observe the outcome $-1$ and the state after measurement is $\ket{-}$.
 \end{example}
@@ -261,9 +261,9 @@ So far we have only encountered \emph{pure states}, like $\ket{0}$ or $\ket{+}$.
 \end{equation*}
 where $\{p_i\}$ is a probability distribution and the $\ket{v_i}$ are pure states.
 You can think of this as a `source' which emits a state $\ket{v_i}$ with probability $p_i$.
-A classical analogue is a bit which takes the value 1 with probability $p$ or 0 with probability $1-p$ (a $p$-coin). In this case, we can say that the expected value of the bit is $p$.
+A classical analogue is a bit that takes the value 1 with probability $p$ or 0 with probability $1-p$ (that is, a $p$-coin). In this case, we can say that the expected value of the bit is $p$.
 
-There is no full ordering on the set of quantum states, so it is not possible to define the expected value of a mixed state. However, we can calculate the expected value of a measurement on a mixed state, using the state's \emph{density operator}.
+There is no full ordering on the set of quantum states, so it is not possible to define the expected value of a mixed state. However, we can calculate the expected outcome of a measurement on a mixed state, using the state's \emph{density operator}.
 
 \subsubsection{Density operators}
 The density operator of a mixed state $\ket{v} = \sum_{i} p_i \ket{v_i}$ is given by
@@ -272,19 +272,19 @@ The density operator of a mixed state $\ket{v} = \sum_{i} p_i \ket{v_i}$ is give
 \end{equation*}
 Suppose we measure this mixed state using the self-adjoint operator $A= \sum_k \lambda_k P_k$, where $\{\lambda_k\}$ are the distinct eigenvalues of $A$ and $P_k$ the projections onto the corresponding eigenspaces. Recall (from Section \ref{sec:quantum_mmt}) that the outcome of the measurement will be an eigenvalue of $A$. Applying the law of total probability, the probability of observing a particular outcome $\lambda_j$ is
 \begin{equation*}
-\PR(\text{observe }\lambda_j) = \sum_i p_i \bra{v_i} P_j \ket{v_i} = tr(\rho P_j)
+\sum_i p_i \bra{v_i} P_j \ket{v_i} = tr(\rho P_j)
 \end{equation*}
 where $tr(\cdot)$ denotes the trace of an operator.
 Note that $tr(\rho)=1$ because the states are normalised and $\{p_i\}$ is a probability distribution.
-The state $\rho = I/2$ is called the \emph{maximally mixed} state; it expresses complete ignorance, like a classical (1/2)-coin.
+The state $\rho = I/2$ (where $I$ denotes the identity operator) is called the \emph{maximally mixed} state; it expresses complete ignorance, like a classical (1/2)-coin.
 
-Different mixtures of states may have the same density operator, but in this case is is impossible to distinguish between them by any measurement. 
+Different mixtures of states may have the same density operator, but in that case is is impossible to distinguish between them by any measurement. 
 \begin{example}
-For example, a source $\ket{v}$ which emits $\ket{0}$ or $\ket{1}$ each with probability 1/2 has the same density operator $\rho = I/2$ as a source $\ket{u}$ which emits $\ket{+}$ or $\ket{-}$ each with probability 1/2.
+For example, a source $\ket{u}$ that emits $\ket{0}$ or $\ket{1}$ each with probability 1/2 has the same density operator $\rho = I/2$ as a source $\ket{v}$ that emits $\ket{+}$ or $\ket{-}$ each with probability 1/2.
 Suppose we measured both of these mixed states in the computational basis. The probability of observing the outcome 0 from $\ket{u}$ is
 \begin{equation}
 \bra{u}P_0\ket{u} = \frac{1}{2}\braket{0|0}\braket{0|0} + \frac{1}{2}\braket{1|0}\braket{0|1}
-= 1/2
+= \frac{1}{2}\cdot 1 + \frac{1}{2}\cdot 0= 1/2
 \end{equation}
 while the probability of observing 0 from $\ket{v}$ is
 \begin{equation}
@@ -295,7 +295,7 @@ Therefore measurement in the computational basis can provide no information to d
 \end{example}
 
 \subsection{The Bloch sphere}\label{sec:bloch_sphere}
-Density operators have a neat geometrical representation as points in a unit sphere (Figure \ref{fig:qubit_state_space}). This is called the \emph{Bloch sphere}, and can be thought of as the state space of a qubit.
+Density operators have a neat geometrical representation as points in a unit sphere (Figure \ref{fig:qubit_state_space}). This is known as the \emph{Bloch sphere}, and can be thought of as the state space of a qubit.
 
 An arbitrary pure state can be written in the form
 \begin{equation*}
@@ -303,12 +303,12 @@ An arbitrary pure state can be written in the form
 \end{equation*}
 Since the overall phase $e^{i\psi}$ can be ignored, the state is parametrised by two angles $\theta$ and $\phi$. Taking these as spherical coordinates with unit radius, we can think of each pure state as a point on the unit sphere (or equivalently, a unit vector). Orthogonal states lie at opposite points on the Bloch sphere.
 
-Mixed states can also be represented in the Bloch sphere. The Bloch vector for a mixed state is found by taking the weighted average of the Bloch vectors of its component pure states. Due to the triangle inequality, mixed states therefore lie strictly inside the unit sphere.
+Mixed states can also be represented in the Bloch sphere. The Bloch vector for a mixed state is found by taking the weighted average of the Bloch vectors of its component pure states. By the triangle inequality, mixed states therefore lie strictly inside the unit sphere.
 This illustrates that several different mixtures of states can have the same density operator. Quantum states are distinguishable if and only if they correspond to different points in the Bloch sphere.
 
 There is an analogy here with classical information. The state space of a classical bit is the unit interval: its value could be 0 or 1, or we could take a probabilistic mixture of the two. The `pure' states then are 0 and 1, which lie on the `surface' of the interval, while `mixed' states lie strictly inside the interval (Figure \ref{fig:cbit_state_space}). 
 
-Finally, unitary operators correspond to rotations of the Bloch sphere. This illustrates that unitary transformations are reversible.
+Finally, unitary operators correspond to rotations of the Bloch sphere. This illustrates that unitary transformations are reversible and preserve normalisation.
 
 \begin{figure}
 \centering
@@ -370,7 +370,7 @@ Finally, unitary operators correspond to rotations of the Bloch sphere. This ill
 \label{fig:bloch_mmt}
 \end{figure}
 
-Suppose we are going to measure a pure state $\ket{v} = \cos \left(\frac{\theta}{2}\right) \ket{0} + e^{i\phi} \sin \left(\frac{\theta}{2}\right) \ket{1}$ in the computational basis. There is a simple relationship between the probability of each outcome and the position of $\ket{v}$ in the Bloch sphere.
+Suppose we are going to measure a pure state $\ket{v} = \cos \left(\frac{\theta}{2}\right) \ket{0} + e^{i\phi} \sin \left(\frac{\theta}{2}\right) \ket{1}$ in the computational basis. There is a simple relationship between the probability of each outcome and the position of $\ket{v}$ on the Bloch sphere.
 
 Figure \ref{fig:bloch_mmt} shows the semicircular slice of the Bloch sphere on which $\ket{v}$ lies. The value of $\phi$ determines which slice this is, and conditional on that the state only depends on $\theta$ --- the following calculations are independent of $\phi$ and apply to an arbitrary pure state. 
 The state $\ket{v}$ is projected onto the line segment between $\ket{0}$ and $\ket{1}$ as shown.
@@ -386,17 +386,17 @@ Using the expansion of $\ket{v}$ in the computational basis, we can calculate th
 = 1 - \frac{x}{2}.
 \end{equation*}
 This relationship between the projected distance and measurement probabilities also applies to mixed states.
-For instance, if we take any mixture of states all with the same value of $\theta$ (but different values of $\phi$), the result will hold, because $x$ and $\PR(\text{observe }0)$ will be the same for every component state, and hence for the mixed state too.
-But the result holds for general mixed states as well. Any point in the sphere whose projection onto the line segment between $\ket{0}$ and $\ket{1}$ lies a distance $x$ from $\ket{0}$ will measure 0 with probability $1-x/2$.
+%For instance, if we take any mixture of states all with the same value of $\theta$ (but different values of $\phi$), the result will hold, because $x$ and $\PR(\text{observe }0)$ will be the same for every component state, and hence for the mixed state too. But the result holds for general mixed states as well. 
+Any point in the sphere whose projection onto the line segment between $\ket{0}$ and $\ket{1}$ lies a distance $x$ from $\ket{0}$ will measure 0 with probability $1-x/2$.
 
 Furthermore, this illustrates a more general concept, which applies not only to measurement in the computational basis but to any quantum measurement. 
-Any valid measurement operator on one qubit (that is non-trivial in the sense of having more than one possible outcome) has two eigenstates that lie opposite each other on the Bloch sphere. Projecting a state $\ket{v}$ onto the line segment between the two eigenstates gives the probabilities of observing the associated eigenvalues.
+Any valid measurement operator on one qubit (that is non-trivial in the sense of having more than one possible outcome) has two eigenstates that lie opposite each other on the Bloch sphere. Projecting a state $\ket{v}$ onto the line segment between the two eigenstates determines the probabilities of observing the associated eigenvalues.
 
 \subsection{Entanglement}\label{sec:entanglement}
 Suppose we now have two qubits and would like to describe their joint state. 
 The joint state space will be $\mathbb{C}^2 \otimes \mathbb{C}^2$, where $\otimes$ denotes the tensor product. This state space has canonical basis
 \begin{equation*}
-\left\{ \ket{0}\otimes\ket{0} , \ket{0}\otimes\ket{1} , \ket{1}\otimes\ket{0} , \ket{1}\otimes\ket{1} \right\}.
+\left\{ \ket{0}\otimes\ket{0} ,\, \ket{0}\otimes\ket{1} ,\, \ket{1}\otimes\ket{0} ,\, \ket{1}\otimes\ket{1} \right\}.
 \end{equation*}
 We also use the shorthand notations $\ket{0}\otimes\ket{0} = \ket{0}\ket{0} = \ket{00}$.
 The inner product on $\mathbb{C}^2 \otimes \mathbb{C}^2$ of $\ket{u_1}\ket{u_2}$ with $\ket{v_1}\ket{v_2}$  is defined as $\braket{u_1|v_1}\braket{u_2|v_2}$.
@@ -417,7 +417,7 @@ The set of four entangled states
 is another important basis for $\mathbb{C}^2 \otimes \mathbb{C}^2$, called the \emph{Bell basis}.
 
 \section{Bernoulli factories}\label{sec:BFs}
-A Bernoulli factory is an algorithm that takes $\Bern(p)$ samples as inputs and uses them to produce a $\Bern(f(p))$ sample as output, where $f$ is a known function but the parameter $p$ is unknown (therefore the algorithm must not depend on $p$). The concept is formalised in Definition \ref{defn:BF}.
+A Bernoulli factory is an algorithm that takes $\Bern(p)$ samples as inputs and uses them to produce a $\Bern(f(p))$ sample as output, where $f$ is a known function but the parameter $p$ is unknown (so the algorithm must not depend on $p$). The concept is formalised in Definition \ref{defn:BF}.
 The imaginary device for generating $\Bern(p)$ random variables is sometimes referred to as a $p$-coin or black box; samples thereof may be called flips/tosses or queries.
 The (possibly random) number of queries required to produce one output is referred to as the running time of the Bernoulli factory.
 
@@ -433,12 +433,12 @@ This last theorem is underpinned by the result that simulating any real analytic
 Let $S \subseteq [0,1]$ and $f: S\to[0,1]$, and suppose we have access to a sequence of Bernoulli random variables $X_1,X_2,\dots \iidsim \Bern(p)$ with unknown parameter $p \in S$.
 Let $U \in \mathcal{U}$ denote an auxiliary random variable with known distribution, independent of $p$. Let $\tau$ be a stopping time with respect to the natural filtration such that $\PR(\tau<\infty)=1$.\\
 A \emph{Bernoulli factory} is a computable function $\mathcal{A}(U, X_1, \dots, X_\tau)$ not depending on $p$, with the property that $Y:=\mathcal{A}(U, X_1, \dots, X_\tau) \sim \Bern(f(p))$ for all $p\in S$.\\
-The stopping time $\tau$, which may depend on the observed values of $U$ and $\{X_i\}$, is the first time at which the value of $\mathcal{A}$ can be computed, and is called the \emph{running time} of the Bernoulli factory.
+The stopping time $\tau$, which may depend on the observed values of $U$ and $\{X_1, X_2, \dots\}$, is the first time at which the value of $\mathcal{A}$ can be computed, and is called the \emph{running time} of the Bernoulli factory.
 \end{defn}
 
 \begin{defn}[simulable]
-Following the terminology of \citet{keane1994}, a function $f:S\to[0,1]$ is said to be \emph{simulable} if there exists a Bernoulli factory that simulates $f(p)$ for all $p\in S$.
-Furthermore, it is \emph{strongly simulable} if there exists a Bernoulli factory that simulates $f(p)$ without the need for an auxiliary random variable $U$.
+Following the terminology of \citet{keane1994}, a function $f:S\to[0,1]$ is said to be \emph{simulable} if there exists a Bernoulli factory that simulates $f(p)$ for any $p\in S$.
+Furthermore, $f$ is \emph{strongly simulable} if there exists a Bernoulli factory that simulates $f(p)$ without the need for an auxiliary random variable $U$.
 \end{defn}
 
 The first formal treatment of a Bernoulli factory problem was presented by \citet{vonneumann1951}, who 
@@ -453,13 +453,13 @@ It is clear that, as claimed, this procedure produces a (1/2)-coin, because 01 a
 The procedure is formalised in Example \ref{ex:const_half}.
 
 \begin{example}\label{ex:const_half}
-$f(p) \equiv 1/2$.\\
+$f(p) \equiv 1/2, p\in(0,1)$.\\
 This function is strongly simulable using the procedure:
 \begin{align*}
-& \tau = \min\{ t \in \{2,4,\dots\} : X_{t-1} \neq X_t \} \\
+& \tau = \min\{ t \in \{2,4,6,\dots\} : X_t \neq X_{t-1} \} \\
 & \A(X_1,X_2,\dots) = X_\tau.
 \end{align*}
-The running time of this algorithm is random and indeed unbounded, but it is almost surely finite, making it a valid Bernoulli factory. In particular, $\tau \eqdist 2\times\Geom(2p(1-p))$, with expectation $\E(\tau) = \frac{1}{p(1-p)}$. Figure \ref{fig:runtime_const2} shows the expected running time for various values of $p$. The expectation achieves its minimum value of 4 when $p=1/2$ (that is, the coin was already unbiased), hence von Neumann's claim that ``the amended process is at most 25 percent as efficient as ordinary coin-tossing'', although it is possible for this procedure to terminate in just two tosses. The expected running time approaches infinity when $p$ is close to 0 or 1, but is moderate across a large range of values.
+The running time of this algorithm is random and unbounded, but it is almost surely finite, making it a valid Bernoulli factory. In fact, it is `fast' by the definition of \citet{nacu2005} since $\tau \eqdist 2\times\Geom(2p(1-p))$ has exponentially decaying tails for all $p\in(0,1)$. Figure \ref{fig:runtime_const2} shows the expected running time $\E(\tau) = \frac{1}{p(1-p)}$ against $p$. The expectation achieves its minimum value of 4 when $p=1/2$ (that is, the coin was already unbiased), hence von Neumann's claim that ``the amended process is at most 25 percent as efficient as ordinary coin-tossing'', although it is possible for the procedure to terminate in just two tosses. The expected running time approaches infinity when $p$ is close to 0 or 1, but is moderate across a large range of values.
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{vonneu_runtime.pdf}
@@ -473,7 +473,8 @@ The algorithm given in Example \ref{ex:const_half} can be extended to simulate o
 & \tau = \min\left\{ t \in \{k,2k,3k,\dots\} : \sum_{i=t-k+1}^t X_{i} = 1 \right\} \\
 & \A(X_1,X_2,\dots) = X_\tau.
 \end{align*}
-However, the running time increases badly with $k$, even under certain early stopping strategies.
+However, the expected running time increases badly with $k$, even under certain early stopping strategies.
+
 Of course, any constant $f(p)\equiv c$ is simulable by employing an auxiliary random variable $U\sim \Bern(c)$, but von Neumann's example shows that $c=1/2$ is also strongly simulable.
 %N-P gives a procedure for any constant...
 In fact, all constant functions are strongly simulable. The 1/2 procedure is a primitive for a Bernoulli factory for arbitrary constants $f(p)\equiv c\in[0,1]$, described in \citet[Proposition 13]{nacu2005}.
@@ -488,7 +489,7 @@ where $c_n \in \{0,1\}$.
 Using the procedure of Example \ref{ex:const_half} to generate (1/2)-coins, we toss (1/2)-coins until heads is observed. Call the number of (1/2)-coin tosses needed $M$. Finally we output $c_M$.
 $M \sim \Geom(1/2)$, so the total probability of outputting heads is
 \begin{equation*}
-\PR(\text{heads}) = \sum_{n=1}^\infty c_n \PR(M=n) = \sum_{n=1}^\infty c_n 2^{-n}
+\PR(\text{heads}) = \sum_{n=1}^\infty \PR(\text{heads} \mid M=n) \PR(M=n) = \sum_{n=1}^\infty c_n \PR(M=n) = \sum_{n=1}^\infty c_n 2^{-n}
 \end{equation*}
 as desired.
 The running time of this Bernoulli factory is $\tau \eqdist \Geom(1/2)\times 2 \times \Geom(2p(1-p))$, independent of $c$. So on average this procedure for a general constant takes twice as long as the procedure for 1/2.
@@ -514,7 +515,7 @@ Figure \ref{fig:p2_runtime} shows the expected running time of this procedure fo
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{pk_runtime.pdf}
-\caption{Expected running time for the $f(p)=p^k$ Bernoulli factory described, with early stopping. Without early stopping, the running time is deterministically equal to $k$. The early stopping procedure significantly increases the efficiency, particularly when $p$ is small or $k$ is large. The minimum number of queries is one for all $k$ and $p$, and of course the $k=1$ (identity) Bernoulli factory requires exactly one query for any $p$.}\label{fig:p2_runtime}
+\caption{Expected running time for the $f(p)=p^k$ Bernoulli factory with early stopping --- without early stopping, the running time is deterministically equal to $k$. The early stopping procedure significantly increases the efficiency, particularly when $p$ is small or $k$ is large. The minimum number of queries is one for all $k$ and $p$, and of course the $k=1$ (identity) Bernoulli factory requires exactly one query for any $p$.}\label{fig:p2_runtime}
 \end{figure}
 \end{example}
 
@@ -640,7 +641,7 @@ finite expectation & $\Leftarrow$ & Lipschitz \\
 finite $k^{th}$ moment & $\Leftarrow$ & $k$ continuous derivatives \\
 exponentially decaying tails & $\Leftrightarrow$ & real analytic
 \end{tabular}
-\caption{Summary of results from \citet{keane1994} and \citet{nacu2005} giving conditions on the function $f:S\to(0,1)$ for a Bernoulli factory to exist with running time $\tau$ satisfying certain properties.}
+\caption{Summary of results from \citet{keane1994} and \citet{nacu2005} giving conditions on the function $f:S\to(0,1)$ for the existence of a Bernoulli factory with running time $\tau$ satisfying certain properties.}
 \label{tab:theorems_summary}
 \end{table}
 
@@ -661,10 +662,10 @@ We will use the term \emph{quantum Bernoulli factory} to refer to an algorithm t
 \end{equation*}
 This is a sensible definition since measuring $\ket{p}$ in the computational basis gives output 0 with probability $1-p$ or 1 with probability $p$, like a classical $p$-coin.
 Note that the quantum Bernoulli factory has a quantum input (quoins) and a classical output (measurement outcome).
-We will call a function \emph{quantum simulable} if there exists a quantum Bernoulli factory for it.
+We will call a function \emph{quantum simulable} if there exists a quantum Bernoulli factory to simulate it.
 
-\citet{dale2015} prove that quantum computation allows a strictly larger class of functions to be simulated, taking as an example the notorious $f(p)=2p$. While this function is not simulable in the classical setting, the authors show that it is quantum simulable, and provide an explicit algorithm using two entangled qubits.
-They also determine necessary and sufficient conditions (Theorem \ref{thm:qbf_simulable}) for a function to be quantum simulable, which are weaker than those for classical simulability provided by the Keane-O'Brien theorem (Theorem \ref{thm:KOB}).
+\citet{dale2015} prove that quantum computation allows a strictly larger class of functions to be simulated than in the classical setting, taking as an example the notorious $f(p)=2p$. While this function is not simulable classically, the authors show that it is quantum simulable, and provide an explicit algorithm using two entangled qubits.
+They also determine necessary and sufficient conditions (Theorem \ref{thm:qbf_simulable}) for a function to be quantum simulable, which are weaker than those in the Keane-O'Brien theorem (Theorem \ref{thm:KOB}).
 
 % CBFs subset of QBFs (Dale eqn 1)
 
@@ -687,22 +688,22 @@ The conditions \ref{thm:qbf_cond_zeroes} and \ref{thm:qbf_cond_ones} ensure that
 \subsection{A quantum Bernoulli factory for 2p}\label{sec:qbf_2p}
 This section describes the quantum algorithm of \citet{dale2015} for the function $f_\wedge(p) := 2\min\{p, 1-p\}$, $p\in[0,1]$. This function (Figure \ref{fig:wedge_fn}) coincides with that of Example \ref{ex:2p} when the domain is restricted to $p\in(0,1/2)$, so it is sufficient to find a Bernoulli factory for $f_\wedge$.
 
-Although \citet{dale2015} also constructs a quantum algorithm using only measurements on single qubits (and both algorithms are implemented by \citet{patel2018}), we will focus on the two-qubit algorithm which is simpler to describe and gives the best performance.
+Although \citet{dale2015} also construct a quantum algorithm using only measurements on single qubits (and both algorithms are implemented by \citet{patel2018}), we will focus on the two-qubit algorithm which is simpler to describe and gives the best performance.
 
 First note that 
 \begin{equation}\label{eq:2p_seriesexp}
-f_\wedge(p) = 2\min\{p, 1-p\} = 1-\sqrt{1-4p(1-p)} = \sum_{k=1}^{\infty} \binom{2k}{k} \frac{1}{(2k-1)2^{2k}} (4p(1-p))^k =: \sum_{k=1}^{\infty} q_k (4p(1-p))^k.
+f_\wedge(p) = 2\min\{p, 1-p\} = 1-\sqrt{1-4p(1-p)} = \sum_{k=1}^{\infty} \binom{2k}{k} \frac{1}{(2k-1)2^{2k}} (4p(1-p))^k =: \sum_{k=1}^{\infty} q_k (4p(1-p))^k
 \end{equation} % check that taylor expansion /!\
 where $q_k$ are constants not depending on $p$, and are therefore simulable. Due to property \ref{thm:convex_combns} of Lemma \ref{thm:products_compositions}, $f_\wedge$ is then simulable if there exists a Bernoulli factory for $(4p(1-p))^k$. Since this is a case of Example \ref{ex:bf_pk}, we need only construct a Bernoulli factory for $4p(1-p)$. This function is not classically simulable since it still touches 1 at $p=0.5$ (Figure \ref{fig:wedge_qbf_fn}).
 
 % add flow diagram or pseudocode for the full algorithm
 
 However, \citet{dale2015} describe the following quantum Bernoulli factory for the function $4p(1-p)$.
-We first prepare two $p$-quoins; that is, we have two qubits jointly in the product state $\ket{p}\ket{p}$. We then measure the joint state in the Bell basis, say with the operator
+We first prepare two $p$-quoins; that is, we have two qubits jointly in the product state $\ket{p}\ket{p}$. We then measure the joint state in the (entangled) Bell basis, say with the operator
 \begin{equation*}
 0\cdot\ket{\phi^+}\bra{\phi^+} + 1\cdot\ket{\phi^-}\bra{\phi^-} + 2\cdot\ket{\psi^+}\bra{\psi^+} + 3\cdot\ket{\psi^-}\bra{\psi^-}.
 \end{equation*} 
-Then the possible measurement outcomes are:
+The possible measurement outcomes are:
 \begin{align*}
 &\PR(\text{observe }0) = \braket{v|\phi^+}\braket{\phi^+|v} = 1/2 \\
 &\PR(\text{observe }1) = \braket{v|\phi^-}\braket{\phi^-|v} = \frac{(1-2p)^2}{2} \\
@@ -711,7 +712,7 @@ Then the possible measurement outcomes are:
 \end{align*}
 This means that $\PR(\text{observe }1 \text{ or } 2) = 1/2$, and $\PR(\text{observe } 2 \mid \text{observe }1 \text{ or } 2) = 4p(1-p)$, which is the required function.
 Thus our Bernoulli factory for $4p(1-p)$ is as follows: measure $\ket{p}\ket{p}$ in the Bell basis until the observed outcome is either 1 or 2, then return heads if the outcome is 2, or tails if the outcome is 1. 
-This procedure has running time $\tau \eqdist \Geom(1/2)$, which is as good as we can hope for, having exponentially decaying tails.
+This procedure has running time $\tau \eqdist \Geom(1/2)$, which has exponentially decaying tails.
 
 Let us now consider the full procedure for $f_\wedge$.
 We first choose a $k$ according to the probability distribution $\{q_k\}$ (Figure \ref{fig:qbf_qk}).
@@ -729,7 +730,7 @@ Conditioned on the choice of $k$, the expectation is
 \begin{equation*}
 \E(\tau \mid k) = 2\cdot \frac{1-(4p(1-p))^k}{1-4p(1-p)}.
 \end{equation*}
-The unconditional expectation is not available analytically, but is approximated in Figure \ref{fig:qbf_wedge_runtime}.
+The unconditional expectation is not available analytically, but an approximation is shown in Figure \ref{fig:qbf_wedge_runtime}.
 The Geometric early stopping time moderates the overall running time sufficiently that it has finite expectation whenever $p\neq 1/2$, but $\E(\tau) \to +\infty$ as $p\to 1/2$. That is, the algorithm behaves badly around the `difficult' point $p=1/2$.
 
 \begin{figure} % combine these onto one plot?
@@ -737,24 +738,17 @@ The Geometric early stopping time moderates the overall running time sufficientl
 \begin{subfigure}{0.45\linewidth}
 \centering
 \includegraphics[width=\textwidth]{wedge_function.pdf}
-\caption{The function $f_\wedge(p)$, which cannot be simulated classically since it touches 1 within its domain.}
+\caption{The function $f_\wedge(p)$}
 \label{fig:wedge_fn}
 \end{subfigure}%
 \hfill
 \begin{subfigure}{0.45\linewidth}
 \centering
 \includegraphics[width=\textwidth]{wedge_qbf_fn.pdf}
-\caption{Simulation of $f_\wedge(p)$ reduces to simulation of this function $4p(1-p)$, which is also classically unobtainable.}
+\caption{The function $4p(1-p)$}
 \label{fig:wedge_qbf_fn}
 \end{subfigure}
-\caption{The function $f\wedge(p)=2\min\{p, 1-p\}$ and the component function $4p(1-p)$ to which its quantum Bernoulli factory reduces.}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.8\textwidth]{approxtarget_1520100500.pdf}
-\caption{Approximations to $f_\wedge(p)$ when the series expansion \eqref{eq:2p_seriesexp} is truncated at $k_{max} = 1,5,20,100,500$. Each subsequent approximation is closer to the target function, but none attains the ideal $f(1/2)=1$.}
-\label{fig:qbf_target_approximations}
+\caption{The function $f\wedge(p)=2\min\{p, 1-p\}$ cannot be simulated classically since it touches 1 within its domain. Simulation of $f_\wedge(p)$ reduces to simulation of $4p(1-p)$, which is also classically unobtainable, but is quantum simulable.}
 \end{figure}
 
 \begin{figure}
@@ -762,7 +756,7 @@ The Geometric early stopping time moderates the overall running time sufficientl
 \begin{subfigure}{0.45\linewidth}
 \centering
 \includegraphics[width=\textwidth]{qk_values.pdf}
-\caption{Value of $q_k$ (on a logarithmic scale) for various $k$. The probabilities decay quickly, so it is unlikely to choose a large value of $k$ which would make the QBF slow.}
+\caption{Value of $q_k$ (on a logarithmic scale) for various $k$. The probabilities decay quickly, so it is unlikely to choose a large value of $k$ which would make the quantum Bernoulli factory slow.}
 \label{fig:qbf_qk}
 \end{subfigure}%
 \hfill
@@ -775,23 +769,30 @@ The Geometric early stopping time moderates the overall running time sufficientl
 \caption{(a) Value of $q_k$ for $k=1,\dots, 100$. (b) Expected running time of the QBF for $f_\wedge(p)$.}
 \end{figure}
 
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{approxtarget_1520100500.pdf}
+\caption{Approximations to $f_\wedge(p)$ when the series expansion \eqref{eq:2p_seriesexp} is truncated at $k_{max} = 1,5,20,100,500$. Each subsequent approximation is closer to the target function, but none attains the ideal $f(1/2)=1$.}
+\label{fig:qbf_target_approximations}
+\end{figure}
+
 \subsubsection{Experimental considerations}
 \citet{patel2018} describe a physical implementation of this quantum Bernoulli factory. 
 Since in a physical system infinite quoin consumption cannot be allowed, the authors approximate the infinite series \eqref{eq:2p_seriesexp} by truncating it after $k_{max}$ terms. The resulting target functions are only approximations of $f_\wedge$, which are rounded at the top and therefore do not touch 1 at $p=1/2$ (Figure \ref{fig:qbf_target_approximations}). %\citep[Figures 3a--d]{patel2018}.
 
-In fact, the authors admit that with the experimental equipment currently available, it is not possible to achieve a better approximation than that given by $k_{max} \simeq 2000$. For higher-order approximations, the experimental errors become overwhelming. This means that there is a bound on the precision possible with the quantum algorithm, no matter how many quoins we are allowed to use --- a shortcoming not suffered by the classical algorithm. Of course, improvements in equipment will allow higher precision, but it is reasonable to suppose that it will always be bounded at some level.
+In fact, the authors admit that with the experimental equipment currently available, it is not possible to achieve a better approximation than that given by $k_{max} \simeq 2000$; for higher-order approximations, the experimental errors become overwhelming. This means that there is a bound on the maximum experimental precision of the quantum algorithm, no matter how many quoins we are allowed to use --- a shortcoming not suffered by the classical algorithm. Of course, improvements in equipment will allow higher precision, but it is reasonable to suppose that it will always be bounded at some level.
 
 Also, the authors do not run their experiment at the input value $p=1/2$, presumably since the coin consumption there would ideally have infinite mean and so the experiment would be time-consuming, with many runs using the maximum $k_{max}$ quoins.
 \citet[Figure 3e]{patel2018} shows a realisation of the quoin consumption, similar to Figure \ref{fig:qbf_wedge_runtime}, except that in practice the quoin consumption cannot approach infinity, and tops out at a mean of 60 in their experiment, when $p$ is close to 1/2.
 
-There is a question as to whether the quantum Bernoulli factory for $f_\wedge$ is really an improvement on the classical truncated one, since experimental constraints effectively amount to something like an $\varepsilon$-truncation of the function even in the quantum case (Figure \ref{fig:qbf_target_approximations}).
-However, \citet{patel2018} claim that the quantum algorithm given a fixed number of input quoins achieves a much better approximation than the best classical algorithm using the equivalent number of input coins.
+This raises a question as to whether the quantum Bernoulli factory for $f_\wedge$ is really an improvement on the classical truncated one, since experimental constraints effectively amount to something like an $\varepsilon$-truncation of the function even in the quantum case (Figure \ref{fig:qbf_target_approximations}).
+However, \citet{patel2018} claim that the quantum algorithm given a fixed number of input quoins achieves a much better approximation than the best classical algorithm using the equivalent number of input coins. This is investigated further in Section \ref{sec:scaling}.
 
-\subsubsection{Scaling limits}
+\subsubsection{Scaling limits}\label{sec:scaling}
 \citet{huber2016} shows that the best classical Bernoulli factory for $f(p)=2p\wedge 1-\varepsilon$ has running time that scales like $1/\varepsilon$, where $\varepsilon$ is the error at $p=1/2$ between the ideal function $f(p)=2p$ and the approximate (truncated) function.
 In the quantum case we can similarly define $\varepsilon$ as the error at $p=1/2$ between $f_\wedge$ and the approximation using $k_{max}$ terms in the series expansion \eqref{eq:2p_seriesexp}.
 
-Figure \ref{fig:eps_scaling} shows the theoretical relationship between expected consumption (running time) and approximation error $\varepsilon$, for $p$ close to 1/2 (recall that at $p=1/2$ the running time has infinite expectation).
+Figure \ref{fig:eps_scaling} shows the theoretical relationship between expected quoin consumption (running time) and approximation error $\varepsilon$, for $p$ close to 1/2 (recall that at $p=1/2$ the running time has infinite expectation).
 The approximation error is given by
 \begin{equation*}
 \varepsilon = 1 - \sum_{k=1}^{k_{max}} q_k
@@ -802,7 +803,7 @@ and the expected quoin consumption is
 \end{equation*}
 Each black point represents a different value of $k_{max}$, from 1 (bottom right) to 500 (top left). The value of $p$ used is 0.499; bringing $p$ any closer to 0.5 makes no perceptible difference. The red line shows the fitted $\E(\tau) \propto 1/\varepsilon$ relationship, which appears to fit the data very well.
 
-\citet{patel2018} claim that the quoin consumption scales like $\varepsilon^{-1/2}$, but their result is obtained by averaging over all values of $p$. This seems an unfair comparison, since the scaling is worst close to $p=1/2$. Indeed if the equivalent Figure \ref{fig:eps_scaling} is produced for different values of $p$ we see much better scaling when $p$ is not close to 1/2, so averaging over $p$ favourably biases the scaling results.
+\citet{patel2018} claim that the quoin consumption scales like $\varepsilon^{-1/2}$, but their result is obtained by averaging over all values of $p$. This seems an unfair comparison, since the scaling is worst close to $p=1/2$. Indeed if the equivalent Figure \ref{fig:eps_scaling} is produced for different values of $p$ we see much better scaling when $p$ is not close to 1/2, so averaging over $p$ favourably biases the results.
 The classical scaling result of \citet[Theorem 1]{huber2016} considers the `worst-case' of the running time, taking the supremum over $p$, which is what we have tried to emulate here.
 
 It seems therefore that both the classical and quantum Bernoulli factories for $2p$ have running time that scales with $1/\varepsilon$ when $p$ is close to 1/2. This suggests that the huge experimental difference in resource usage observed by \citet{patel2018} must be due only to better constants in the quantum case.
@@ -810,7 +811,7 @@ It seems therefore that both the classical and quantum Bernoulli factories for $
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{eps_scaling.pdf}
-\caption{Expected running time (quoin consumption) at $p=0.499$ of the quantum Bernoulli factory for $f_\wedge$, for various values of $k_{max}$, against the amount of error $\varepsilon$ incurred by truncating at $k_{max}$ terms. A $1/\varepsilon$ relationship (red line) seems to fit very well.}
+\caption{Expected running time (quoin consumption) at $p=0.499$ of the quantum Bernoulli factory for $f_\wedge$, for various values of $k_{max}$ from 1 (bottom right) to 500 (top left), against the amount of error $\varepsilon$ incurred by truncating at $k_{max}$ terms. A $1/\varepsilon$ relationship (red line) seems to fit very well.}
 \label{fig:eps_scaling}
 \end{figure}
 
@@ -822,7 +823,7 @@ h_a(p) := \left( \sqrt{p(1-a)} - \sqrt{a(1-p)} \right)^2
 \end{equation*}
 which is plotted for various values of $a$ in Figure \ref{fig:function_ha}.
 This function is not classically simulable except when $a\in\{0,1\}$, since it takes the value 0 when $p=a$. (Note that for $a\in\{0,1\}$ we simply recover the functions $p$ and $1-p$ respectively, which are trivially simulable using one coin.)
-Contrarily, $h_a(p)$ is quantum simulable for all $a\in[0,1]$. Moreover, it can be simulated by a quantum Bernoulli factory using just one quoin.
+On the other hand, $h_a(p)$ is quantum simulable for all $a\in[0,1]$. Moreover, it can be simulated by a quantum Bernoulli factory using just one quoin.
 The quantum procedure involves applying the unitary operator
 \begin{equation*}
 \begin{pmatrix}
@@ -838,7 +839,7 @@ to a $p$-quoin $\ket{p} := \sqrt{1-p}\,\ket{0} + \sqrt{p}\,\ket{1}$, producing t
 Measurement in the computational basis then outputs 1 with the desired probability $h_a(p)$.
 
 This is an example of how the quantum ability to manipulate quoins prior to measurement yields flexibility that is not available through classical processing.
-The function $h_a(p)$ is used in \citet{dale2015} to produce upper and lower bounding functions for $f(p)$, which are required for the proof of Theorem \ref{thm:qbf_simulable}.
+The function $h_a(p)$ is used in \citet{dale2015} to produce upper and lower bounding functions for $f(p)$, which are required to construct generic quantum Bernoulli factories and prove Theorem \ref{thm:qbf_simulable}.
 
 \begin{figure}
 \centering
@@ -853,16 +854,16 @@ We have seen necessary and sufficient conditions describing the exact class of f
 The class of classically simulable functions is a strict subset of the class of quantum simulable functions, proving the superiority of quantum computing in this application.
 
 For the purposes of comparison we took a $p$-quoin, as the quantum analogue of a $p$-coin, to be equal in value to a classical $p$-coin flip.
-However the comparison does not seem particularly fair. 
-Firstly, the running time of the quantum Bernoulli factory is measured as the number of $p$-quoins consumed, whereas the running time of the classical Bernoulli factory is the number of flips of a $p$-coin used. In a sense, the classical Bernoulli factory only requires a single coin which can be flipped many times, while in the quantum Bernoulli factory a quoin is produced and then destroyed at every step.
+However this comparison does not seem particularly fair. 
+Firstly, the running time of the quantum Bernoulli factory is measured as the number of $p$-quoins consumed, whereas the running time of the classical Bernoulli factory is the number of flips of a $p$-coin used. In a sense, the classical Bernoulli factory only requires a single coin which can be flipped many times, while in the quantum Bernoulli factory a quoin is produced and destroyed at every step.
 But this is still not quite the right way to look at it, since the classical coin is an abstraction and does not really exist; there are only Bernoulli samples which, like the quoins, are `used up' at each step.
 
-The second and more serious issue is that constructing a $p$-quoin requires the value of $p$ to be available (though not necessarily known to the experimenters). That is, producing the quantum state $\ket{p}$ requires the quantum computer to take the value of $p$ as an input \citep{hebdige2018} --- but the fundamental point of a Bernoulli factory is that $p$ is unknown.
+The second and more serious issue is that constructing a $p$-quoin requires the value of $p$ to be available (though not necessarily known to the experimenters). That is, producing the quantum state $\ket{p}$ requires a quantum computer to take the value of $p$ as an input \citep{hebdige2018} --- but the fundamental point of a Bernoulli factory is that $p$ is unknown.
 
 On a philosophical level, we can abstract the problem and imagine that in both the classical and quantum cases $p$ is unknown to the experimenters but known to some third party. That third party is then responsible in the classical case for feeding the value of $p$ into a Bernoulli sample generator, or in the quantum case for feeding $p$ into a $p$-quoin generator. In this framework, $p$ plays the same role for both factories. This framework also addresses the first problem, because we can then equate classical coins with `dephased' quoins, which are exactly like quoins except that they lack the ability for quantum coherence and entanglement.
 
 However, this sort of abstraction neglects the original purpose of our Bernoulli factory. Returning to the Monte Carlo setting, we want to use a Bernoulli factory to decide whether to accept or reject a proposal during a particular step of a Metropolis-Hastings algorithm. The objective is to accept with probability exactly equal to $\alpha$, where $\alpha$ is a function of $p$. 
-The value of $p$ itself is not available analytically, nor can it be estimated efficiently. We are able to draw samples from $\Bern(p)$, although it may be computationally expensive to do so.
+The value of $p$ itself is not available analytically, nor can it be estimated efficiently. We are only able to draw samples from $\Bern(p)$, and it may be computationally expensive to do so.
 
 Such samples are precisely the inputs required by a classical Bernoulli factory, so in the case of classically simulable functions they are sufficient to produce an exact sample from $\Bern(\alpha)$. On the other hand, the quantum Bernoulli factory requires the value of $p$ as an input, which is a much stronger requirement. The only possibility is to use many $\Bern(p)$ samples to produce an estimate of $p$ from which to construct quoins, in which case the Bernoulli factory would only be approximate.
 

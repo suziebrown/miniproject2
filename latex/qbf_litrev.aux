@@ -40,8 +40,6 @@
 \newlabel{fig:bloch_mmt}{{3}{7}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.9}Entanglement}{7}}
 \newlabel{sec:entanglement}{{2.9}{7}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Bernoulli factories}{7}}
-\newlabel{sec:BFs}{{3}{7}}
 \citation{vonneumann1951}
 \citation{keane1994}
 \citation{nacu2005}
@@ -49,6 +47,9 @@
 \citation{huber2016}
 \citation{keane1994}
 \citation{vonneumann1951}
+\citation{nacu2005}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Bernoulli factories}{8}}
+\newlabel{sec:BFs}{{3}{8}}
 \newlabel{defn:BF}{{2}{8}}
 \newlabel{ex:const_half}{{3}{8}}
 \citation{nacu2005}
@@ -56,29 +57,27 @@
 \newlabel{fig:runtime_const2}{{4}{9}}
 \newlabel{ex:general_const}{{4}{9}}
 \citation{patel2018}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Expected running time for the $f(p)=p^k$ Bernoulli factory described, with early stopping. Without early stopping, the running time is deterministically equal to $k$. The early stopping procedure significantly increases the efficiency, particularly when $p$ is small or $k$ is large. The minimum number of queries is one for all $k$ and $p$, and of course the $k=1$ (identity) Bernoulli factory requires exactly one query for any $p$.\relax }}{10}}
-\newlabel{fig:p2_runtime}{{5}{10}}
-\newlabel{ex:bf_pk}{{5}{10}}
-\newlabel{ex:bf3}{{6}{10}}
 \citation{nacu2005}
 \citation{huber2016}
+\newlabel{ex:bf_pk}{{5}{10}}
+\newlabel{ex:bf3}{{6}{10}}
+\newlabel{thm:products_compositions}{{1}{10}}
+\newlabel{thm:convex_combns}{{{{(b)}}}{10}}
+\newlabel{thm:compositions}{{{{(c)}}}{10}}
+\newlabel{thm:products}{{{{(d)}}}{10}}
 \citation{latuszynski2011}
-\citation{keane1994}
-\newlabel{thm:products_compositions}{{1}{11}}
-\newlabel{thm:convex_combns}{{{{(b)}}}{11}}
-\newlabel{thm:compositions}{{{{(c)}}}{11}}
-\newlabel{thm:products}{{{{(d)}}}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Expected running time for the $f(p)=p^k$ Bernoulli factory with early stopping --- without early stopping, the running time is deterministically equal to $k$. The early stopping procedure significantly increases the efficiency, particularly when $p$ is small or $k$ is large. The minimum number of queries is one for all $k$ and $p$, and of course the $k=1$ (identity) Bernoulli factory requires exactly one query for any $p$.\relax }}{11}}
+\newlabel{fig:p2_runtime}{{5}{11}}
 \newlabel{ex:2p}{{7}{11}}
 \newlabel{thm:no_2p_bf}{{2}{11}}
 \citation{keane1994}
 \citation{keane1994}
-\citation{nacu2005}
-\citation{nacu2005}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces The function $f(p)=2p$ (black) is not simulable; whereas the truncated function $f(p)=2p\wedge (1-\varepsilon )$ (red) is simulable for any $\varepsilon >0$, using $O(\varepsilon ^{-1})$ queries.\relax }}{12}}
 \newlabel{fig:2p_truncation}{{6}{12}}
 \newlabel{thm:KOB}{{1}{12}}
-\newlabel{thm:nacu_peres}{{2}{12}}
-\newlabel{thm:nplike_terminates_as}{{{{(a)}}}{12}}
+\citation{keane1994}
+\citation{nacu2005}
+\citation{nacu2005}
 \citation{nacu2005}
 \citation{keane1994}
 \citation{nacu2005}
@@ -90,9 +89,10 @@
 \citation{tang2018}
 \citation{dale2015}
 \citation{dale2015}
-\citation{dale2015}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Summary of results from \citet  {keane1994} and \citet  {nacu2005} giving conditions on the function $f:S\to (0,1)$ for a Bernoulli factory to exist with running time $\tau $ satisfying certain properties.\relax }}{13}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Summary of results from \citet  {keane1994} and \citet  {nacu2005} giving conditions on the function $f:S\to (0,1)$ for the existence of a Bernoulli factory with running time $\tau $ satisfying certain properties.\relax }}{13}}
 \newlabel{tab:theorems_summary}{{1}{13}}
+\newlabel{thm:nacu_peres}{{2}{13}}
+\newlabel{thm:nplike_terminates_as}{{{{(a)}}}{13}}
 \newlabel{thm:np_finite_mean}{{{{(b)}}}{13}}
 \newlabel{thm:np_kth_moment}{{{{(c)}}}{13}}
 \newlabel{thm:np_exponential_tails}{{{{(d)}}}{13}}
@@ -100,6 +100,7 @@
 \newlabel{sec:quantum_advantage}{{4}{13}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Quantum Bernoulli factories}{13}}
 \newlabel{sec:QBF}{{4.1}{13}}
+\citation{dale2015}
 \citation{dale2015}
 \citation{patel2018}
 \citation{dale2015}
@@ -118,15 +119,15 @@
 \newlabel{sub@fig:wedge_fn}{{a}{15}}
 \newlabel{fig:wedge_qbf_fn}{{7b}{15}}
 \newlabel{sub@fig:wedge_qbf_fn}{{b}{15}}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces The function $f\wedge (p)=2\qopname  \relax m{min}\{p, 1-p\}$ and the component function $4p(1-p)$ to which its quantum Bernoulli factory reduces.\relax }}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces The function $f\wedge (p)=2\qopname  \relax m{min}\{p, 1-p\}$ cannot be simulated classically since it touches 1 within its domain. Simulation of $f_\wedge (p)$ reduces to simulation of $4p(1-p)$, which is also classically unobtainable, but is quantum simulable.\relax }}{15}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Experimental considerations}{15}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Approximations to $f_\wedge (p)$ when the series expansion \textup  {\hbox {\mathsurround \z@ \normalfont  (\ignorespaces 4\hbox {}\unskip \@@italiccorr )}} is truncated at $k_{max} = 1,5,20,100,500$. Each subsequent approximation is closer to the target function, but none attains the ideal $f(1/2)=1$.\relax }}{16}}
-\newlabel{fig:qbf_target_approximations}{{8}{16}}
-\newlabel{fig:qbf_qk}{{9a}{16}}
+\newlabel{fig:qbf_qk}{{8a}{16}}
 \newlabel{sub@fig:qbf_qk}{{a}{16}}
-\newlabel{fig:qbf_wedge_runtime}{{9b}{16}}
+\newlabel{fig:qbf_wedge_runtime}{{8b}{16}}
 \newlabel{sub@fig:qbf_wedge_runtime}{{b}{16}}
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces (a) Value of $q_k$ for $k=1,\dots  , 100$. (b) Expected running time of the QBF for $f_\wedge (p)$.\relax }}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces (a) Value of $q_k$ for $k=1,\dots  , 100$. (b) Expected running time of the QBF for $f_\wedge (p)$.\relax }}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Approximations to $f_\wedge (p)$ when the series expansion \textup  {\hbox {\mathsurround \z@ \normalfont  (\ignorespaces 4\hbox {}\unskip \@@italiccorr )}} is truncated at $k_{max} = 1,5,20,100,500$. Each subsequent approximation is closer to the target function, but none attains the ideal $f(1/2)=1$.\relax }}{16}}
+\newlabel{fig:qbf_target_approximations}{{9}{16}}
 \citation{patel2018}
 \citation{huber2016}
 \citation{patel2018}
@@ -134,9 +135,10 @@
 \citation{patel2018}
 \citation{dale2015}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Scaling limits}{17}}
+\newlabel{sec:scaling}{{4.2.2}{17}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Another quantum Bernoulli factory}{17}}
 \citation{hebdige2018}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Expected running time (quoin consumption) at $p=0.499$ of the quantum Bernoulli factory for $f_\wedge $, for various values of $k_{max}$, against the amount of error $\varepsilon $ incurred by truncating at $k_{max}$ terms. A $1/\varepsilon $ relationship (red line) seems to fit very well.\relax }}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Expected running time (quoin consumption) at $p=0.499$ of the quantum Bernoulli factory for $f_\wedge $, for various values of $k_{max}$ from 1 (bottom right) to 500 (top left), against the amount of error $\varepsilon $ incurred by truncating at $k_{max}$ terms. A $1/\varepsilon $ relationship (red line) seems to fit very well.\relax }}{18}}
 \newlabel{fig:eps_scaling}{{10}{18}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{18}}
 \newlabel{sec:discussion}{{5}{18}}
